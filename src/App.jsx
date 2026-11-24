@@ -25,6 +25,7 @@ import WishlistPage from './pages/WishlistPage';
 import AccountPage from './pages/AccountPage';
 import FaqPage from './pages/FaqPage';
 import { ShippingPolicyPage, ReturnsPolicyPage, PrivacyPolicyPage, TermsPage } from './pages/PolicyPages';
+import DishOrbitCarouselDemo from './components/ui/dish-orbit-carousel-demo';
 
 // Scroll to top helper on navigation
 function ScrollToTop() {
@@ -67,6 +68,7 @@ export default function App() {
                   <Route path="/returns-policy" element={<ReturnsPolicyPage />} />
                   <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
                   <Route path="/terms" element={<TermsPage />} />
+                  <Route path="/carousel-demo" element={<DishOrbitCarouselDemo />} />
                   {/* Catch-all 404 */}
                   <Route path="*" element={<HomePage />} />
                 </Routes>
