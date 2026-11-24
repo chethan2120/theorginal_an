@@ -6,7 +6,6 @@ export const PRODUCTS = [
     category: "spices",
     subCategory: "ground-spices",
     badge: "GI Tagged",
-    badgeColor: "gold",
     rating: 4.9,
     reviewCount: 238,
     isBestseller: true,
@@ -38,7 +37,7 @@ export const PRODUCTS = [
     ],
     images: [
       "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?auto=format&fit=crop&w=800&q=80"
     ]
   },
   {
@@ -48,7 +47,6 @@ export const PRODUCTS = [
     category: "spices",
     subCategory: "whole-spices",
     badge: "GI Tagged",
-    badgeColor: "gold",
     rating: 5.0,
     reviewCount: 312,
     isBestseller: true,
@@ -80,7 +78,7 @@ export const PRODUCTS = [
     ],
     images: [
       "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1509358271058-acd22cc93898?auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&w=800&q=80"
     ]
   },
   {
@@ -90,7 +88,6 @@ export const PRODUCTS = [
     category: "spices",
     subCategory: "whole-spices",
     badge: "Terroir Selection",
-    badgeColor: "gold",
     rating: 4.8,
     reviewCount: 189,
     isBestseller: true,
@@ -132,7 +129,6 @@ export const PRODUCTS = [
     category: "spices",
     subCategory: "whole-spices",
     badge: "Rare Reserve",
-    badgeColor: "gold",
     rating: 4.9,
     reviewCount: 164,
     isBestseller: false,
@@ -174,7 +170,6 @@ export const PRODUCTS = [
     category: "spices",
     subCategory: "whole-spices",
     badge: "GI Tagged",
-    badgeColor: "gold",
     rating: 5.0,
     reviewCount: 429,
     isBestseller: true,
@@ -216,7 +211,6 @@ export const PRODUCTS = [
     category: "spices",
     subCategory: "whole-spices",
     badge: "GI Tagged",
-    badgeColor: "gold",
     rating: 4.7,
     reviewCount: 142,
     isBestseller: false,
@@ -258,7 +252,6 @@ export const PRODUCTS = [
     category: "spices",
     subCategory: "whole-spices",
     badge: "Terroir Selection",
-    badgeColor: "gold",
     rating: 4.8,
     reviewCount: 98,
     isBestseller: false,
@@ -300,7 +293,6 @@ export const PRODUCTS = [
     category: "spices",
     subCategory: "whole-spices",
     badge: "Artisanal",
-    badgeColor: "gold",
     rating: 4.9,
     reviewCount: 116,
     isBestseller: false,
@@ -342,7 +334,6 @@ export const PRODUCTS = [
     category: "spices",
     subCategory: "ground-spices",
     badge: "Bestseller",
-    badgeColor: "gold",
     rating: 4.9,
     reviewCount: 384,
     isBestseller: true,
@@ -373,8 +364,8 @@ export const PRODUCTS = [
       { weight: "1kg", price: 2299, originalPrice: 2799, inStock: true }
     ],
     images: [
-      "https://images.unsplash.com/photo-1505253758473-96b3d5ebcd96?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&w=800&q=80"
     ]
   },
 
@@ -386,7 +377,6 @@ export const PRODUCTS = [
     category: "dry-fruits",
     subCategory: "raw-nuts",
     badge: "Bestseller",
-    badgeColor: "gold",
     rating: 4.9,
     reviewCount: 462,
     isBestseller: true,
@@ -417,8 +407,8 @@ export const PRODUCTS = [
       { weight: "2kg", price: 2699, originalPrice: 3299, inStock: true }
     ],
     images: [
-      "https://images.unsplash.com/photo-1508061252445-5350f37f3747?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1509358742463-5484501a3fa4?auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?auto=format&fit=crop&w=800&q=80"
     ]
   },
   {
@@ -428,7 +418,6 @@ export const PRODUCTS = [
     category: "dry-fruits",
     subCategory: "raw-nuts",
     badge: "Rare Reserve",
-    badgeColor: "gold",
     rating: 5.0,
     reviewCount: 388,
     isBestseller: true,
@@ -459,8 +448,8 @@ export const PRODUCTS = [
       { weight: "2kg", price: 3249, originalPrice: 3999, inStock: true }
     ],
     images: [
-      "https://images.unsplash.com/photo-1509358742463-5484501a3fa4?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1508061252445-5350f37f3747?auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1569466896818-335b1bedfcce?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?auto=format&fit=crop&w=800&q=80"
     ]
   },
   {
@@ -470,7 +459,6 @@ export const PRODUCTS = [
     category: "dry-fruits",
     subCategory: "roasted-nuts",
     badge: "Bestseller",
-    badgeColor: "gold",
     rating: 4.8,
     reviewCount: 275,
     isBestseller: true,
@@ -502,7 +490,7 @@ export const PRODUCTS = [
     ],
     images: [
       "https://images.unsplash.com/photo-1525607551316-4a8e16d1f9ba?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1508061252445-5350f37f3747?auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80"
     ]
   },
   {
@@ -512,7 +500,6 @@ export const PRODUCTS = [
     category: "dry-fruits",
     subCategory: "exotic-fruits",
     badge: "Terroir Selection",
-    badgeColor: "gold",
     rating: 5.0,
     reviewCount: 320,
     isBestseller: true,
@@ -554,7 +541,6 @@ export const PRODUCTS = [
     category: "dry-fruits",
     subCategory: "exotic-fruits",
     badge: "Rare Reserve",
-    badgeColor: "gold",
     rating: 4.8,
     reviewCount: 194,
     isBestseller: false,
@@ -596,7 +582,6 @@ export const PRODUCTS = [
     category: "dry-fruits",
     subCategory: "raw-nuts",
     badge: "Bestseller",
-    badgeColor: "gold",
     rating: 4.9,
     reviewCount: 256,
     isBestseller: true,
@@ -628,7 +613,7 @@ export const PRODUCTS = [
     ],
     images: [
       "https://images.unsplash.com/photo-1563865436874-9aef32095fad?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1508061252445-5350f37f3747?auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1508746829417-e6f548d8d6ed?auto=format&fit=crop&w=800&q=80"
     ]
   },
   {
@@ -638,7 +623,6 @@ export const PRODUCTS = [
     category: "dry-fruits",
     subCategory: "exotic-fruits",
     badge: "Artisanal",
-    badgeColor: "gold",
     rating: 4.7,
     reviewCount: 132,
     isBestseller: false,
@@ -680,7 +664,6 @@ export const PRODUCTS = [
     category: "dry-fruits",
     subCategory: "raw-nuts",
     badge: "Rare Reserve",
-    badgeColor: "gold",
     rating: 5.0,
     reviewCount: 88,
     isBestseller: false,
@@ -711,8 +694,8 @@ export const PRODUCTS = [
       { weight: "1kg", price: 6299, originalPrice: 7499, inStock: true }
     ],
     images: [
-      "https://images.unsplash.com/photo-1543208543-6042314e1fc5?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1508061252445-5350f37f3747?auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1518492104633-130d0cc84637?auto=format&fit=crop&w=800&q=80"
     ]
   },
   {
@@ -722,7 +705,6 @@ export const PRODUCTS = [
     category: "dry-fruits",
     subCategory: "roasted-nuts",
     badge: "Wellness",
-    badgeColor: "gold",
     rating: 4.8,
     reviewCount: 167,
     isBestseller: false,
@@ -753,7 +735,7 @@ export const PRODUCTS = [
     ],
     images: [
       "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1508061252445-5350f37f3747?auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1508746829417-e6f548d8d6ed?auto=format&fit=crop&w=800&q=80"
     ]
   },
 
@@ -765,7 +747,6 @@ export const PRODUCTS = [
     category: "collections",
     subCategory: "gift-boxes",
     badge: "Bestseller",
-    badgeColor: "gold",
     rating: 5.0,
     reviewCount: 178,
     isBestseller: true,
@@ -804,7 +785,6 @@ export const PRODUCTS = [
     category: "collections",
     subCategory: "gift-boxes",
     badge: "Festive Special",
-    badgeColor: "gold",
     rating: 5.0,
     reviewCount: 214,
     isBestseller: true,
@@ -832,7 +812,7 @@ export const PRODUCTS = [
     ],
     images: [
       "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1508061252445-5350f37f3747?auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=800&q=80"
     ]
   },
   {
@@ -842,7 +822,6 @@ export const PRODUCTS = [
     category: "collections",
     subCategory: "gift-boxes",
     badge: "Wellness",
-    badgeColor: "gold",
     rating: 4.9,
     reviewCount: 147,
     isBestseller: false,
@@ -879,7 +858,6 @@ export const PRODUCTS = [
     category: "dry-fruits",
     subCategory: "exotic-fruits",
     badge: "Artisanal",
-    badgeColor: "gold",
     rating: 4.8,
     reviewCount: 119,
     isBestseller: false,
@@ -929,7 +907,7 @@ export const CATEGORIES = [
     name: "Imperial Dry Fruits",
     tagline: "Jumbo graded nuts, tree-ripened Medjool dates & figs",
     count: "10 Premium Varieties",
-    image: "https://images.unsplash.com/photo-1508061252445-5350f37f3747?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=800&q=80",
     description: "Colossal Nonpareil almonds, King W180 cashews, Chilean walnut halves, and branch-split Antep pistachios."
   },
   {

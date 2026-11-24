@@ -77,8 +77,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Brand Bio & Seal */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="inline-block bg-[#0B1325] p-1.5 rounded-lg border border-[#C5A059]/40">
-              <BrandLogo size="md" />
+            <div className="inline-block bg-[#0B1325] p-2 rounded-xl border border-[#C5A059]/40 shadow-md">
+              <BrandLogo size="md" theme="dark" />
             </div>
 
             <p className="text-xs text-[#CBD5E1] leading-relaxed max-w-md pt-2">
