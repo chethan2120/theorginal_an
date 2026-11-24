@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Trash2, ArrowRight, ShieldCheck, Tag, ShoppingBag, Sparkles, MessageSquare } from 'lucide-react';
+import { Trash2, ArrowRight, ShieldCheck, ShoppingBag, Sparkles, MessageSquare } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useNotification } from '../context/NotificationContext';
 
@@ -11,7 +11,6 @@ export default function CartPage() {
     removeFromCart,
     clearCart,
     cartSubtotal,
-    cartOriginalTotal,
     totalSavings,
     discountAmount,
     shippingCost,

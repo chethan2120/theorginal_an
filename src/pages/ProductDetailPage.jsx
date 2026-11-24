@@ -500,7 +500,7 @@ export default function ProductDetailPage() {
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-[#9A7736]">Explore Similar</span>
               <h3 className="font-serif text-2xl font-bold text-[#0B1325] mt-0.5">
-                More From This Collection
+                More From This Terroir
               </h3>
             </div>
             <Link to={`/${product.category}`} className="text-xs font-bold uppercase tracking-wider text-[#9A7736] hover:text-[#0B1325]">

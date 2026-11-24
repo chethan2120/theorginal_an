@@ -154,8 +154,8 @@ const CSS =
   ".dsh-dot{transition:height .45s cubic-bezier(.3,.7,.2,1)}" +
   ".dsh-plates{position:absolute;left:130px;top:82px;width:245px;height:245px;touch-action:pan-y}" +
   ".dsh-orbit{position:absolute;inset:0;transform-origin:69% -217%;visibility:hidden;will-change:transform}" +
-  ".dsh-orbit>img{display:block;width:245px;height:245px;max-width:none;object-fit:contain;user-select:none;-webkit-user-drag:none;" +
-  "filter:drop-shadow(0 16px 22px rgba(0,0,0,.2)) drop-shadow(0 3px 5px rgba(0,0,0,.12))}" +
+  ".dsh-orbit>img{display:block;width:245px;height:245px;max-width:none;object-fit:cover;border-radius:50%;border:3px solid rgba(212,175,55,0.7);user-select:none;-webkit-user-drag:none;background:#0B1326;" +
+  "filter:drop-shadow(0 16px 25px rgba(0,0,0,.5)) drop-shadow(0 3px 8px rgba(0,0,0,.3))}" +
   ".dsh-head{position:absolute;left:388px;top:96px;width:330px;height:150px}" +
   ".dsh-hd{position:absolute;inset:0;visibility:hidden}" +
   ".dsh-eye{font-size:12.5px;font-weight:600;letter-spacing:.01em;margin:0 0 4px 2px}" +

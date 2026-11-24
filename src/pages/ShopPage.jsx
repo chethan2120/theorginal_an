@@ -30,7 +30,7 @@ export default function ShopPage() {
     { id: 'all', name: 'All Reserves' },
     { id: 'spices', name: 'Royal Spices' },
     { id: 'dry-fruits', name: 'Imperial Dry Fruits' },
-    { id: 'collections', name: 'Gift Chests' }
+    { id: 'origins', name: 'Single-Origin Reserves' }
   ];
 
   // Badges

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Award, ShieldCheck, Flame } from 'lucide-react';
+import { Sparkles, Award, ShieldCheck } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
 import ProductCard from '../components/ProductCard';
 import QuickViewModal from '../components/QuickViewModal';

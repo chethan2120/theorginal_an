@@ -29,9 +29,9 @@ export default function Navbar() {
   // Streamlined, high-end navigation links
   const navLinks = [
     { name: 'Shop All', path: '/shop' },
-    { name: 'Spices', path: '/spices' },
-    { name: 'Dry Fruits', path: '/dry-fruits' },
-    { name: 'Collections', path: '/collections' },
+    { name: 'Royal Spices', path: '/spices' },
+    { name: 'Imperial Dry Fruits', path: '/dry-fruits' },
+    { name: 'Single Origins', path: '/origins' },
     { name: 'Heritage', path: '/about' },
   ];
 
@@ -194,7 +194,7 @@ export default function Navbar() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-serif font-semibold text-[#0B1325] hover:bg-[#F3EFE6]"
                 >
-                  <span>Contact & Gifting</span>
+                  <span>Contact Concierge</span>
                   <ChevronRight className="w-4 h-4 opacity-40" />
                 </NavLink>
               </nav>

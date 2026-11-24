@@ -14,7 +14,7 @@ import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import SpicesPage from './pages/SpicesPage';
 import DryFruitsPage from './pages/DryFruitsPage';
-import CollectionsPage from './pages/CollectionsPage';
+import OriginsPage from './pages/OriginsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
@@ -54,7 +54,8 @@ export default function App() {
                   <Route path="/shop" element={<ShopPage />} />
                   <Route path="/spices" element={<SpicesPage />} />
                   <Route path="/dry-fruits" element={<DryFruitsPage />} />
-                  <Route path="/collections" element={<CollectionsPage />} />
+                  <Route path="/origins" element={<OriginsPage />} />
+                  <Route path="/collections" element={<OriginsPage />} />
                   <Route path="/product/:id" element={<ProductDetailPage />} />
                   <Route path="/cart" element={<CartPage />} />
                   <Route path="/checkout" element={<CheckoutPage />} />

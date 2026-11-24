@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { User, Package, MapPin, Award, Clock, ArrowRight, ShieldCheck, LogOut } from 'lucide-react';
-import { useNotification } from '../context/NotificationContext';
+import { Package, MapPin, Award, ArrowRight } from 'lucide-react';
 
 export default function AccountPage() {
-  const { showToast } = useNotification();
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
@@ -75,7 +73,7 @@ export default function AccountPage() {
                   to="/shop"
                   className="inline-block px-5 py-2.5 bg-[#0B1325] text-[#DFBF77] text-xs font-semibold rounded-xl uppercase tracking-wider"
                 >
-                  Discover Collections
+                  Discover The Catalogue
                 </Link>
               </div>
             ) : (

@@ -36,7 +36,7 @@ export default function ContactPage() {
           </h1>
           <div className="w-16 h-0.5 bg-[#C5A059] mx-auto" />
           <p className="text-xs sm:text-sm text-[#556987] leading-relaxed">
-            Our luxury culinary concierge is at your service for order inquiries, bespoke wedding & corporate gifting, and lab purity certifications.
+            Our luxury culinary concierge is at your service for order inquiries, single-origin terroir sourcing, and lab purity certifications.
           </p>
         </div>
 
@@ -96,16 +96,16 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Corporate Desk Callout */}
+            {/* Wholesale & Chef Desk Callout */}
             <div className="p-6 bg-[#0B1325] text-white rounded-3xl border border-[#C5A059]/40 shadow-lg space-y-3">
               <span className="text-[10px] font-bold uppercase tracking-widest text-[#DFBF77] block">
-                Bespoke Corporate Gifting
+                Single-Origin Bulk Reserves
               </span>
               <h4 className="font-serif text-base font-bold text-[#FDFBF7]">
-                Executive & Festive Hampers
+                Masterchef & Culinary Cellars
               </h4>
               <p className="text-xs text-[#CBD5E1] leading-relaxed">
-                For custom brass branding, bulk festive shipments (10+ hampers), or chef collaborations, contact our corporate department directly at <strong className="text-[#DFBF77]">gifting@theoriginal.in</strong>.
+                For micro-lot harvests, fine dining culinary collaborations, or bulk single-estate reserves, contact our trade department directly at <strong className="text-[#DFBF77]">trade@theoriginal.in</strong>.
               </p>
             </div>
           </div>
@@ -194,7 +194,7 @@ export default function ContactPage() {
                       className="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#EDE6D8] rounded-xl text-xs text-[#0B1325] focus:outline-none focus:border-[#C5A059]"
                     >
                       <option value="general">General Inquiries & Orders</option>
-                      <option value="gifting">Bespoke Wedding & Corporate Gifting</option>
+                      <option value="terroir">Single-Origin Terroir Provenance</option>
                       <option value="purity">GC-MS Laboratory Test Certificates</option>
                       <option value="wholesale">Masterchef & Fine Dining Sourcing</option>
                     </select>

@@ -146,7 +146,7 @@ export default function AboutPage() {
             Experience The Difference Yourself
           </h3>
           <p className="text-xs text-[#718096]">
-            Begin your culinary journey with our bestsellers or royal gift chests.
+            Begin your culinary journey with our single-origin spices and imperial dry fruits.
           </p>
           <div className="pt-2">
             <Link
