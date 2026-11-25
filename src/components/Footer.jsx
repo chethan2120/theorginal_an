@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, ShieldCheck, Award, Leaf, ArrowRight, Check } from 'lucide-react';
 import BrandLogo from './BrandLogo';
 import { useNotification } from '../context/NotificationContext';
-import { CinematicFooter } from './ui/motion-footer';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -22,9 +21,12 @@ export default function Footer() {
   };
 
   return (
-    <div className="flex flex-col w-full">
+    <footer className="bg-[#070D1E] text-[#FAF7F2] border-t-2 border-[#C5A059]/40 relative overflow-hidden">
+      {/* Subtle luxury ambient texture overlay */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none bg-[radial-gradient(#C5A059_1px,transparent_1px)] [background-size:16px_16px]" />
+
       {/* Top Value Pillars Banner */}
-      <div className="border-y border-[#C5A059]/25 bg-[#0B1325]">
+      <div className="border-b border-[#C5A059]/20 bg-[#0B1325]/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-center md:text-left">
             <div className="flex items-center gap-4 justify-center md:justify-start">
@@ -71,9 +73,8 @@ export default function Footer() {
       </div>
 
       {/* Main Corporate Details & Newsletter */}
-      <footer className="bg-[#070D1E] text-[#FAF7F2] relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
             {/* Brand Bio & Seal */}
             <div className="lg:col-span-2 space-y-4">
               <div className="inline-block bg-[#0B1325] p-2 rounded-xl border border-[#C5A059]/40 shadow-md">
@@ -186,11 +187,30 @@ export default function Footer() {
               </div>
             </div>
           </div>
+
+          {/* Bottom Bar: Copyright & Attribution */}
+          <div className="mt-12 pt-8 border-t border-[#1E293B] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
+            <p>© {new Date().getFullYear()} THE ORIGINAL Fine Spices & Dry Fruits Pvt. Ltd. All rights reserved.</p>
+            <div className="text-xs text-[#94A3B8]">
+              Designed and Maintained by{' '}
+              <a
+                href="https://webnxt.co/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#DFBF77] hover:text-[#FDFBF7] font-semibold transition-colors underline underline-offset-4 decoration-[#C5A059]/50 hover:decoration-[#DFBF77]"
+              >
+                WebNxt
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Monumental Edge-to-Edge Golden Wordmark */}
+        <div className="w-full overflow-hidden border-t border-[#C5A059]/20 pt-6 sm:pt-8 pb-0 select-none pointer-events-none">
+          <h2 className="text-center font-serif text-[12.5vw] font-black leading-[0.82] tracking-[0.04em] uppercase whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-b from-[#FFFDF2] via-[#DFBF77] to-[#8E6D2E] opacity-90 drop-shadow-[0_4px_25px_rgba(212,175,55,0.25)]">
+            THE ORIGINAL
+          </h2>
         </div>
       </footer>
-
-      {/* The Cinematic Motion Footer (with smooth parallax, magnetic pills, and marquee) */}
-      <CinematicFooter />
-    </div>
-  );
-}
+    );
+  }

@@ -15,7 +15,7 @@ export const CATEGORIES = [
     name: 'Royal Spices',
     tagline: 'Single-origin, GI-tagged, cold-ground heirlooms',
     count: '9 Rare Varieties',
-    image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80',
+    image: '/images/mega/whole-spices-mega.jpg',
     description: 'Explore our prized single-estate harvests: world-record curcumin turmeric, 8mm+ green cardamom, high-piperine pepper, and pure Kashmiri saffron.'
   },
   {
@@ -23,7 +23,7 @@ export const CATEGORIES = [
     name: 'Imperial Dry Fruits',
     tagline: 'Jumbo graded nuts, tree-ripened Medjool dates & figs',
     count: '10 Premium Varieties',
-    image: 'https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=800&q=80',
+    image: '/images/mega/dry-fruits-mega.jpg',
     description: 'Colossal Nonpareil almonds, King W180 cashews, Chilean walnut halves, and branch-split Antep pistachios with zero additives.'
   },
   {
@@ -31,7 +31,7 @@ export const CATEGORIES = [
     name: 'Single-Origin Reserves',
     tagline: 'Single-estate micro-lots with documented terroir provenance',
     count: '3 Exclusive Lots',
-    image: 'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?auto=format&fit=crop&w=800&q=80',
+    image: '/images/products/kashmiri-saffron.jpg',
     description: 'Numbered micro-harvests sourced directly from generational family estates across the Western Ghats, Kashmir Valley, and Afghan valleys.'
   }
 ];
@@ -54,8 +54,8 @@ export const PRODUCTS = [
     giTag: 'GI Tag No. 544',
     harvestDate: 'December 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1615485500704-8e990f9900f7?auto=format&fit=crop&w=800&q=80'
+      '/images/products/lakadong-turmeric.jpg',
+      '/images/products/spice-powders-artisan.jpg'
     ],
     variants: [
       { weight: '100g', price: 299, originalPrice: 349 },
@@ -83,8 +83,8 @@ export const PRODUCTS = [
     giTag: 'GI Tag No. 43',
     harvestDate: 'October 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&w=800&q=80'
+      '/images/products/alleppey-cardamom.jpg',
+      '/images/products/ceylon-cinnamon.jpg'
     ],
     variants: [
       { weight: '50g', price: 279, originalPrice: 320 },
@@ -112,8 +112,8 @@ export const PRODUCTS = [
     giTag: 'GI Tag No. 49',
     harvestDate: 'January 2026 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1514733670139-4d87a1941d55?auto=format&fit=crop&w=800&q=80'
+      '/images/products/tellicherry-pepper.jpg',
+      '/images/products/star-anise.jpg'
     ],
     variants: [
       { weight: '100g', price: 249, originalPrice: 299 },
@@ -141,8 +141,8 @@ export const PRODUCTS = [
     giTag: 'Certified True Ceylon',
     harvestDate: 'November 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1509358271058-acd22cc93898?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1514733670139-4d87a1941d55?auto=format&fit=crop&w=800&q=80'
+      '/images/products/ceylon-cinnamon.jpg',
+      '/images/products/tellicherry-pepper.jpg'
     ],
     variants: [
       { weight: '50g', price: 299, originalPrice: 350 },
@@ -170,8 +170,8 @@ export const PRODUCTS = [
     giTag: 'GI Tag No. 635',
     harvestDate: 'Autumn 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1608686207856-001b95cf60ca?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=800&q=80'
+      '/images/products/kashmiri-saffron.jpg',
+      '/images/products/lakadong-turmeric.jpg'
     ],
     variants: [
       { weight: '1g', price: 499, originalPrice: 599 },
@@ -199,8 +199,8 @@ export const PRODUCTS = [
     giTag: 'GI Tag No. 427',
     harvestDate: 'January 2026 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1588252303782-cb80119abd6d?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80'
+      '/images/products/guntur-chillies.jpg',
+      '/images/products/spice-powders-artisan.jpg'
     ],
     variants: [
       { weight: '100g', price: 149, originalPrice: 180 },
@@ -228,8 +228,8 @@ export const PRODUCTS = [
     giTag: 'Single Origin Sourced',
     harvestDate: 'December 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1514733670139-4d87a1941d55?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80'
+      '/images/products/zanzibar-cloves.jpg',
+      '/images/products/star-anise.jpg'
     ],
     variants: [
       { weight: '50g', price: 189, originalPrice: 220 },
@@ -257,8 +257,8 @@ export const PRODUCTS = [
     giTag: 'Single-Forest Harvest',
     harvestDate: 'October 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1509358271058-acd22cc93898?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1514733670139-4d87a1941d55?auto=format&fit=crop&w=800&q=80'
+      '/images/products/star-anise.jpg',
+      '/images/products/zanzibar-cloves.jpg'
     ],
     variants: [
       { weight: '50g', price: 179, originalPrice: 210 },
@@ -286,8 +286,8 @@ export const PRODUCTS = [
     giTag: 'The Original Proprietary Reserve',
     harvestDate: 'Small-Batch Blended Weekly',
     images: [
-      'https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&w=800&q=80'
+      '/images/products/royal-garam-masala.jpg',
+      '/images/products/spice-powders-artisan.jpg'
     ],
     variants: [
       { weight: '100g', price: 299, originalPrice: 360 },
@@ -319,8 +319,8 @@ export const PRODUCTS = [
     giTag: 'USDA Extra No. 1 Grade',
     harvestDate: 'September 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=800&q=80'
+      '/images/products/california-almonds.jpg',
+      '/images/products/king-cashews.jpg'
     ],
     variants: [
       { weight: '250g', price: 399, originalPrice: 479 },
@@ -348,8 +348,8 @@ export const PRODUCTS = [
     giTag: 'Grade W180 Certified',
     harvestDate: 'December 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1569466896818-335b1bedfcce?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?auto=format&fit=crop&w=800&q=80'
+      '/images/products/king-cashews.jpg',
+      '/images/products/california-almonds.jpg'
     ],
     variants: [
       { weight: '250g', price: 479, originalPrice: 560 },
@@ -377,8 +377,8 @@ export const PRODUCTS = [
     giTag: 'Gaziantep Protected Origin',
     harvestDate: 'October 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1525607551316-4a8e16d1f9ba?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80'
+      '/images/products/antep-pistachios.jpg',
+      '/images/products/california-almonds.jpg'
     ],
     variants: [
       { weight: '250g', price: 499, originalPrice: 599 },
@@ -406,8 +406,8 @@ export const PRODUCTS = [
     giTag: 'Grade A Jumbo Diamond',
     harvestDate: 'Harvest 2025',
     images: [
-      'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?auto=format&fit=crop&w=800&q=80'
+      '/images/products/medjool-dates.jpg',
+      '/images/products/afghan-anjeer.jpg'
     ],
     variants: [
       { weight: '250g', price: 389, originalPrice: 460 },
@@ -435,8 +435,8 @@ export const PRODUCTS = [
     giTag: 'Authentic Kandahari Heritage',
     harvestDate: 'Autumn 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80'
+      '/images/products/afghan-anjeer.jpg',
+      '/images/products/medjool-dates.jpg'
     ],
     variants: [
       { weight: '250g', price: 449, originalPrice: 530 },
@@ -464,8 +464,8 @@ export const PRODUCTS = [
     giTag: 'Grade Extra Light Certified',
     harvestDate: 'May 2025 Fresh Crop',
     images: [
-      'https://images.unsplash.com/photo-1563865436874-9aef32095fad?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1508746829417-e6f548d8d6ed?auto=format&fit=crop&w=800&q=80'
+      '/images/products/chilean-walnuts.jpg',
+      '/images/products/california-almonds.jpg'
     ],
     variants: [
       { weight: '250g', price: 429, originalPrice: 510 },
@@ -493,8 +493,8 @@ export const PRODUCTS = [
     giTag: 'EU Protected Geographical Indication',
     harvestDate: 'August 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80'
+      '/images/products/turkish-apricots.jpg',
+      '/images/products/golden-raisins.jpg'
     ],
     variants: [
       { weight: '250g', price: 349, originalPrice: 420 },
@@ -522,8 +522,8 @@ export const PRODUCTS = [
     giTag: 'Wild Himalayan Harvest',
     harvestDate: 'October 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1508746829417-e6f548d8d6ed?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?auto=format&fit=crop&w=800&q=80'
+      '/images/products/kashmiri-pine-nuts.jpg',
+      '/images/products/chilean-walnuts.jpg'
     ],
     variants: [
       { weight: '100g', price: 699, originalPrice: 850 },
@@ -551,8 +551,8 @@ export const PRODUCTS = [
     giTag: 'Traditional Mud-House Cured',
     harvestDate: 'September 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?auto=format&fit=crop&w=800&q=80'
+      '/images/products/golden-raisins.jpg',
+      '/images/products/black-raisins.jpg'
     ],
     variants: [
       { weight: '250g', price: 299, originalPrice: 360 },
@@ -580,8 +580,8 @@ export const PRODUCTS = [
     giTag: 'Authentic Mamra Certified',
     harvestDate: 'Autumn 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?auto=format&fit=crop&w=800&q=80'
+      '/images/products/mamra-almonds.jpg',
+      '/images/products/california-almonds.jpg'
     ],
     variants: [
       { weight: '250g', price: 899, originalPrice: 1050 },
@@ -598,7 +598,6 @@ export const PRODUCTS = [
 
   // ==========================================
   // SINGLE-ORIGIN RESERVES (Numbered Lots)
-  // Replaces collections/gifts with pure single-estate lots
   // ==========================================
   {
     id: 'orig-kashmiri-mamra',
@@ -614,8 +613,8 @@ export const PRODUCTS = [
     giTag: 'Kashmir Organic Heritage',
     harvestDate: 'September 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?auto=format&fit=crop&w=800&q=80'
+      '/images/products/mamra-almonds.jpg',
+      '/images/products/california-almonds.jpg'
     ],
     variants: [
       { weight: '250g', price: 949, originalPrice: 1100 },
@@ -643,8 +642,8 @@ export const PRODUCTS = [
     giTag: 'Coorg Green Cardamom GI',
     harvestDate: 'November 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1532336414038-cf19250c5757?auto=format&fit=crop&w=800&q=80'
+      '/images/products/alleppey-cardamom.jpg',
+      '/images/products/tellicherry-pepper.jpg'
     ],
     variants: [
       { weight: '100g', price: 549, originalPrice: 650 },
@@ -672,8 +671,8 @@ export const PRODUCTS = [
     giTag: 'Kandahar Heritage Cultivar',
     harvestDate: 'October 2025 Harvest',
     images: [
-      'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?auto=format&fit=crop&w=800&q=80'
+      '/images/products/black-raisins.jpg',
+      '/images/products/golden-raisins.jpg'
     ],
     variants: [
       { weight: '250g', price: 369, originalPrice: 440 },
@@ -688,7 +687,6 @@ export const PRODUCTS = [
     }
   }
 ];
-
 
 export const PROMO_CODES = {
   "ORIGINAL10": {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
@@ -8,7 +8,9 @@ import {
   ChevronDown,
   Compass,
   Check,
-  Sparkles
+  Sparkles,
+  ShoppingBag,
+  ShieldCheck
 } from 'lucide-react';
 import { PRODUCTS, CATEGORIES } from '../data/products';
 import { TESTIMONIALS, BRAND_VALUES } from '../data/reviews';
@@ -18,8 +20,10 @@ import QuickViewModal from '../components/QuickViewModal';
 import { useCart } from '../context/CartContext';
 import { useNotification } from '../context/NotificationContext';
 import DishOrbitCarousel from '../components/ui/dish-orbit-carousel';
+import { initScrollAnimations } from '../utils/scrollAnimations';
 
 export default function HomePage() {
+  const containerRef = useRef(null);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [activeCompassTab, setActiveCompassTab] = useState('turmeric');
   const [bundleAdding, setBundleAdding] = useState(null);
@@ -28,8 +32,72 @@ export default function HomePage() {
   const { addToCart } = useCart();
   const { showToast } = useNotification();
 
-  // Bestsellers
-  const bestsellers = PRODUCTS.filter(p => p.isBestseller).slice(0, 8);
+  // Scroll animations initialization
+  useEffect(() => {
+    const cleanup = initScrollAnimations(containerRef);
+    return cleanup;
+  }, []);
+
+  // 1. Hero Grand Cinematic Slides
+  const HERO_SLIDES = [
+    {
+      id: 'spices',
+      tabLabel: 'Whole Spices',
+      tagline: 'Single-Origin Malabar & Western Ghats',
+      title: 'Pristine Whole Spices',
+      eyebrow: 'GI Certified Terroirs',
+      potency: 'Essential Oils > 8.5% • Hand-Sorted',
+      description: 'Hand-picked Alleppey Extra-Bold 8mm green cardamom, Tellicherry TGSEB black peppercorns, and Alba Ceylon cinnamon quills directly from high-elevation heritage estates.',
+      provenance: 'Idukki Valley & Tellicherry, Kerala',
+      image: '/images/mega/user_whole_spices_card.jpg',
+      link: '/spices?type=whole',
+      actionText: 'Explore Whole Spices',
+      highlights: ['8mm+ Jumbo Pods', 'Zero Chemical Fumigation', 'Cryo-Cold Processed']
+    },
+    {
+      id: 'dry-fruits',
+      tabLabel: 'Imperial Dry Fruits',
+      tagline: 'Colossal Gradings & Naturally Sun-Dried',
+      title: 'Imperial Calibre Dry Fruits',
+      eyebrow: 'Colossal Gradings',
+      potency: 'Grade W180 King Cashews & Nonpareil Supreme',
+      description: 'The world\'s largest cashew grading (only 180 colossal nuts per lb), California snowmelt-irrigated Nonpareil almonds, and crisp roasted Antep pistachios.',
+      provenance: 'Mangalore Coast & California Orchards',
+      image: '/images/mega/user_dry_fruits_card.jpg',
+      link: '/dry-fruits',
+      actionText: 'Explore Imperial Dry Fruits',
+      highlights: ['Colossal W180 Grade', 'Zero Chemical Bleach', 'Raw Natural Crunch']
+    },
+    {
+      id: 'powders',
+      tabLabel: 'Cryo-Milled Powders',
+      tagline: 'Ground Under Liquid N₂ at -20°C',
+      title: 'Cryogenic Spice Powders',
+      eyebrow: 'Peak Bioactive Potency',
+      potency: '7.8% High-Curcumin Lakadong & Grade A1 Saffron',
+      description: 'Milled at sub-zero temperatures using liquid nitrogen to protect volatile turmerone aromatic oils that normal commercial heat grinding destroys.',
+      provenance: 'Jaintia Hills, Meghalaya & Pampore, Kashmir',
+      image: '/images/mega/spice-powders-mega.jpg',
+      link: '/spices?type=ground',
+      actionText: 'Explore Ground Spices',
+      highlights: ['7.8% Natural Curcumin', 'Sub-Zero Nitrogen Milled', '100% Raw Bioactivity']
+    }
+  ];
+
+  const [heroSlideIdx, setHeroSlideIdx] = useState(0);
+
+  // Auto-cycle hero slide every 6 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setHeroSlideIdx((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const activeHeroSlide = HERO_SLIDES[heroSlideIdx];
+
+  // 2. The Royal Bestsellers (Strictly 4 products on Home page, rest in Shop)
+  const bestsellers = PRODUCTS.filter(p => p.isBestseller).slice(0, 4);
 
   // Sensory Compass Data
   const compassItems = {
@@ -40,7 +108,7 @@ export default function HomePage() {
       elevation: '620m MSL',
       notes: 'Deep marigold hue, pungent ginger-earth warmth, high aromatic turmerone oils.',
       pairings: 'Golden Milk, Dal Tadka, Bone Broths, Ayurvedic Tonics',
-      image: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=800&q=80',
+      image: '/images/products/lakadong-turmeric.jpg',
       price: 299,
       weight: '100g'
     },
@@ -51,7 +119,7 @@ export default function HomePage() {
       elevation: '1,150m MSL',
       notes: 'Explosive sweet eucalyptus, camphor, refreshing minty citrus undertones.',
       pairings: 'Dum Biryanis, Masala Chai, Kheer, Cardamom Breads',
-      image: 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=800&q=80',
+      image: '/images/products/alleppey-cardamom.jpg',
       price: 499,
       weight: '100g'
     },
@@ -62,7 +130,7 @@ export default function HomePage() {
       elevation: '25m MSL',
       notes: 'Colossal curve, ivory color, sweet coconut cream chew that dissolves on palate.',
       pairings: 'Artisanal Cheeses, Festive Desserts, Morning Nourishment',
-      image: 'https://images.unsplash.com/photo-1569466896818-335b1bedfcce?auto=format&fit=crop&w=800&q=80',
+      image: '/images/products/king-cashews.jpg',
       price: 479,
       weight: '250g'
     },
@@ -73,7 +141,7 @@ export default function HomePage() {
       elevation: '1,630m MSL',
       notes: 'Intense crimson stigmas, sweet floral hay aroma, Crocin strength > 240.',
       pairings: 'Shahi Biryani, Saffron Risotto, Kahwa Tea, Festive Kulfi',
-      image: 'https://images.unsplash.com/photo-1608686207856-001b95cf60ca?auto=format&fit=crop&w=800&q=80',
+      image: '/images/products/kashmiri-saffron.jpg',
       price: 499,
       weight: '1g'
     },
@@ -84,7 +152,7 @@ export default function HomePage() {
       elevation: '85m MSL',
       notes: 'Plump golden skin, snappy crunch, natural marzipan butteriness.',
       pairings: 'Almond Milk, Breakfast Bowls, Healthy Energy Snacking',
-      image: 'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?auto=format&fit=crop&w=800&q=80',
+      image: '/images/products/california-almonds.jpg',
       price: 399,
       weight: '250g'
     }
@@ -105,7 +173,7 @@ export default function HomePage() {
       ],
       bundlePrice: 975,
       originalPrice: 1148,
-      image: 'https://images.unsplash.com/photo-1608686207856-001b95cf60ca?auto=format&fit=crop&w=800&q=80'
+      image: '/images/products/kashmiri-saffron.jpg'
     },
     {
       id: 'flight-vitality',
@@ -119,7 +187,7 @@ export default function HomePage() {
       ],
       bundlePrice: 1039,
       originalPrice: 1267,
-      image: 'https://images.unsplash.com/photo-1569466896818-335b1bedfcce?auto=format&fit=crop&w=800&q=80'
+      image: '/images/products/king-cashews.jpg'
     },
     {
       id: 'flight-aroma',
@@ -133,7 +201,7 @@ export default function HomePage() {
       ],
       bundlePrice: 935,
       originalPrice: 1167,
-      image: 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=800&q=80'
+      image: '/images/products/alleppey-cardamom.jpg'
     }
   ];
 
@@ -144,7 +212,7 @@ export default function HomePage() {
       title: 'World-Record',
       subtitle: 'Lakadong Turmeric',
       eyebrow: '#1 GI-Tagged Golden Rhizome',
-      image: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=800&q=80',
+      image: '/images/products/lakadong-turmeric.jpg',
       rating: 4.9,
       chef: 'Jaintia Hills Co-Op',
       kitchen: 'Meghalaya, 620m MSL',
@@ -159,7 +227,7 @@ export default function HomePage() {
       title: '8mm+ Extra Bold',
       subtitle: 'Royal Cardamom',
       eyebrow: '#2 High-Altitude Malabar Reserve',
-      image: 'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=800&q=80',
+      image: '/images/products/alleppey-cardamom.jpg',
       rating: 5.0,
       chef: 'Idukki Estate Guild',
       kitchen: 'Western Ghats, 1,150m MSL',
@@ -174,7 +242,7 @@ export default function HomePage() {
       title: 'Grade A1 Super',
       subtitle: 'Kashmiri Saffron',
       eyebrow: '#3 Red Gold of Pampore',
-      image: 'https://images.unsplash.com/photo-1608686207856-001b95cf60ca?auto=format&fit=crop&w=800&q=80',
+      image: '/images/products/kashmiri-saffron.jpg',
       rating: 5.0,
       chef: 'Pampore Saffron Guild',
       kitchen: 'Kashmir Valley, 1,630m MSL',
@@ -189,7 +257,7 @@ export default function HomePage() {
       title: 'Colossal Jumbo',
       subtitle: 'King Cashews W180',
       eyebrow: '#4 Imperial Size Selection',
-      image: 'https://images.unsplash.com/photo-1569466896818-335b1bedfcce?auto=format&fit=crop&w=800&q=80',
+      image: '/images/products/king-cashews.jpg',
       rating: 4.9,
       chef: 'Mangalore Coastal Orchards',
       kitchen: 'Karnataka Coastline',
@@ -204,7 +272,7 @@ export default function HomePage() {
       title: 'Supreme Grade',
       subtitle: 'California Almonds',
       eyebrow: '#5 Nonpareil 20/22 Selection',
-      image: 'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?auto=format&fit=crop&w=800&q=80',
+      image: '/images/products/california-almonds.jpg',
       rating: 4.8,
       chef: 'San Joaquin Estate',
       kitchen: 'Central Valley, California',
@@ -245,136 +313,197 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2]">
+    <div ref={containerRef} className="min-h-screen bg-[#FAF7F2]">
       {/* Quick View Modal */}
       <QuickViewModal
         product={quickViewProduct}
         onClose={() => setQuickViewProduct(null)}
       />
 
-      {/* 1. Hero Section: Rich Spices & Dry Fruits Imagery */}
-      <section className="relative bg-[#070D1E] text-white overflow-hidden pt-8 sm:pt-12 pb-14 sm:pb-20 border-b-2 border-[#C5A059]/40">
-        {/* Ambient Glows */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#C5A059]/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-10 w-96 h-96 bg-[#152238]/60 rounded-full blur-3xl pointer-events-none" />
+      {/* 1. Grand Editorial Hero Section */}
+      <section className="relative bg-[#070D1E] text-white overflow-hidden border-b-2 border-[#C5A059]/40 pt-3 sm:pt-5 pb-12 sm:pb-16">
+        {/* Ambient Atmosphere Glows with Parallax */}
+        <div data-speed="0.25" className="scroll-parallax absolute top-0 right-1/4 w-[600px] h-[600px] bg-[#C5A059]/10 rounded-full blur-[140px] pointer-events-none" />
+        <div data-speed="0.2" className="scroll-parallax absolute bottom-0 left-10 w-[500px] h-[500px] bg-[#152238]/70 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            {/* Left Copy */}
-            <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#152238] border border-[#C5A059]/40 text-[#DFBF77] text-xs font-semibold uppercase tracking-widest">
-                <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
-                <span>The Royal Standard of Purity</span>
-              </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* Left Column: Bold Luxury Typography & Brand Positioning */}
+            <div className="lg:col-span-7 space-y-4 sm:space-y-5 text-center lg:text-left scroll-slide-left">
 
-              <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#FDFBF7] leading-[1.14]">
-                Single-Origin Spices & <br className="hidden sm:inline" />
-                <span className="gold-gradient-text">Imperial Dry Fruits</span>
+              {/* Main Headline */}
+              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#FDFBF7] leading-[1.12] scroll-text-reveal">
+                India's Purest Harvests. <br />
+                <span className="gold-gradient-text italic font-normal">
+                  Single-Origin & Imperial Calibre.
+                </span>
               </h1>
 
+              {/* Refined Brand Narrative */}
               <p className="text-sm sm:text-base text-[#CBD5E1] font-light max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                Purveyors of rare GI-tagged harvests, world-record curcumin turmeric, 8mm+ green cardamoms, and colossal jumbo nuts. Cold-ground and sealed under inert nitrogen to honor the authentic fragrance of the earth.
+                Purveyors of rare, GI-tagged heirlooms: world-record 7.8% curcumin turmeric from Meghalaya, 8mm+ jumbo cardamom from Idukki, and colossal W180 king cashews. Cold-ground under liquid nitrogen at -20°C and nitrogen-sealed at peak aroma.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                <Link
-                  to="/shop"
-                  className="w-full sm:w-auto px-8 py-3.5 bg-[#C5A059] hover:bg-[#DFBF77] text-[#070D1E] text-xs font-bold uppercase tracking-[0.2em] rounded-xl transition-all duration-300 shadow-xl hover:shadow-[#C5A059]/25 flex items-center justify-center gap-2 group"
-                >
-                  <span>Explore Catalogue</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-
-                <Link
-                  to="/origins"
-                  className="w-full sm:w-auto px-8 py-3.5 bg-[#152238] hover:bg-[#1E293B] text-[#FDFBF7] text-xs font-bold uppercase tracking-[0.2em] rounded-xl transition-all duration-300 border border-[#C5A059]/40 flex items-center justify-center gap-2"
-                >
-                  <span>Single-Origin Reserves</span>
-                </Link>
-              </div>
-
-              {/* Verified Trust Stats */}
-              <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#1E293B] max-w-lg mx-auto lg:mx-0 text-left">
-                <div>
-                  <span className="block font-serif text-2xl font-bold text-[#DFBF77]">100%</span>
-                  <span className="text-[11px] text-[#94A3B8] uppercase tracking-wider">Single Origin</span>
-                </div>
-                <div>
-                  <span className="block font-serif text-2xl font-bold text-[#DFBF77]">GI</span>
-                  <span className="text-[11px] text-[#94A3B8] uppercase tracking-wider">Certified Terroirs</span>
-                </div>
-                <div>
-                  <span className="block font-serif text-2xl font-bold text-[#DFBF77]">0%</span>
-                  <span className="text-[11px] text-[#94A3B8] uppercase tracking-wider">Fillers or Dyes</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Hero Visual: Authentic Spices & Dry Fruits Collage (ZERO human faces, ZERO vegetables) */}
-            <div className="lg:col-span-5">
-              <div className="grid grid-cols-2 gap-3.5 sm:gap-4 relative">
-                {/* 1. Green Cardamom */}
-                <div className="relative group rounded-2xl overflow-hidden border border-[#C5A059]/40 shadow-xl aspect-square bg-[#0B1325]">
-                  <img
-                    src="https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=600&q=80"
-                    alt="Alleppey Green Cardamom 8mm+"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#070D1E]/90 via-[#070D1E]/20 to-transparent flex flex-col justify-end p-3">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#DFBF77]">8mm+ Extra Bold</span>
-                    <span className="text-xs font-serif font-semibold text-white">Alleppey Cardamom</span>
-                  </div>
-                </div>
-
-                {/* 2. King Cashews */}
-                <div className="relative group rounded-2xl overflow-hidden border border-[#C5A059]/40 shadow-xl aspect-square bg-[#0B1325]">
-                  <img
-                    src="https://images.unsplash.com/photo-1569466896818-335b1bedfcce?auto=format&fit=crop&w=600&q=80"
-                    alt="Royal King Cashews W180"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#070D1E]/90 via-[#070D1E]/20 to-transparent flex flex-col justify-end p-3">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#DFBF77]">Colossal W180</span>
-                    <span className="text-xs font-serif font-semibold text-white">King Cashews</span>
-                  </div>
-                </div>
-
-                {/* 3. Lakadong Turmeric */}
-                <div className="relative group rounded-2xl overflow-hidden border border-[#C5A059]/40 shadow-xl aspect-square bg-[#0B1325]">
-                  <img
-                    src="https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=600&q=80"
-                    alt="Lakadong High Curcumin Turmeric"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#070D1E]/90 via-[#070D1E]/20 to-transparent flex flex-col justify-end p-3">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#DFBF77]">7.8% Curcumin</span>
-                    <span className="text-xs font-serif font-semibold text-white">Lakadong Turmeric</span>
-                  </div>
-                </div>
-
-                {/* 4. Kashmiri Saffron */}
-                <div className="relative group rounded-2xl overflow-hidden border border-[#C5A059]/40 shadow-xl aspect-square bg-[#0B1325]">
-                  <img
-                    src="https://images.unsplash.com/photo-1608686207856-001b95cf60ca?auto=format&fit=crop&w=600&q=80"
-                    alt="Kashmiri Mongra Saffron"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#070D1E]/90 via-[#070D1E]/20 to-transparent flex flex-col justify-end p-3">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#DFBF77]">Grade A1 Mongra</span>
-                    <span className="text-xs font-serif font-semibold text-white">Kashmiri Saffron</span>
-                  </div>
-                </div>
-
-                {/* Center Floating Seal */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#0B1325]/95 border-2 border-[#C5A059] px-4 py-2 rounded-full shadow-2xl backdrop-blur-md text-center pointer-events-none">
-                  <span className="text-[10px] font-serif font-bold text-[#DFBF77] tracking-[0.2em] uppercase block">
-                    THE ORIGINAL
+              {/* Interactive Category Jump Tabs */}
+              <div className="pt-2">
+                <div className="flex items-center justify-center lg:justify-start gap-2 flex-wrap mb-5">
+                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#DFBF77] mr-1 hidden sm:inline-block">
+                    Featured Pillars:
                   </span>
-                  <span className="text-[8px] text-slate-300 block">Single-Origin Guarantee</span>
+                  {HERO_SLIDES.map((slide, idx) => (
+                    <button
+                      key={slide.id}
+                      type="button"
+                      onClick={() => setHeroSlideIdx(idx)}
+                      className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all flex items-center gap-2 ${
+                        heroSlideIdx === idx
+                          ? 'bg-[#C5A059] text-[#070D1E] shadow-lg shadow-[#C5A059]/25 font-bold'
+                          : 'bg-[#152238]/80 hover:bg-[#1E2E4B] text-slate-300 border border-[#C5A059]/30'
+                      }`}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full ${heroSlideIdx === idx ? 'bg-[#070D1E]' : 'bg-[#DFBF77]'}`} />
+                      <span>{slide.tabLabel}</span>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Primary Action Buttons */}
+                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                  <Link
+                    to="/shop"
+                    className="w-full sm:w-auto px-8 py-4 bg-[#C5A059] hover:bg-[#DFBF77] text-[#070D1E] text-xs font-bold uppercase tracking-[0.2em] rounded-xl transition-all duration-300 shadow-xl hover:shadow-[#C5A059]/30 flex items-center justify-center gap-2 group"
+                  >
+                    <span>Explore All 22 Treasures</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+
+                  <Link
+                    to="/why-us"
+                    className="w-full sm:w-auto px-7 py-4 bg-[#152238] hover:bg-[#1E2A4D] text-[#FDFBF7] text-xs font-bold uppercase tracking-[0.2em] rounded-xl transition-all duration-300 border border-[#C5A059]/40 flex items-center justify-center gap-2"
+                  >
+                    <ShieldCheck className="w-4 h-4 text-[#DFBF77]" />
+                    <span>The Purity Creed (Why Us)</span>
+                  </Link>
                 </div>
               </div>
+
+              {/* 4 Trust Metrics */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-[#1E293B] max-w-xl mx-auto lg:mx-0 text-left">
+                <div className="bg-[#0B1325]/70 border border-[#C5A059]/25 rounded-xl p-3">
+                  <span className="block font-serif text-xl sm:text-2xl font-bold text-[#DFBF77]">7.8%</span>
+                  <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block">Curcumin Lakadong</span>
+                </div>
+                <div className="bg-[#0B1325]/70 border border-[#C5A059]/25 rounded-xl p-3">
+                  <span className="block font-serif text-xl sm:text-2xl font-bold text-[#DFBF77]">8mm+</span>
+                  <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block">Jumbo Extra Bold</span>
+                </div>
+                <div className="bg-[#0B1325]/70 border border-[#C5A059]/25 rounded-xl p-3">
+                  <span className="block font-serif text-xl sm:text-2xl font-bold text-[#DFBF77]">W180</span>
+                  <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block">King Cashew Calibre</span>
+                </div>
+                <div className="bg-[#0B1325]/70 border border-[#C5A059]/25 rounded-xl p-3">
+                  <span className="block font-serif text-xl sm:text-2xl font-bold text-[#DFBF77]">-20°C</span>
+                  <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block">Cryo-Milled Aroma</span>
+                </div>
+              </div>
+
             </div>
+
+            {/* Right Column: Editorial Showcase Stage (Clean, Cinematic Photography with Gold Accent Frame) */}
+            <div className="lg:col-span-5 scroll-slide-right">
+              <div className="relative rounded-3xl p-6 sm:p-7 bg-gradient-to-b from-[#0F1A33] via-[#0B1326] to-[#070D1E] border-2 border-[#C5A059]/40 shadow-2xl overflow-hidden group">
+                
+                {/* Ambient Radial Halo */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-[#C5A059]/15 rounded-full blur-3xl pointer-events-none" />
+
+                {/* Terroir & Origin Header Bar */}
+                <div className="flex items-center justify-between pb-3.5 border-b border-[#C5A059]/20 relative z-10 text-xs">
+                  <span className="text-[#DFBF77] font-semibold tracking-wide flex items-center gap-1.5">
+                    <Compass className="w-3.5 h-3.5 text-[#C5A059]" />
+                    <span>{activeHeroSlide.provenance}</span>
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-[#152238] border border-[#C5A059]/40 text-[#DFBF77] text-[10px] font-bold uppercase tracking-wider">
+                    {activeHeroSlide.eyebrow}
+                  </span>
+                </div>
+
+                {/* Cinematic Editorial Image in Arched Showcase */}
+                <div className="py-5 relative z-10">
+                  <div className="relative aspect-[16/11] rounded-2xl overflow-hidden border-2 border-[#D4AF37]/50 shadow-2xl bg-[#070D1E]">
+                    <img
+                      src={activeHeroSlide.image}
+                      alt={activeHeroSlide.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#070D1E]/80 via-transparent to-transparent pointer-events-none" />
+
+                    {/* Floating Potency Tag */}
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+                      <span className="px-3 py-1 rounded-full bg-[#070D1E]/90 border border-[#C5A059]/50 text-[#DFBF77] text-[10px] font-bold uppercase tracking-wider backdrop-blur-md">
+                        ✦ {activeHeroSlide.potency}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Title & Editorial Description */}
+                <div className="relative z-10 space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-serif text-2xl font-bold text-[#FDFBF7]">
+                      {activeHeroSlide.title}
+                    </h3>
+                  </div>
+
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    {activeHeroSlide.description}
+                  </p>
+
+                  {/* Highlights Pills */}
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {activeHeroSlide.highlights.map((h, i) => (
+                      <span
+                        key={i}
+                        className="px-2.5 py-0.5 rounded-md bg-[#152238] border border-[#C5A059]/25 text-[10px] text-[#DFBF77] font-medium"
+                      >
+                        ✓ {h}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Direct Link CTA */}
+                  <div className="pt-4 border-t border-[#C5A059]/20 flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      {HERO_SLIDES.map((_, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => setHeroSlideIdx(idx)}
+                          className={`h-1.5 rounded-full transition-all ${
+                            heroSlideIdx === idx ? 'w-6 bg-[#C5A059]' : 'w-2 bg-[#1E2E4B]'
+                          }`}
+                          aria-label={`Slide ${idx + 1}`}
+                        />
+                      ))}
+                    </div>
+
+                    <Link
+                      to={activeHeroSlide.link}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#DFBF77] hover:text-white transition-colors"
+                    >
+                      <span>{activeHeroSlide.actionText}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
           </div>
+
         </div>
       </section>
 
@@ -386,7 +515,7 @@ export default function HomePage() {
               <Compass className="w-4 h-4" />
               <span>Sensory Profiler</span>
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1325] mt-1.5">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1325] mt-1.5 scroll-text-reveal">
               Explore by Terroir & Aroma
             </h2>
             <p className="text-xs text-[#556987] mt-2">
@@ -418,7 +547,7 @@ export default function HomePage() {
           </div>
 
           {/* Compass Dynamic Card */}
-          <div className="bg-[#FAF7F2] rounded-3xl border border-[#EDE6D8] p-6 sm:p-8 lg:p-10 shadow-sm max-w-5xl mx-auto">
+          <div className="bg-[#FAF7F2] rounded-3xl border border-[#EDE6D8] p-6 sm:p-8 lg:p-10 shadow-sm max-w-5xl mx-auto scroll-fade">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
               <div className="md:col-span-5 relative aspect-square rounded-2xl overflow-hidden border-2 border-[#C5A059]/30 shadow-lg bg-[#0B1325]">
                 <img
@@ -479,18 +608,18 @@ export default function HomePage() {
             <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#9A7736]">
               Curated Catalogues
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1325] mt-1.5">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1325] mt-1.5 scroll-text-reveal">
               Explore Our Harvest Pillars
             </h2>
             <div className="w-16 h-0.5 bg-[#C5A059] mx-auto mt-3" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 scroll-stagger-group">
             {CATEGORIES.map((cat) => (
               <Link
                 key={cat.id}
                 to={cat.id === 'origins' ? '/origins' : `/${cat.id}`}
-                className="group relative rounded-3xl overflow-hidden border border-[#EDE6D8] bg-[#FAF7F2] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
+                className="scroll-stagger-item group relative rounded-3xl overflow-hidden border border-[#EDE6D8] bg-[#FAF7F2] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-[#0B1325]">
                   <img
@@ -539,7 +668,7 @@ export default function HomePage() {
             <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
             <span>Interactive Sensory Showcase</span>
           </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#FDFBF7] tracking-tight">
+          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#FDFBF7] tracking-tight scroll-text-reveal">
             The Royal Orbit Showcase
           </h2>
           <p className="text-xs sm:text-sm text-[#CBD5E1] max-w-xl mx-auto mt-2">
@@ -565,7 +694,7 @@ export default function HomePage() {
               <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#9A7736]">
                 Acclaimed Worldwide
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1325] mt-1">
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1325] mt-1 scroll-text-reveal">
                 The Royal Bestsellers
               </h2>
               <p className="text-xs text-[#556987] mt-1.5 max-w-lg">
@@ -582,13 +711,14 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 scroll-stagger-group">
             {bestsellers.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onQuickView={setQuickViewProduct}
-              />
+              <div key={product.id} className="scroll-stagger-item">
+                <ProductCard
+                  product={product}
+                  onQuickView={setQuickViewProduct}
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -601,7 +731,7 @@ export default function HomePage() {
             <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#9A7736]">
               Synergistic Pairings
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1325] mt-1.5">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1325] mt-1.5 scroll-text-reveal">
               The Connoisseur's Flights
             </h2>
             <p className="text-xs text-[#556987] mt-1.5">
@@ -609,11 +739,11 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 scroll-stagger-group">
             {flights.map((b) => (
               <div
                 key={b.id}
-                className="bg-[#FAF7F2] rounded-3xl border border-[#EDE6D8] p-6 flex flex-col justify-between shadow-sm hover:shadow-lg transition-all"
+                className="scroll-stagger-item bg-[#FAF7F2] rounded-3xl border border-[#EDE6D8] p-6 flex flex-col justify-between shadow-sm hover:shadow-lg transition-all"
               >
                 <div>
                   <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-4 border border-[#EDE6D8] bg-white">
@@ -669,17 +799,17 @@ export default function HomePage() {
             <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#9A7736]">
               Patron Testimonials
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1325] mt-1.5">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1325] mt-1.5 scroll-text-reveal">
               Praised by Chefs & Connoisseurs
             </h2>
             <div className="w-16 h-0.5 bg-[#C5A059] mx-auto mt-3" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 scroll-stagger-group">
             {TESTIMONIALS.map((review) => (
               <div
                 key={review.id}
-                className="bg-white p-6 rounded-2xl border border-[#EDE6D8] shadow-sm flex flex-col justify-between"
+                className="scroll-stagger-item bg-white p-6 rounded-2xl border border-[#EDE6D8] shadow-sm flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center gap-1 text-[#C5A059] mb-3">
@@ -716,11 +846,11 @@ export default function HomePage() {
       {/* 8. Brand Value Pillars */}
       <section className="py-16 bg-white border-b border-[#EDE6D8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 scroll-stagger-group">
             {BRAND_VALUES.map((val) => (
               <div
                 key={val.id}
-                className="p-6 rounded-2xl bg-[#FAF7F2] border border-[#EDE6D8] text-center flex flex-col items-center"
+                className="scroll-stagger-item p-6 rounded-2xl bg-[#FAF7F2] border border-[#EDE6D8] text-center flex flex-col items-center"
               >
                 <div className="w-12 h-12 rounded-2xl bg-[#0B1325] text-[#DFBF77] flex items-center justify-center mb-4 border border-[#C5A059]/30">
                   <Award className="w-6 h-6 text-[#C5A059]" />
@@ -744,7 +874,7 @@ export default function HomePage() {
             <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#9A7736] block">
               Purity & Standards
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1325] mt-2">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1325] mt-2 scroll-text-reveal">
               Frequently Asked Questions
             </h2>
             <div className="w-16 h-0.5 bg-[#C5A059] mx-auto mt-3" />
@@ -753,7 +883,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="space-y-3.5">
+          <div className="space-y-3.5 scroll-fade">
             {FAQS.flatMap(cat => cat.questions).map((faq, idx) => (
               <div
                 key={idx}

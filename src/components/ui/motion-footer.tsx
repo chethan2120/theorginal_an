@@ -120,13 +120,13 @@ const STYLES = `
   font-family: 'Playfair Display', serif;
 }
 
-/* Metallic Text Glow */
-.footer-text-glow {
-  background: linear-gradient(180deg, #FFFFFF 0%, #E6C875 50%, #C5A03A 100%);
+/* Golden Metallic Brand Title */
+.footer-golden-title {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FDF7E7 20%, #DFBF77 50%, #C5A059 75%, #8E6D2E 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0px 0px 25px rgba(212, 175, 55, 0.25));
+  filter: drop-shadow(0 0 45px rgba(212, 175, 55, 0.4)) drop-shadow(0 4px 15px rgba(0, 0, 0, 0.9));
   font-family: 'Playfair Display', serif;
 }
 `;
@@ -236,41 +236,25 @@ export function CinematicFooter() {
 
     // React strict mode compatible GSAP context cleanup
     const ctx = gsap.context(() => {
-      // Background Parallax
-      gsap.fromTo(
-        giantTextRef.current,
-        { y: "8vh", scale: 0.85, opacity: 0 },
-        {
-          y: "0vh",
-          scale: 1,
-          opacity: 1,
-          ease: "power1.out",
-          scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: "top 80%",
-            end: "bottom bottom",
-            scrub: 1,
-          },
-        }
-      );
-
       // Staggered Content Reveal
-      gsap.fromTo(
-        [headingRef.current, linksRef.current],
-        { y: 40, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: "top 40%",
-            end: "bottom bottom",
-            scrub: 1,
-          },
-        }
-      );
+      if (headingRef.current && linksRef.current) {
+        gsap.fromTo(
+          [headingRef.current, linksRef.current],
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: wrapperRef.current,
+              start: "top 60%",
+              end: "bottom bottom",
+              scrub: 1,
+            },
+          }
+        );
+      }
     }, wrapperRef);
 
     return () => ctx.revert();
@@ -291,86 +275,64 @@ export function CinematicFooter() {
       */}
       <div
         ref={wrapperRef}
-        className="relative min-h-[90vh] md:h-screen w-full bg-[#080D1A]"
-        style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
+        className="relative w-full bg-[#080D1A] overflow-hidden"
       >
-        {/* The actual footer stays fixed underneath during scroll */}
-        <footer className="fixed bottom-0 left-0 flex h-full w-full flex-col justify-between overflow-hidden bg-[#080D1A] text-[#FBF8F3] cinematic-footer-wrapper border-t border-[#D4AF37]/20">
+        {/* The cinematic footer in natural flow */}
+        <footer className="relative flex min-h-[90vh] w-full flex-col justify-between overflow-hidden bg-[#080D1A] text-[#FBF8F3] cinematic-footer-wrapper border-t border-[#D4AF37]/20 pt-10">
           
           {/* Ambient Light & Grid Background */}
           <div className="footer-aurora absolute left-1/2 top-1/2 h-[60vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 animate-footer-breathe rounded-[50%] blur-[90px] pointer-events-none z-0" />
           <div className="footer-bg-grid absolute inset-0 z-0 pointer-events-none" />
 
-          {/* Giant background brand watermark */}
-          <div
-            ref={giantTextRef}
-            className="footer-giant-bg-text absolute -bottom-[2vh] left-1/2 -translate-x-1/2 whitespace-nowrap z-0 pointer-events-none select-none text-center"
-          >
-            THE ORIGINAL
-          </div>
-
           {/* 1. Diagonal Sleek Marquee */}
-          <div className="absolute top-10 left-0 w-full overflow-hidden border-y border-[#D4AF37]/30 bg-[#0B1326]/80 backdrop-blur-md py-3.5 z-10 -rotate-1 scale-105 shadow-2xl">
+          <div className="absolute top-8 left-0 w-full overflow-hidden border-y border-[#D4AF37]/30 bg-[#0B1326]/80 backdrop-blur-md py-3 z-10 -rotate-1 scale-105 shadow-2xl">
             <div className="flex w-max animate-footer-scroll-marquee text-xs md:text-sm font-semibold tracking-[0.25em] text-[#C5A03A] uppercase">
               <MarqueeItem />
               <MarqueeItem />
             </div>
           </div>
 
-          {/* 2. Main Center Content */}
-          <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 mt-20 w-full max-w-5xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37] text-xs uppercase tracking-widest mb-6">
-              <span>✦</span> The Royal Standard of Purity <span>✦</span>
+          {/* 2. Main Center Content: THE ORIGINAL in Grand Metallic Golden Typography */}
+          <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 pt-24 pb-14 w-full max-w-5xl mx-auto text-center">
+            {/* Elegant Brand Monogram Badge */}
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border-2 border-[#D4AF37]/60 bg-[#0B1326] flex items-center justify-center shadow-2xl shadow-[#D4AF37]/15 mb-6 group hover:border-[#D4AF37] hover:scale-105 transition-all">
+              <span className="font-serif text-2xl sm:text-3xl font-bold text-[#DFBF77] tracking-widest">TO</span>
             </div>
 
+            {/* The Brand Name in Golden Color */}
             <h2
               ref={headingRef}
-              className="text-4xl md:text-7xl font-bold footer-text-glow tracking-tight mb-8"
+              className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black footer-golden-title tracking-[0.1em] sm:tracking-[0.14em] uppercase mb-4 select-none leading-none"
             >
-              Taste The Purest Harvest
+              THE ORIGINAL
             </h2>
-            <p className="max-w-2xl text-slate-300 text-sm md:text-base leading-relaxed mb-10">
-              Single-origin GI tagged spices and colossal imperial dry fruits. Purveyed from generational heritage estates and delivered to your doorstep in nitrogen-sealed freshness.
+
+            {/* Brand Subtitle */}
+            <p className="text-xs sm:text-sm uppercase tracking-[0.35em] text-[#DFBF77] font-semibold mb-3">
+              Royal Spices & Imperial Dry Fruits
             </p>
 
-            {/* Interactive Magnetic Pills Layout */}
-            <div ref={linksRef} className="flex flex-col items-center gap-6 w-full">
-              {/* Primary Action Links */}
-              <div className="flex flex-wrap justify-center gap-4 w-full">
-                <MagneticButton as={Link} to="/spices" className="footer-glass-pill px-8 py-4 rounded-full text-[#FBF8F3] font-semibold text-sm md:text-base flex items-center gap-3 group">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#D4AF37] group-hover:scale-125 transition-transform"></span>
-                  Shop Royal Spices
-                </MagneticButton>
-                
-                <MagneticButton as={Link} to="/dry-fruits" className="footer-glass-pill px-8 py-4 rounded-full text-[#FBF8F3] font-semibold text-sm md:text-base flex items-center gap-3 group">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#C5A03A] group-hover:scale-125 transition-transform"></span>
-                  Shop Imperial Dry Fruits
-                </MagneticButton>
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-[11px] text-slate-400 uppercase tracking-widest font-medium mt-1">
+              <span>100% Single-Origin GI</span>
+              <span className="text-[#D4AF37]">✦</span>
+              <span>Cryogenic Cold-Ground</span>
+              <span className="text-[#D4AF37]">✦</span>
+              <span>Inert Nitrogen Sealed</span>
+            </div>
 
-                <MagneticButton as={Link} to="/origins" className="footer-glass-pill px-8 py-4 rounded-full text-[#FBF8F3] font-semibold text-sm md:text-base flex items-center gap-3 group">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#E6C875] group-hover:scale-125 transition-transform"></span>
-                  Single-Origin Reserves
-                </MagneticButton>
-              </div>
-
-              {/* Secondary Navigation Links */}
-              <div className="flex flex-wrap justify-center gap-3 md:gap-6 w-full mt-2">
-                <MagneticButton as={Link} to="/about" className="footer-glass-pill px-5 py-2.5 rounded-full text-slate-300 font-medium text-xs md:text-sm hover:text-white">
-                  Our Brand Story
-                </MagneticButton>
-                <MagneticButton as={Link} to="/faqs" className="footer-glass-pill px-5 py-2.5 rounded-full text-slate-300 font-medium text-xs md:text-sm hover:text-white">
-                  Purity & Lab Reports
-                </MagneticButton>
-                <MagneticButton as={Link} to="/contact" className="footer-glass-pill px-5 py-2.5 rounded-full text-slate-300 font-medium text-xs md:text-sm hover:text-white">
-                  Concierge Support
-                </MagneticButton>
-                <MagneticButton as={Link} to="/shipping-policy" className="footer-glass-pill px-5 py-2.5 rounded-full text-slate-300 font-medium text-xs md:text-sm hover:text-white">
-                  Shipping Policy
-                </MagneticButton>
-                <MagneticButton as={Link} to="/privacy-policy" className="footer-glass-pill px-5 py-2.5 rounded-full text-slate-300 font-medium text-xs md:text-sm hover:text-white">
-                  Privacy Policy
-                </MagneticButton>
-              </div>
+            {/* Refined Minimalist Footer Navigation */}
+            <div
+              ref={linksRef}
+              className="flex flex-wrap justify-center items-center gap-5 sm:gap-8 mt-10 pt-8 border-t border-[#D4AF37]/20 w-full max-w-2xl text-xs uppercase tracking-widest text-slate-300 font-medium"
+            >
+              <Link to="/" className="hover:text-[#DFBF77] transition-colors">Home</Link>
+              <Link to="/shop" className="hover:text-[#DFBF77] transition-colors">Shop</Link>
+              <Link to="/spices" className="hover:text-[#DFBF77] transition-colors">Spices</Link>
+              <Link to="/dry-fruits" className="hover:text-[#DFBF77] transition-colors">Dry Fruits</Link>
+              <Link to="/why-us" className="hover:text-[#DFBF77] transition-colors">Why Us</Link>
+              <Link to="/about" className="hover:text-[#DFBF77] transition-colors">About Us</Link>
+              <Link to="/contact" className="hover:text-[#DFBF77] transition-colors">Contact</Link>
+              <Link to="/privacy-policy" className="hover:text-[#DFBF77] transition-colors">Privacy</Link>
             </div>
           </div>
 
