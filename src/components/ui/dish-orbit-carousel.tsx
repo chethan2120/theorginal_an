@@ -144,8 +144,6 @@ const CSS =
   ".dsh-btn{appearance:none;border:0;background:none;color:inherit;font:inherit;padding:0;margin:0;cursor:pointer}" +
   ".dsh-btn:focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:10px}" +
   ".dsh-ico{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}" +
-  ".dsh-top{position:absolute;left:800px;top:52px;display:flex;gap:14px}" +
-  ".dsh-top .dsh-btn{width:36px;height:36px;display:grid;place-items:center;border-radius:10px}" +
   ".dsh-pager{position:absolute;left:76px;top:172px;display:flex;flex-direction:column;align-items:center;gap:7px}" +
   ".dsh-dot{width:14px;height:10px;display:grid;place-items:center}" +
   ".dsh-dot i{display:block;width:3px;height:3px;border-radius:3px;background:var(--color-foreground);opacity:.45;transition:height .45s cubic-bezier(.3,.7,.2,1),opacity .3s}" +
@@ -205,7 +203,6 @@ const CSS =
   "@container (max-width:639px){" +
   ".dsh-canvas{position:relative;left:auto;top:auto;width:100%;height:auto;transform:none;display:flex;flex-direction:column;align-items:center;padding:14px 16px 18px}" +
   ".dsh-arc{width:200%;height:auto;left:-60%;top:-30px}" +
-  ".dsh-top{position:relative;left:auto;top:auto;align-self:flex-end}" +
   ".dsh-pager{left:14px;top:150px}" +
   ".dsh-plates{position:relative;left:auto;top:auto;width:min(52vw,32svh);height:min(52vw,32svh);margin-top:0}" +
   ".dsh-orbit>img{width:100%;height:100%}" +
@@ -223,8 +220,6 @@ const HIDE_2 = "inset(0% 100% 0% 0%)" // heavy line: wipes in from the left
 const SHOW = "inset(0% 0% 0% 0%)"
 
 const Icon = {
-  search: <svg className="dsh-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4 4" /></svg>,
-  menu: <svg className="dsh-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16M4 12h16M4 17.5h16" /></svg>,
   play: <svg className="dsh-ico dsh-fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5v17l14-8.5z" /></svg>,
   order: <svg className="dsh-ico dsh-fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5 3 15h18zM3 18h18v2.5H3z" /></svg>,
   up: <svg className="dsh-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v10H3.5V10zM7 10l4-7c1.6 0 2.6 1.2 2.2 2.8L12.6 9H19a2 2 0 0 1 2 2.3l-1.3 7A2 2 0 0 1 17.7 20H7" /></svg>,
@@ -363,22 +358,50 @@ export function DishOrbitCarousel({
     onChangeRef.current?.(next)
   }
 
-  // Autoplay timer with pause on hover/interaction - completely detached from page scroll
-  const [isPaused, setIsPaused] = useState(false)
+  // ScrollTrigger: finite scroll scrub that advances dishes as user scrolls down
   useEffect(() => {
-    if (n < 2 || isPaused) return
-    const timer = setInterval(() => {
-      step(1)
-    }, 5000)
-    return () => clearInterval(timer)
-  }, [index, n, isPaused])
+    const el = trackRef.current
+    if (!el || n < 2) return
 
-  // Buttons, keys and swipes jump smoothly between dishes without moving page scroll
+    const pinTarget = (el.closest("section") as HTMLElement) || el
+    const scrollDistance = typeof window !== "undefined" && window.innerWidth < 768 ? 900 : 1500
+
+    const st = ScrollTrigger.create({
+      trigger: pinTarget,
+      start: "top top",
+      end: `+=${scrollDistance}`,
+      pin: true,
+      anticipatePin: 1,
+      scrub: 0.3,
+      onUpdate: (self) => {
+        const progress = Math.max(0, Math.min(0.9999, self.progress))
+        const target = Math.min(n - 1, Math.floor(progress * n))
+        if (target !== indexRef.current) {
+          const dir = target > indexRef.current ? 1 : -1
+          select(target, dir)
+        }
+      },
+    })
+
+    stRef.current = st
+
+    return () => {
+      st.kill()
+    }
+  }, [n])
+
+  // Buttons, keys and swipes jump smoothly between dishes
   const go = (to: number, dir?: 1 | -1) => {
     if (n < 2) return
     const next = wrapIndex(to, n)
     if (next === index) return
     select(next, dir ?? stepDirection(index, next, n))
+
+    // If within active scrollTrigger pin, smoothly align the scroll position
+    if (stRef.current && stRef.current.isActive) {
+      const scrollPos = stRef.current.start + (next / Math.max(1, n - 1)) * (stRef.current.end - stRef.current.start)
+      window.scrollTo({ top: scrollPos, behavior: "smooth" })
+    }
   }
   const step = (d: 1 | -1) => go(index + d, d)
 
@@ -409,8 +432,6 @@ export function DishOrbitCarousel({
       aria-label="Royal Spices & Dry Fruits Showcase"
       tabIndex={0}
       onKeyDown={onKeyDown}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
     >
       <style>
         {(fontSrc ? "@font-face{font-family:" + FONT + ";src:url(" + fontSrc + ") format('woff2');font-weight:100 900;font-display:swap}" : "") + CSS}
@@ -423,11 +444,6 @@ export function DishOrbitCarousel({
         <svg className="dsh-arc" viewBox="0 0 960 520" aria-hidden="true">
           <path ref={arcRef} style={{ opacity: 0.34 }} />
         </svg>
-
-        <div className="dsh-top">
-          <button type="button" className="dsh-btn" aria-label="Search">{Icon.search}</button>
-          <button type="button" className="dsh-btn" aria-label="Menu">{Icon.menu}</button>
-        </div>
 
         <div className="dsh-pager" role="tablist" aria-label="Choose a dish">
           {dishes.map((d, i) => (

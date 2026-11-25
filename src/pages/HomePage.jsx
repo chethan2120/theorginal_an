@@ -26,6 +26,7 @@ export default function HomePage() {
   const containerRef = useRef(null);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [activeCompassTab, setActiveCompassTab] = useState('turmeric');
+  const [isCompassHovered, setIsCompassHovered] = useState(false);
   const [bundleAdding, setBundleAdding] = useState(null);
   const [openFaq, setOpenFaq] = useState(0);
 
@@ -37,6 +38,19 @@ export default function HomePage() {
     const cleanup = initScrollAnimations(containerRef);
     return cleanup;
   }, []);
+
+  // Auto slideshow for "Explore by Terroir & Aroma" (Compass)
+  useEffect(() => {
+    if (isCompassHovered) return;
+    const compassOrder = ['turmeric', 'cardamom', 'cashews', 'saffron', 'almonds'];
+    const timer = setInterval(() => {
+      setActiveCompassTab((prev) => {
+        const nextIdx = (compassOrder.indexOf(prev) + 1) % compassOrder.length;
+        return compassOrder[nextIdx];
+      });
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [isCompassHovered]);
 
   // 1. Hero Grand Cinematic Slides
   const HERO_SLIDES = [
@@ -202,6 +216,20 @@ export default function HomePage() {
       bundlePrice: 935,
       originalPrice: 1167,
       image: '/images/products/alleppey-cardamom.jpg'
+    },
+    {
+      id: 'flight-dessert',
+      title: 'The Royal Shahi Dessert Flight',
+      tagline: 'Kashmiri Saffron + Antep Pistachios + Alleppey Cardamom',
+      discountTag: 'Save 17%',
+      items: [
+        { id: 'spc-kashmiri-saffron', weight: '1g', name: 'Grade A1 Kashmiri Saffron', price: 499 },
+        { id: 'df-antep-pistachios', weight: '250g', name: 'Roasted Antep Pistachios', price: 549 },
+        { id: 'spc-alleppey-cardamom', weight: '100g', name: 'Alleppey 8mm Cardamom', price: 499 }
+      ],
+      bundlePrice: 1285,
+      originalPrice: 1547,
+      image: '/images/products/antep-pistachios.jpg'
     }
   ];
 
@@ -507,8 +535,81 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 4 Value Pillar Cards Below Hero */}
+      <section className="bg-[#0B1325] border-b border-[#C5A059]/30 py-6 sm:py-8 relative z-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            
+            {/* Card 1: Certified GI Terroirs */}
+            <div className="bg-[#152238]/90 hover:bg-[#1E2E4B] border border-[#C5A059]/30 hover:border-[#C5A059]/60 rounded-2xl p-4 sm:p-5 flex items-start gap-4 transition-all duration-300 shadow-md group">
+              <div className="w-10 h-10 rounded-xl bg-[#070D1E] border border-[#C5A059]/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <Compass className="w-5 h-5 text-[#DFBF77]" />
+              </div>
+              <div className="min-w-0">
+                <h4 className="font-serif font-bold text-sm sm:text-base text-[#FDFBF7] tracking-wide">
+                  Certified GI Terroirs
+                </h4>
+                <p className="text-xs text-[#CBD5E1] mt-1 leading-snug font-light">
+                  Single-origin authentic provenance
+                </p>
+              </div>
+            </div>
+
+            {/* Card 2: 7-Stage Lab Certified */}
+            <div className="bg-[#152238]/90 hover:bg-[#1E2E4B] border border-[#C5A059]/30 hover:border-[#C5A059]/60 rounded-2xl p-4 sm:p-5 flex items-start gap-4 transition-all duration-300 shadow-md group">
+              <div className="w-10 h-10 rounded-xl bg-[#070D1E] border border-[#C5A059]/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <ShieldCheck className="w-5 h-5 text-[#DFBF77]" />
+              </div>
+              <div className="min-w-0">
+                <h4 className="font-serif font-bold text-sm sm:text-base text-[#FDFBF7] tracking-wide">
+                  7-Stage Lab Certified
+                </h4>
+                <p className="text-xs text-[#CBD5E1] mt-1 leading-snug font-light">
+                  Zero dyes, fillers, or adulterants
+                </p>
+              </div>
+            </div>
+
+            {/* Card 3: Nitrogen Fresh Sealed */}
+            <div className="bg-[#152238]/90 hover:bg-[#1E2E4B] border border-[#C5A059]/30 hover:border-[#C5A059]/60 rounded-2xl p-4 sm:p-5 flex items-start gap-4 transition-all duration-300 shadow-md group">
+              <div className="w-10 h-10 rounded-xl bg-[#070D1E] border border-[#C5A059]/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <Sparkles className="w-5 h-5 text-[#DFBF77]" />
+              </div>
+              <div className="min-w-0">
+                <h4 className="font-serif font-bold text-sm sm:text-base text-[#FDFBF7] tracking-wide">
+                  Nitrogen Fresh Sealed
+                </h4>
+                <p className="text-xs text-[#CBD5E1] mt-1 leading-snug font-light">
+                  Preserving delicate volatile oils
+                </p>
+              </div>
+            </div>
+
+            {/* Card 4: 👑 Complimentary Express */}
+            <div className="bg-[#152238]/90 hover:bg-[#1E2E4B] border border-[#C5A059]/30 hover:border-[#C5A059]/60 rounded-2xl p-4 sm:p-5 flex items-start gap-4 transition-all duration-300 shadow-md group">
+              <div className="w-10 h-10 rounded-xl bg-[#070D1E] border border-[#C5A059]/40 flex items-center justify-center flex-shrink-0 text-lg group-hover:scale-110 transition-transform">
+                👑
+              </div>
+              <div className="min-w-0">
+                <h4 className="font-serif font-bold text-sm sm:text-base text-[#FDFBF7] tracking-wide">
+                  Complimentary Express
+                </h4>
+                <p className="text-xs text-[#CBD5E1] mt-1 leading-snug font-light">
+                  Free delivery on orders over ₹999
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* 2. Interactive Terroir & Aroma Compass Section */}
-      <section className="py-14 sm:py-20 bg-white border-b border-[#EDE6D8]">
+      <section
+        className="py-14 sm:py-20 bg-white border-b border-[#EDE6D8]"
+        onMouseEnter={() => setIsCompassHovered(true)}
+        onMouseLeave={() => setIsCompassHovered(false)}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#9A7736] flex items-center justify-center gap-2">
@@ -662,9 +763,9 @@ export default function HomePage() {
       </section>
 
       {/* 4. The Royal Orbit Showcase: Spices & Dry Fruits Carousel */}
-      <section className="bg-[#070D1E] text-white py-14 sm:py-20 border-y-2 border-[#C5A059]/40 overflow-hidden relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#152238] border border-[#C5A059]/40 text-[#DFBF77] text-xs font-semibold uppercase tracking-widest mb-3">
+      <section className="bg-[#070D1E] text-white py-10 sm:py-14 border-y-2 border-[#C5A059]/40 overflow-hidden relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4 text-center">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#152238] border border-[#C5A059]/40 text-[#DFBF77] text-xs font-semibold uppercase tracking-widest mb-2">
             <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
             <span>Interactive Sensory Showcase</span>
           </div>
@@ -672,15 +773,14 @@ export default function HomePage() {
             The Royal Orbit Showcase
           </h2>
           <p className="text-xs sm:text-sm text-[#CBD5E1] max-w-xl mx-auto mt-2">
-            Scroll, drag or click to cycle through our single-origin spices and imperial dry fruits. Press the order button to add any harvest directly to your cart.
+            Scroll down to rotate through our single-origin spices and imperial dry fruits. Press "Add to Bag" to acquire any harvest directly.
           </p>
         </div>
 
         <div className="w-full">
           <DishOrbitCarousel
             dishes={SPICE_ORBIT_ITEMS}
-            height="580px"
-            loop={true}
+            height="530px"
             onOrder={handleOrbitOrder}
           />
         </div>
@@ -739,7 +839,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 scroll-stagger-group">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 scroll-stagger-group">
             {flights.map((b) => (
               <div
                 key={b.id}
