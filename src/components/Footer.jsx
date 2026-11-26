@@ -73,7 +73,7 @@ export default function Footer() {
       </div>
 
       {/* Main Corporate Details & Newsletter */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-0">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
             {/* Brand Bio & Seal */}
             <div className="lg:col-span-2 space-y-4">
@@ -189,7 +189,7 @@ export default function Footer() {
           </div>
 
           {/* Bottom Bar: Copyright & Attribution */}
-          <div className="mt-12 pt-8 border-t border-[#1E293B] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
+          <div className="mt-8 pt-6 border-t border-[#1E293B] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#64748B] pb-2">
             <p>© {new Date().getFullYear()} THE ORIGINAL Fine Spices & Dry Fruits Pvt. Ltd. All rights reserved.</p>
             <div className="text-xs text-[#94A3B8]">
               Designed and Maintained by{' '}
@@ -205,8 +205,8 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Monumental Edge-to-Edge Golden Wordmark */}
-        <div className="w-full overflow-hidden border-t border-[#C5A059]/20 pt-6 sm:pt-8 pb-0 select-none pointer-events-none">
+        {/* Monumental Edge-to-Edge Golden Wordmark - Zero Gap to Bottom Bar */}
+        <div className="w-full overflow-hidden pt-1 pb-0 select-none pointer-events-none -mt-1 sm:-mt-2">
           <h2 className="text-center font-serif text-[12.5vw] font-black leading-[0.82] tracking-[0.04em] uppercase whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-b from-[#FFFDF2] via-[#DFBF77] to-[#8E6D2E] opacity-90 drop-shadow-[0_4px_25px_rgba(212,175,55,0.25)]">
             THE ORIGINAL
           </h2>

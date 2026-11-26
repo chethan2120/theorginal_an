@@ -26,22 +26,24 @@ export function initScrollAnimations(containerRef) {
   const element = containerRef?.current || containerRef;
   if (!element) return () => {};
 
+  const isMobile = window.innerWidth < 768;
+
   const ctx = gsap.context(() => {
     // 1. Fade-in on Scroll (.scroll-fade)
     const fadeEls = gsap.utils.toArray('.scroll-fade');
     fadeEls.forEach((el) => {
       gsap.fromTo(
         el,
-        { opacity: 0, y: 30 },
+        { opacity: 0, y: isMobile ? 15 : 25 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.9,
-          ease: 'power3.out',
+          duration: isMobile ? 0.6 : 0.8,
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
+            start: 'top 90%',
+            toggleActions: 'play none none none',
           },
         }
       );
@@ -52,16 +54,16 @@ export function initScrollAnimations(containerRef) {
     slideLeftEls.forEach((el) => {
       gsap.fromTo(
         el,
-        { opacity: 0, x: -60 },
+        { opacity: 0, x: isMobile ? -20 : -45 },
         {
           opacity: 1,
           x: 0,
-          duration: 1,
-          ease: 'power3.out',
+          duration: isMobile ? 0.6 : 0.85,
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
+            start: 'top 90%',
+            toggleActions: 'play none none none',
           },
         }
       );
@@ -72,16 +74,16 @@ export function initScrollAnimations(containerRef) {
     slideRightEls.forEach((el) => {
       gsap.fromTo(
         el,
-        { opacity: 0, x: 60 },
+        { opacity: 0, x: isMobile ? 20 : 45 },
         {
           opacity: 1,
           x: 0,
-          duration: 1,
-          ease: 'power3.out',
+          duration: isMobile ? 0.6 : 0.85,
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
+            start: 'top 90%',
+            toggleActions: 'play none none none',
           },
         }
       );
@@ -94,41 +96,39 @@ export function initScrollAnimations(containerRef) {
         el,
         {
           opacity: 0,
-          y: 40,
-          filter: 'blur(6px)',
-          letterSpacing: '0.05em',
+          y: isMobile ? 15 : 25,
         },
         {
           opacity: 1,
           y: 0,
-          filter: 'blur(0px)',
-          letterSpacing: 'normal',
-          duration: 1.1,
-          ease: 'power3.out',
+          duration: isMobile ? 0.7 : 0.9,
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 88%',
-            toggleActions: 'play none none reverse',
+            start: 'top 92%',
+            toggleActions: 'play none none none',
           },
         }
       );
     });
 
-    // 5. Parallax Scrolling Elements (.scroll-parallax)
-    const parallaxEls = gsap.utils.toArray('.scroll-parallax');
-    parallaxEls.forEach((el) => {
-      const speed = parseFloat(el.getAttribute('data-speed') || '0.2');
-      gsap.to(el, {
-        y: () => -(ScrollTrigger.maxScroll(window) * speed * 0.08),
-        ease: 'none',
-        scrollTrigger: {
-          trigger: el,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1.2,
-        },
+    // 5. Parallax Scrolling Elements (.scroll-parallax) - Only on desktop for silky smooth mobile performance
+    if (!isMobile) {
+      const parallaxEls = gsap.utils.toArray('.scroll-parallax');
+      parallaxEls.forEach((el) => {
+        const speed = parseFloat(el.getAttribute('data-speed') || '0.2');
+        gsap.to(el, {
+          y: () => -(ScrollTrigger.maxScroll(window) * speed * 0.08),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.2,
+          },
+        });
       });
-    });
+    }
 
     // 6. Staggered Animations (.scroll-stagger-group)
     const staggerGroups = gsap.utils.toArray('.scroll-stagger-group');
@@ -137,18 +137,17 @@ export function initScrollAnimations(containerRef) {
       if (items.length > 0) {
         gsap.fromTo(
           items,
-          { opacity: 0, y: 35, scale: 0.98 },
+          { opacity: 0, y: isMobile ? 15 : 25 },
           {
             opacity: 1,
             y: 0,
-            scale: 1,
-            duration: 0.8,
-            stagger: 0.12,
+            duration: isMobile ? 0.5 : 0.7,
+            stagger: isMobile ? 0.06 : 0.1,
             ease: 'power2.out',
             scrollTrigger: {
               trigger: group,
-              start: 'top 82%',
-              toggleActions: 'play none none reverse',
+              start: 'top 88%',
+              toggleActions: 'play none none none',
             },
           }
         );

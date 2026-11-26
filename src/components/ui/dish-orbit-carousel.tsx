@@ -358,13 +358,17 @@ export function DishOrbitCarousel({
     onChangeRef.current?.(next)
   }
 
-  // ScrollTrigger: finite scroll scrub that advances dishes as user scrolls down
+  // ScrollTrigger: finite scroll scrub that advances dishes as user scrolls down (Desktop only to prevent mobile scroll lock)
   useEffect(() => {
     const el = trackRef.current
     if (!el || n < 2) return
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      // On mobile phones, do not pin the page scroll to keep scrolling smooth and natural
+      return
+    }
 
     const pinTarget = (el.closest("section") as HTMLElement) || el
-    const scrollDistance = typeof window !== "undefined" && window.innerWidth < 768 ? 900 : 1500
+    const scrollDistance = 1400
 
     const st = ScrollTrigger.create({
       trigger: pinTarget,

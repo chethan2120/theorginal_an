@@ -53,63 +53,99 @@ export default function HomePage() {
     return () => clearInterval(timer);
   }, [isCompassHovered]);
 
-  // 1. Hero Grand Cinematic Slides
-  const HERO_SLIDES = [
+  // 1. Flagship Single-Origin Terroir Harvests (Pure Studio Photos - Zero Burned-In Text)
+  const HERO_HARVESTS = [
     {
-      id: 'spices',
-      tabLabel: 'Whole Spices',
-      tagline: 'Single-Origin Malabar & Western Ghats',
-      title: 'Pristine Whole Spices',
-      eyebrow: 'GI Certified Terroirs',
-      potency: 'Essential Oils > 8.5% • Hand-Sorted',
-      description: 'Hand-picked Alleppey Extra-Bold 8mm green cardamom, Tellicherry TGSEB black peppercorns, and Alba Ceylon cinnamon quills directly from high-elevation heritage estates.',
-      provenance: 'Idukki Valley & Tellicherry, Kerala',
-      image: '/images/mega/user_whole_spices_card.jpg',
-      link: '/spices?type=whole',
-      actionText: 'Explore Whole Spices',
-      highlights: ['8mm+ Jumbo Pods', 'Zero Chemical Fumigation', 'Cryo-Cold Processed']
+      id: 'spc-lakadong-turmeric',
+      tabLabel: 'Lakadong Turmeric',
+      title: 'Lakadong High-Curcumin Turmeric',
+      terroir: 'Jaintia Hills, Meghalaya',
+      elevation: '620m MSL',
+      badge: 'GI Tag No. 544',
+      metric: '7.8% Natural Curcumin',
+      image: '/images/products/lakadong-turmeric.jpg',
+      price: 299,
+      weight: '100g',
+      notes: 'Deep golden marigold hue, pungent earth warmth, volatile turmerones locked at -20°C.',
+      accent: '#D4AF37'
     },
     {
-      id: 'dry-fruits',
-      tabLabel: 'Imperial Dry Fruits',
-      tagline: 'Colossal Gradings & Naturally Sun-Dried',
-      title: 'Imperial Calibre Dry Fruits',
-      eyebrow: 'Colossal Gradings',
-      potency: 'Grade W180 King Cashews & Nonpareil Supreme',
-      description: 'The world\'s largest cashew grading (only 180 colossal nuts per lb), California snowmelt-irrigated Nonpareil almonds, and crisp roasted Antep pistachios.',
-      provenance: 'Mangalore Coast & California Orchards',
-      image: '/images/mega/user_dry_fruits_card.jpg',
-      link: '/dry-fruits',
-      actionText: 'Explore Imperial Dry Fruits',
-      highlights: ['Colossal W180 Grade', 'Zero Chemical Bleach', 'Raw Natural Crunch']
+      id: 'spc-alleppey-cardamom',
+      tabLabel: 'Alleppey Cardamom',
+      title: 'Alleppey Royal Extra Bold Cardamom',
+      terroir: 'Idukki Valley, Kerala',
+      elevation: '1,150m MSL',
+      badge: 'GI Tag No. 43',
+      metric: '8mm+ Jumbo Extra Bold',
+      image: '/images/products/alleppey-cardamom.jpg',
+      price: 499,
+      weight: '100g',
+      notes: 'Hand-sorted green pods at peak harvest. Refreshing camphor, sweet spearmint, and eucalyptus bouquet.',
+      accent: '#4E8752'
     },
     {
-      id: 'powders',
-      tabLabel: 'Cryo-Milled Powders',
-      tagline: 'Ground Under Liquid N₂ at -20°C',
-      title: 'Cryogenic Spice Powders',
-      eyebrow: 'Peak Bioactive Potency',
-      potency: '7.8% High-Curcumin Lakadong & Grade A1 Saffron',
-      description: 'Milled at sub-zero temperatures using liquid nitrogen to protect volatile turmerone aromatic oils that normal commercial heat grinding destroys.',
-      provenance: 'Jaintia Hills, Meghalaya & Pampore, Kashmir',
-      image: '/images/mega/spice-powders-mega.jpg',
-      link: '/spices?type=ground',
-      actionText: 'Explore Ground Spices',
-      highlights: ['7.8% Natural Curcumin', 'Sub-Zero Nitrogen Milled', '100% Raw Bioactivity']
+      id: 'df-king-cashews-w180',
+      tabLabel: 'King Cashews W180',
+      title: 'Colossal Jumbo King Cashews W180',
+      terroir: 'Mangalore Coastal Orchards',
+      elevation: '25m MSL',
+      badge: 'Imperial W180 Calibre',
+      metric: 'Only 180 nuts per lb',
+      image: '/images/products/king-cashews.jpg',
+      price: 479,
+      weight: '250g',
+      notes: 'The largest cashew grading in the world. Naturally sweet with a dense, creamy bite that dissolves on the palate.',
+      accent: '#C5A059'
+    },
+    {
+      id: 'spc-kashmiri-saffron',
+      tabLabel: 'Kashmiri Saffron',
+      title: 'Grade A1 Super Kashmiri Mongra Saffron',
+      terroir: 'Pampore Plateau, Kashmir',
+      elevation: '1,630m MSL',
+      badge: 'GI Tag No. 635',
+      metric: 'Category 1 Crocin > 240',
+      image: '/images/products/kashmiri-saffron.jpg',
+      price: 499,
+      weight: '1g',
+      notes: 'Unbroken all-red Mongra stigmas with zero pollen filler. Yields radiant golden-crimson liquor and floral hay aroma.',
+      accent: '#D13838'
+    },
+    {
+      id: 'df-california-almonds',
+      tabLabel: 'California Almonds',
+      title: 'Supreme Grade California Almonds',
+      terroir: 'San Joaquin Valley, California',
+      elevation: '85m MSL',
+      badge: 'Nonpareil Supreme 20/22',
+      metric: 'Steam Pasteurized (Zero PPO)',
+      image: '/images/products/california-almonds.jpg',
+      price: 399,
+      weight: '250g',
+      notes: 'Plump golden skin with snappy crunch, natural marzipan butteriness, and rich vitamin E content.',
+      accent: '#B87B44'
     }
   ];
 
-  const [heroSlideIdx, setHeroSlideIdx] = useState(0);
+  const [heroHarvestIdx, setHeroHarvestIdx] = useState(0);
 
-  // Auto-cycle hero slide every 6 seconds
+  // Auto-cycle hero harvest every 5 seconds
   useEffect(() => {
     const timer = setInterval(() => {
-      setHeroSlideIdx((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 6000);
+      setHeroHarvestIdx((prev) => (prev + 1) % HERO_HARVESTS.length);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
-  const activeHeroSlide = HERO_SLIDES[heroSlideIdx];
+  const activeHarvest = HERO_HARVESTS[heroHarvestIdx];
+
+  const handleHeroAddToCart = (harvest) => {
+    const product = PRODUCTS.find(p => p.id === harvest.id);
+    if (product) {
+      addToCart(product, harvest.weight, 1);
+      showToast(`Added ${harvest.title} (${harvest.weight}) to your bag!`, 'success');
+    }
+  };
 
   // 2. The Royal Bestsellers (Strictly 4 products on Home page, rest in Shop)
   const bestsellers = PRODUCTS.filter(p => p.isBestseller).slice(0, 4);
@@ -349,39 +385,36 @@ export default function HomePage() {
         onClose={() => setQuickViewProduct(null)}
       />
 
-      {/* 1. Grand Editorial Hero Section (Unified Single Frame Luxury Stage) */}
+      {/* 1. Grand Editorial Hero Section (Imperial Atelier Showcase - Zero Overlap) */}
       <section id="hero-section" className="relative bg-[#070D1E] text-white overflow-hidden border-b-2 border-[#C5A059]/40 pt-1 sm:pt-2 pb-8 sm:pb-12">
-        {/* Ambient Atmosphere Glows with Parallax */}
+        {/* Ambient Atmosphere Glows */}
         <div data-speed="0.25" className="scroll-parallax absolute top-0 right-1/4 w-[600px] h-[600px] bg-[#C5A059]/10 rounded-full blur-[140px] pointer-events-none" />
         <div data-speed="0.2" className="scroll-parallax absolute bottom-0 left-10 w-[500px] h-[500px] bg-[#152238]/70 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
-          {/* Unified Single Majestic Exhibition Frame */}
+          {/* Unified Architectural Luxury Frame */}
           <div className="relative rounded-2xl sm:rounded-3xl border border-[#C5A059]/35 bg-gradient-to-b from-[#0C152B] via-[#080E20] to-[#040814] shadow-[0_25px_70px_-15px_rgba(0,0,0,0.9)] overflow-hidden p-5 sm:p-8 lg:p-10 backdrop-blur-sm">
-            {/* Ambient Radial Spotlight */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-[#C5A059]/10 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#152238]/60 rounded-full blur-[100px] pointer-events-none" />
-
-            {/* Frame Top Bar: Category Selector Tabs & Single-Origin Guarantee */}
+            
+            {/* Frame Top Bar: Featured Terroirs Quick Switcher */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pb-5 border-b border-[#C5A059]/20 relative z-10">
-              <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
                 <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#DFBF77] mr-1 hidden md:inline-block">
                   Featured Terroirs:
                 </span>
-                {HERO_SLIDES.map((slide, idx) => (
+                {HERO_HARVESTS.map((harvest, idx) => (
                   <button
-                    key={slide.id}
+                    key={harvest.id}
                     type="button"
-                    onClick={() => setHeroSlideIdx(idx)}
-                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all flex items-center gap-2 ${
-                      heroSlideIdx === idx
+                    onClick={() => setHeroHarvestIdx(idx)}
+                    className={`px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all flex items-center gap-2 cursor-pointer ${
+                      heroHarvestIdx === idx
                         ? 'bg-[#C5A059] text-[#070D1E] shadow-lg shadow-[#C5A059]/25 font-bold'
                         : 'bg-[#152238]/80 hover:bg-[#1E2E4B] text-slate-300 border border-[#C5A059]/30'
                     }`}
                   >
-                    <span className={`w-1.5 h-1.5 rounded-full ${heroSlideIdx === idx ? 'bg-[#070D1E]' : 'bg-[#DFBF77]'}`} />
-                    <span>{slide.tabLabel}</span>
+                    <span className={`w-1.5 h-1.5 rounded-full ${heroHarvestIdx === idx ? 'bg-[#070D1E]' : 'bg-[#DFBF77]'}`} />
+                    <span>{harvest.tabLabel}</span>
                   </button>
                 ))}
               </div>
@@ -391,8 +424,8 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Frame Main Grid: Typography & Integrated Visual Stage */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center my-6 sm:my-8 relative z-10">
+            {/* Frame Main Grid: Typography & Pure Product Showcase */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-6 sm:my-8 relative z-10">
               
               {/* Left Column: Bold Luxury Typography & Brand Positioning */}
               <div className="lg:col-span-7 space-y-4 sm:space-y-5 text-center lg:text-left scroll-slide-left">
@@ -429,85 +462,97 @@ export default function HomePage() {
                   </Link>
                 </div>
 
-              </div>
-
-              {/* Right Column: Seamless Integrated Visual Showcase Stage */}
-              <div className="lg:col-span-5 scroll-slide-right flex flex-col items-center justify-center">
-                <div className="relative w-full max-w-md aspect-[16/11] rounded-2xl overflow-hidden border border-[#C5A059]/50 shadow-2xl group bg-[#070D1E]">
-                  <img
-                    src={activeHeroSlide.image}
-                    alt={activeHeroSlide.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#070D1E]/90 via-[#070D1E]/25 to-transparent pointer-events-none" />
-
-                  {/* Top Origin Pill */}
-                  <div className="absolute top-3 left-3">
-                    <span className="px-3 py-1 rounded-full bg-[#070D1E]/90 border border-[#C5A059]/40 text-[#DFBF77] text-[10px] font-bold uppercase tracking-wider backdrop-blur-md">
-                      {activeHeroSlide.provenance}
-                    </span>
+                {/* 4 Heritage Benchmark Metrics Strip */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-[#C5A059]/20 max-w-xl mx-auto lg:mx-0 text-left">
+                  <div className="bg-[#0B1325]/70 border border-[#C5A059]/25 rounded-xl p-3">
+                    <span className="block font-serif text-xl sm:text-2xl font-bold text-[#DFBF77]">7.8%</span>
+                    <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block">Curcumin Lakadong</span>
                   </div>
-
-                  {/* Bottom Info Overlay & Action */}
-                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                    <div>
-                      <h3 className="font-serif text-lg font-bold text-white">
-                        {activeHeroSlide.title}
-                      </h3>
-                      <p className="text-[11px] text-[#DFBF77] font-medium">
-                        {activeHeroSlide.potency}
-                      </p>
-                    </div>
-                    <Link
-                      to={activeHeroSlide.link}
-                      className="px-3.5 py-1.5 rounded-lg bg-[#C5A059] hover:bg-[#DFBF77] text-[#070D1E] text-[11px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1 shadow-md"
-                    >
-                      <span>Explore</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </Link>
+                  <div className="bg-[#0B1325]/70 border border-[#C5A059]/25 rounded-xl p-3">
+                    <span className="block font-serif text-xl sm:text-2xl font-bold text-[#DFBF77]">8mm+</span>
+                    <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block">Jumbo Extra Bold</span>
+                  </div>
+                  <div className="bg-[#0B1325]/70 border border-[#C5A059]/25 rounded-xl p-3">
+                    <span className="block font-serif text-xl sm:text-2xl font-bold text-[#DFBF77]">W180</span>
+                    <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block">King Cashew Calibre</span>
+                  </div>
+                  <div className="bg-[#0B1325]/70 border border-[#C5A059]/25 rounded-xl p-3">
+                    <span className="block font-serif text-xl sm:text-2xl font-bold text-[#DFBF77]">-20°C</span>
+                    <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block">Cryo-Milled Aroma</span>
                   </div>
                 </div>
 
-                {/* Smooth Slide Navigation Dots */}
+              </div>
+
+              {/* Right Column: Clean Studio Photography Stage (Zero Burned-in Text Overlap) */}
+              <div className="lg:col-span-5 scroll-slide-right flex flex-col items-center justify-center">
+                
+                {/* Floating Platter Stage with Pure Studio Photo */}
+                <div className="relative group">
+                  {/* Atmospheric Glow */}
+                  <div className="absolute inset-0 bg-[#C5A059]/20 rounded-full blur-3xl pointer-events-none" />
+
+                  {/* Circular Golden Rim Platter */}
+                  <div className="relative w-56 h-56 sm:w-64 sm:h-64 lg:w-72 lg:h-72 rounded-full border-2 border-[#C5A059] ring-4 ring-[#C5A059]/20 shadow-[0_15px_40px_rgba(0,0,0,0.8)] overflow-hidden bg-[#070D1E] p-2 transition-transform duration-500 group-hover:scale-105">
+                    <img
+                      src={activeHarvest.image}
+                      alt={activeHarvest.title}
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                  </div>
+                </div>
+
+                {/* Provenance & GI Badge */}
+                <div className="mt-3 text-center">
+                  <span className="inline-block px-3 py-1 rounded-full bg-[#152238]/90 border border-[#C5A059]/40 text-[#DFBF77] text-[11px] font-semibold tracking-wider">
+                    {activeHarvest.terroir} • {activeHarvest.badge}
+                  </span>
+                </div>
+
+                {/* Dedicated Non-Overlapping Harvest Details Card */}
+                <div className="mt-3 w-full max-w-sm rounded-2xl bg-[#0B1325]/90 border border-[#C5A059]/30 p-4 shadow-xl text-center">
+                  <h3 className="font-serif text-lg font-bold text-[#FDFBF7]">
+                    {activeHarvest.title}
+                  </h3>
+                  <p className="text-[11px] text-[#DFBF77] font-semibold mt-0.5">
+                    {activeHarvest.metric}
+                  </p>
+                  <p className="text-xs text-slate-300 mt-1 leading-relaxed line-clamp-2">
+                    {activeHarvest.notes}
+                  </p>
+
+                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#1E293B]">
+                    <span className="font-serif text-base font-bold text-white">
+                      ₹{activeHarvest.price} <span className="text-[11px] font-normal text-[#94A3B8]">/ {activeHarvest.weight}</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => handleHeroAddToCart(activeHarvest)}
+                      className="px-4 py-1.5 rounded-xl bg-[#C5A059] hover:bg-[#DFBF77] text-[#070D1E] text-xs font-bold uppercase tracking-wider transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <ShoppingBag className="w-3.5 h-3.5" />
+                      <span>Add to Bag</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Slide Indicators */}
                 <div className="flex items-center gap-2 mt-4">
-                  {HERO_SLIDES.map((_, idx) => (
+                  {HERO_HARVESTS.map((_, idx) => (
                     <button
                       key={idx}
                       type="button"
-                      onClick={() => setHeroSlideIdx(idx)}
-                      className={`h-1.5 rounded-full transition-all duration-300 ${
-                        heroSlideIdx === idx ? 'w-8 bg-[#C5A059]' : 'w-2 bg-[#1E2E4B] hover:bg-[#C5A059]/50'
+                      onClick={() => setHeroHarvestIdx(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                        heroHarvestIdx === idx ? 'w-8 bg-[#C5A059]' : 'w-2 bg-[#1E2E4B] hover:bg-[#C5A059]/50'
                       }`}
-                      aria-label={`Go to slide ${idx + 1}`}
+                      aria-label={`Go to harvest ${idx + 1}`}
                     />
                   ))}
                 </div>
+
               </div>
 
-            </div>
-
-            {/* Frame Base: 4 Heritage Benchmark Metrics Strip */}
-            <div className="border-t border-[#C5A059]/25 pt-6 mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center sm:text-left relative z-10">
-              <div className="sm:border-r border-[#C5A059]/15 pr-4">
-                <span className="block font-serif text-2xl sm:text-3xl font-bold text-[#DFBF77]">7.8%</span>
-                <span className="text-[11px] text-[#CBD5E1] tracking-wider uppercase font-medium">Curcumin Lakadong</span>
-                <p className="text-[10px] text-[#94A3B8] hidden sm:block mt-0.5">3x ordinary grocery grade</p>
-              </div>
-              <div className="sm:border-r border-[#C5A059]/15 sm:px-4">
-                <span className="block font-serif text-2xl sm:text-3xl font-bold text-[#DFBF77]">8mm+</span>
-                <span className="text-[11px] text-[#CBD5E1] tracking-wider uppercase font-medium">Jumbo Extra Bold</span>
-                <p className="text-[10px] text-[#94A3B8] hidden sm:block mt-0.5">Top 1% Idukki green pods</p>
-              </div>
-              <div className="sm:border-r border-[#C5A059]/15 sm:px-4">
-                <span className="block font-serif text-2xl sm:text-3xl font-bold text-[#DFBF77]">W180</span>
-                <span className="text-[11px] text-[#CBD5E1] tracking-wider uppercase font-medium">King Cashew Calibre</span>
-                <p className="text-[10px] text-[#94A3B8] hidden sm:block mt-0.5">World's largest nut count</p>
-              </div>
-              <div className="sm:pl-4">
-                <span className="block font-serif text-2xl sm:text-3xl font-bold text-[#DFBF77]">-20°C</span>
-                <span className="text-[11px] text-[#CBD5E1] tracking-wider uppercase font-medium">Cryo-Milled Aroma</span>
-                <p className="text-[10px] text-[#94A3B8] hidden sm:block mt-0.5">Liquid N₂ essential oils locked</p>
-              </div>
             </div>
 
           </div>

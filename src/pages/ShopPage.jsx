@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Filter, SlidersHorizontal, Search, X, RotateCcw } from 'lucide-react';
+import { Filter, SlidersHorizontal, Search, X, RotateCcw, ChevronDown, Check, ArrowUpDown } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
 import ProductCard from '../components/ProductCard';
 import QuickViewModal from '../components/QuickViewModal';
@@ -17,7 +17,11 @@ export default function ShopPage() {
   const [priceRange, setPriceRange] = useState(7500);
   const [sortBy, setSortBy] = useState('featured');
   const [quickViewProduct, setQuickViewProduct] = useState(null);
-  const [showMobileFilters, setShowMobileFilters] = useState(false);
+  
+  // Mobile Amazon/Flipkart interactive controls
+  const [showMobileFilterDrawer, setShowMobileFilterDrawer] = useState(false);
+  const [showMobileSortDrawer, setShowMobileSortDrawer] = useState(false);
+  const [mobileActiveFilterTab, setMobileActiveFilterTab] = useState('category');
 
   // Sync state if URL changes
   React.useEffect(() => {
@@ -35,6 +39,16 @@ export default function ShopPage() {
 
   // Badges
   const badges = ['all', 'Bestseller', 'GI Tagged', 'Rare Reserve', 'Terroir Selection', 'Wellness'];
+
+  // Sort Options
+  const sortOptions = [
+    { id: 'featured', label: 'Featured / Bestsellers' },
+    { id: 'price-low', label: 'Price: Low to High' },
+    { id: 'price-high', label: 'Price: High to Low' },
+    { id: 'rating', label: 'Customer Rating' },
+    { id: 'reviews', label: 'Most Reviewed' },
+    { id: 'name-asc', label: 'Alphabetical (A - Z)' }
+  ];
 
   // Filtered & Sorted products
   const filteredProducts = useMemo(() => {
@@ -91,19 +105,140 @@ export default function ShopPage() {
     setSearchParams({});
   };
 
-  const hasActiveFilters = selectedCategory !== 'all' || selectedSubCategory !== 'all' || selectedBadge !== 'all' || priceRange < 7500 || searchQuery !== '';
+  const activeFilterCount = (selectedCategory !== 'all' ? 1 : 0) +
+    (selectedBadge !== 'all' ? 1 : 0) +
+    (priceRange < 7500 ? 1 : 0) +
+    (searchQuery.trim() ? 1 : 0);
+
+  const hasActiveFilters = activeFilterCount > 0;
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2] py-10 lg:py-16">
+    <div className="min-h-screen bg-[#FAF7F2] py-6 sm:py-10 lg:py-16">
       {/* Quick View Modal */}
       <QuickViewModal
         product={quickViewProduct}
         onClose={() => setQuickViewProduct(null)}
       />
 
+      {/* Mobile Sticky Amazon/Flipkart Filter & Sort Bar */}
+      <div className="lg:hidden sticky top-14 sm:top-16 z-30 bg-white border-y border-[#EDE6D8] shadow-xs px-3 py-2 -mx-0 mb-4">
+        <div className="flex items-center justify-between gap-2">
+          {/* Sort Dropdown Trigger (Flipkart style) */}
+          <button
+            type="button"
+            onClick={() => setShowMobileSortDrawer(true)}
+            className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 bg-[#FAF7F2] hover:bg-[#F3EFE6] border border-[#EDE6D8] rounded-xl text-xs font-semibold text-[#0B1325] transition-colors"
+          >
+            <ArrowUpDown className="w-3.5 h-3.5 text-[#9A7736]" />
+            <span className="truncate">
+              Sort: {sortOptions.find(s => s.id === sortBy)?.label.split('/')[0]}
+            </span>
+            <ChevronDown className="w-3 h-3 text-[#718096]" />
+          </button>
+
+          {/* Filter Drawer Trigger with Badge (Flipkart/Amazon style) */}
+          <button
+            type="button"
+            onClick={() => setShowMobileFilterDrawer(true)}
+            className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-semibold transition-all border ${
+              hasActiveFilters
+                ? 'bg-[#0B1325] text-[#DFBF77] border-[#C5A059]'
+                : 'bg-[#FAF7F2] hover:bg-[#F3EFE6] text-[#0B1325] border-[#EDE6D8]'
+            }`}
+          >
+            <SlidersHorizontal className="w-3.5 h-3.5 text-[#9A7736]" />
+            <span>Filters</span>
+            {activeFilterCount > 0 && (
+              <span className="w-4 h-4 rounded-full bg-[#C5A059] text-[#070D1E] text-[10px] font-bold flex items-center justify-center">
+                {activeFilterCount}
+              </span>
+            )}
+          </button>
+
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="p-2 text-[#9A7736] hover:text-[#0B1325] bg-[#FAF7F2] border border-[#EDE6D8] rounded-xl"
+              title="Reset all"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
+
+        {/* Amazon-style Horizontally Scrollable Interactive Quick Chips */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pt-2 pb-0.5 scrollbar-none">
+          <button
+            type="button"
+            onClick={() => setSelectedCategory(selectedCategory === 'spices' ? 'all' : 'spices')}
+            className={`px-3 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition-colors flex items-center gap-1 border ${
+              selectedCategory === 'spices'
+                ? 'bg-[#0B1325] text-[#DFBF77] border-[#C5A059]'
+                : 'bg-white text-[#556987] border-[#EDE6D8]'
+            }`}
+          >
+            <span>Spices</span>
+            {selectedCategory === 'spices' && <Check className="w-3 h-3" />}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setSelectedCategory(selectedCategory === 'dry-fruits' ? 'all' : 'dry-fruits')}
+            className={`px-3 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition-colors flex items-center gap-1 border ${
+              selectedCategory === 'dry-fruits'
+                ? 'bg-[#0B1325] text-[#DFBF77] border-[#C5A059]'
+                : 'bg-white text-[#556987] border-[#EDE6D8]'
+            }`}
+          >
+            <span>Dry Fruits</span>
+            {selectedCategory === 'dry-fruits' && <Check className="w-3 h-3" />}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setSelectedBadge(selectedBadge === 'GI Tagged' ? 'all' : 'GI Tagged')}
+            className={`px-3 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition-colors flex items-center gap-1 border ${
+              selectedBadge === 'GI Tagged'
+                ? 'bg-[#0B1325] text-[#DFBF77] border-[#C5A059]'
+                : 'bg-white text-[#556987] border-[#EDE6D8]'
+            }`}
+          >
+            <span>GI Tagged</span>
+            {selectedBadge === 'GI Tagged' && <Check className="w-3 h-3" />}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setSelectedBadge(selectedBadge === 'Bestseller' ? 'all' : 'Bestseller')}
+            className={`px-3 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition-colors flex items-center gap-1 border ${
+              selectedBadge === 'Bestseller'
+                ? 'bg-[#0B1325] text-[#DFBF77] border-[#C5A059]'
+                : 'bg-white text-[#556987] border-[#EDE6D8]'
+            }`}
+          >
+            <span>Bestsellers</span>
+            {selectedBadge === 'Bestseller' && <Check className="w-3 h-3" />}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setPriceRange(priceRange === 500 ? 7500 : 500)}
+            className={`px-3 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition-colors flex items-center gap-1 border ${
+              priceRange === 500
+                ? 'bg-[#0B1325] text-[#DFBF77] border-[#C5A059]'
+                : 'bg-white text-[#556987] border-[#EDE6D8]'
+            }`}
+          >
+            <span>Under ₹500</span>
+            {priceRange === 500 && <Check className="w-3 h-3" />}
+          </button>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Breadcrumb & Title */}
-        <div className="border-b border-[#EDE6D8] pb-8 mb-8">
+        <div className="border-b border-[#EDE6D8] pb-6 sm:pb-8 mb-6 sm:mb-8">
           <div className="flex items-center gap-2 text-xs text-[#718096] uppercase tracking-wider mb-2">
             <span>Catalogue</span>
             <span>/</span>
@@ -118,31 +253,23 @@ export default function ShopPage() {
                 The Royal Catalogue
               </h1>
               <p className="text-xs sm:text-sm text-[#556987] mt-1.5 max-w-xl">
-                Single-origin whole & cold-ground spices, colossal dry fruits, and handcrafted gift chests.
+                Single-origin whole & cold-ground spices, colossal dry fruits, and handcrafted reserve harvests.
               </p>
             </div>
 
-            {/* Live Count and Filter Toggle */}
-            <div className="flex items-center gap-3">
+            {/* Live Count */}
+            <div className="hidden sm:flex items-center gap-3">
               <span className="text-xs font-semibold text-[#718096]">
                 Showing <strong className="text-[#0B1325]">{filteredProducts.length}</strong> of {PRODUCTS.length} creations
               </span>
-              <button
-                type="button"
-                onClick={() => setShowMobileFilters(!showMobileFilters)}
-                className="lg:hidden flex items-center gap-2 px-3 py-2 bg-white border border-[#EDE6D8] rounded-xl text-xs font-semibold text-[#0B1325]"
-              >
-                <SlidersHorizontal className="w-4 h-4 text-[#9A7736]" />
-                <span>Filters</span>
-              </button>
             </div>
           </div>
         </div>
 
-        {/* Top Filter Bar / Search & Sort */}
-        <div className="bg-white p-4 rounded-2xl border border-[#EDE6D8] shadow-sm mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        {/* Desktop Top Filter Bar / Search & Sort */}
+        <div className="hidden lg:flex bg-white p-4 rounded-2xl border border-[#EDE6D8] shadow-sm mb-8 items-center justify-between gap-4">
           {/* Category Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
+          <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none">
             {categories.map((cat) => (
               <button
                 key={cat.id}
@@ -150,7 +277,7 @@ export default function ShopPage() {
                   setSelectedCategory(cat.id);
                   setSelectedSubCategory('all');
                 }}
-                className={`px-3.5 py-2 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all whitespace-nowrap ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all whitespace-nowrap cursor-pointer ${
                   selectedCategory === cat.id
                     ? 'bg-[#0B1325] text-[#DFBF77] shadow-sm'
                     : 'bg-[#FAF7F2] text-[#4A5568] hover:bg-[#F3EFE6] border border-[#EDE6D8]'
@@ -162,16 +289,16 @@ export default function ShopPage() {
           </div>
 
           {/* Search & Sort Controls */}
-          <div className="flex items-center gap-3 w-full md:w-auto">
+          <div className="flex items-center gap-3">
             {/* Search Input */}
-            <div className="relative flex-1 md:w-60">
+            <div className="relative w-64">
               <Search className="w-4 h-4 text-[#718096] absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Search treasures..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 bg-[#FAF7F2] border border-[#EDE6D8] rounded-xl text-xs text-[#0B1325] focus:outline-none focus:border-[#C5A059]"
+                className="w-full pl-9 pr-8 py-2 bg-[#FAF7F2] border border-[#EDE6D8] rounded-xl text-xs text-[#0B1325] focus:outline-none focus:border-[#C5A059]"
               />
               {searchQuery && (
                 <button
@@ -187,14 +314,11 @@ export default function ShopPage() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-3 py-2 bg-[#FAF7F2] border border-[#EDE6D8] rounded-xl text-xs font-semibold text-[#0B1325] focus:outline-none focus:border-[#C5A059] flex-shrink-0"
+              className="px-3 py-2 bg-[#FAF7F2] border border-[#EDE6D8] rounded-xl text-xs font-semibold text-[#0B1325] focus:outline-none focus:border-[#C5A059] flex-shrink-0 cursor-pointer"
             >
-              <option value="featured">Featured / Bestsellers</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="rating">Highest Rated</option>
-              <option value="reviews">Most Reviewed</option>
-              <option value="name-asc">Alphabetical (A - Z)</option>
+              {sortOptions.map(opt => (
+                <option key={opt.id} value={opt.id}>{opt.label}</option>
+              ))}
             </select>
           </div>
         </div>
@@ -202,7 +326,7 @@ export default function ShopPage() {
         {/* Layout: Sidebar + Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
           {/* Desktop Left Filter Sidebar */}
-          <div className={`lg:block ${showMobileFilters ? 'block' : 'hidden'} bg-white p-6 rounded-2xl border border-[#EDE6D8] shadow-sm space-y-6`}>
+          <div className="hidden lg:block bg-white p-6 rounded-2xl border border-[#EDE6D8] shadow-sm space-y-6">
             <div className="flex items-center justify-between pb-4 border-b border-[#EDE6D8]">
               <div className="flex items-center gap-2">
                 <Filter className="w-4 h-4 text-[#9A7736]" />
@@ -213,7 +337,7 @@ export default function ShopPage() {
               {hasActiveFilters && (
                 <button
                   onClick={resetFilters}
-                  className="flex items-center gap-1 text-[11px] font-semibold text-[#9A7736] hover:text-[#0B1325]"
+                  className="flex items-center gap-1 text-[11px] font-semibold text-[#9A7736] hover:text-[#0B1325] cursor-pointer"
                 >
                   <RotateCcw className="w-3 h-3" />
                   <span>Reset</span>
@@ -231,7 +355,7 @@ export default function ShopPage() {
                   <button
                     key={b}
                     onClick={() => setSelectedBadge(b)}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
+                    className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                       selectedBadge === b
                         ? 'bg-[#0B1325] text-[#DFBF77]'
                         : 'bg-[#FAF7F2] text-[#4A5568] hover:bg-[#F3EFE6] border border-[#EDE6D8]'
@@ -276,7 +400,7 @@ export default function ShopPage() {
             </div>
           </div>
 
-          {/* Right Product Grid */}
+          {/* Product Grid */}
           <div className="lg:col-span-3">
             {filteredProducts.length === 0 ? (
               <div className="bg-white rounded-2xl border border-[#EDE6D8] p-12 text-center shadow-sm">
@@ -291,13 +415,13 @@ export default function ShopPage() {
                 </p>
                 <button
                   onClick={resetFilters}
-                  className="px-6 py-2.5 bg-[#0B1325] hover:bg-[#152238] text-[#FDFBF7] text-xs font-semibold tracking-wider uppercase rounded-xl transition-colors"
+                  className="px-6 py-2.5 bg-[#0B1325] hover:bg-[#152238] text-[#FDFBF7] text-xs font-semibold tracking-wider uppercase rounded-xl transition-colors cursor-pointer"
                 >
                   Reset All Filters
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                 {filteredProducts.map((product) => (
                   <ProductCard
                     key={product.id}
@@ -310,6 +434,245 @@ export default function ShopPage() {
           </div>
         </div>
       </div>
+
+      {/* Flipkart / Amazon Style Mobile Sort Bottom Drawer */}
+      {showMobileSortDrawer && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div
+            className="fixed inset-0 bg-[#070D1E]/70 backdrop-blur-xs"
+            onClick={() => setShowMobileSortDrawer(false)}
+          />
+          <div className="fixed inset-x-0 bottom-0 bg-white rounded-t-3xl shadow-2xl z-50 p-6 border-t border-[#EDE6D8] animate-in slide-in-from-bottom duration-200">
+            <div className="flex items-center justify-between pb-4 border-b border-[#EDE6D8]">
+              <div className="flex items-center gap-2">
+                <ArrowUpDown className="w-4 h-4 text-[#9A7736]" />
+                <h3 className="font-serif text-base font-bold text-[#0B1325]">
+                  Sort By
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowMobileSortDrawer(false)}
+                className="p-1.5 text-[#718096] hover:text-[#0B1325]"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="py-2 divide-y divide-[#EDE6D8]">
+              {sortOptions.map(opt => (
+                <button
+                  key={opt.id}
+                  type="button"
+                  onClick={() => {
+                    setSortBy(opt.id);
+                    setShowMobileSortDrawer(false);
+                  }}
+                  className="w-full flex items-center justify-between py-3.5 text-left text-sm font-medium text-[#0B1325] hover:text-[#9A7736]"
+                >
+                  <span className={sortBy === opt.id ? 'font-bold text-[#9A7736]' : ''}>
+                    {opt.label}
+                  </span>
+                  {sortBy === opt.id && (
+                    <Check className="w-4 h-4 text-[#9A7736]" />
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Flipkart / Amazon Style Mobile Filter Slide-Up Bottom Drawer */}
+      {showMobileFilterDrawer && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div
+            className="fixed inset-0 bg-[#070D1E]/75 backdrop-blur-xs"
+            onClick={() => setShowMobileFilterDrawer(false)}
+          />
+          <div className="fixed inset-x-0 bottom-0 top-16 bg-white rounded-t-3xl shadow-2xl z-50 flex flex-col border-t border-[#EDE6D8] animate-in slide-in-from-bottom duration-250">
+            
+            {/* Drawer Header (Amazon/Flipkart format) */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[#EDE6D8]">
+              <div className="flex items-center gap-2">
+                <SlidersHorizontal className="w-4 h-4 text-[#9A7736]" />
+                <h3 className="font-serif text-base font-bold text-[#0B1325]">
+                  Filters
+                </h3>
+                {activeFilterCount > 0 && (
+                  <span className="px-2 py-0.5 rounded-full bg-[#0B1325] text-[#DFBF77] text-[10px] font-bold">
+                    {activeFilterCount}
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-3">
+                {hasActiveFilters && (
+                  <button
+                    type="button"
+                    onClick={resetFilters}
+                    className="text-xs font-semibold text-[#9A7736] hover:text-[#0B1325]"
+                  >
+                    Clear All
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setShowMobileFilterDrawer(false)}
+                  className="p-1.5 text-[#718096] hover:text-[#0B1325]"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Split Screen 2-Column Flipkart Layout */}
+            <div className="flex-1 flex overflow-hidden">
+              {/* Left Column: Filter Categories */}
+              <div className="w-1/3 bg-[#FAF7F2] border-r border-[#EDE6D8] flex flex-col divide-y divide-[#EDE6D8] overflow-y-auto">
+                <button
+                  type="button"
+                  onClick={() => setMobileActiveFilterTab('category')}
+                  className={`p-3.5 text-left text-xs font-bold uppercase tracking-wider transition-colors ${
+                    mobileActiveFilterTab === 'category'
+                      ? 'bg-white text-[#9A7736] border-l-4 border-l-[#C5A059]'
+                      : 'text-[#556987]'
+                  }`}
+                >
+                  Category
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMobileActiveFilterTab('price')}
+                  className={`p-3.5 text-left text-xs font-bold uppercase tracking-wider transition-colors ${
+                    mobileActiveFilterTab === 'price'
+                      ? 'bg-white text-[#9A7736] border-l-4 border-l-[#C5A059]'
+                      : 'text-[#556987]'
+                  }`}
+                >
+                  Price
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMobileActiveFilterTab('badge')}
+                  className={`p-3.5 text-left text-xs font-bold uppercase tracking-wider transition-colors ${
+                    mobileActiveFilterTab === 'badge'
+                      ? 'bg-white text-[#9A7736] border-l-4 border-l-[#C5A059]'
+                      : 'text-[#556987]'
+                  }`}
+                >
+                  Badges
+                </button>
+              </div>
+
+              {/* Right Column: Interactive Filter Options */}
+              <div className="flex-1 p-5 overflow-y-auto space-y-4">
+                {mobileActiveFilterTab === 'category' && (
+                  <div className="space-y-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#718096] block mb-2">
+                      Select Collection
+                    </span>
+                    {categories.map(cat => (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        onClick={() => setSelectedCategory(cat.id)}
+                        className={`w-full flex items-center justify-between p-3 rounded-xl text-xs font-medium border text-left transition-colors ${
+                          selectedCategory === cat.id
+                            ? 'bg-[#0B1325] text-[#DFBF77] border-[#C5A059]'
+                            : 'bg-white text-[#0B1325] border-[#EDE6D8]'
+                        }`}
+                      >
+                        <span>{cat.name}</span>
+                        {selectedCategory === cat.id && <Check className="w-4 h-4" />}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {mobileActiveFilterTab === 'price' && (
+                  <div className="space-y-4">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#718096] block">
+                      Price Range
+                    </span>
+                    <div className="text-center py-2 bg-[#FAF7F2] rounded-xl border border-[#EDE6D8]">
+                      <span className="text-xs text-[#718096]">Max Price:</span>{' '}
+                      <strong className="text-base font-bold text-[#0B1325]">₹{priceRange}</strong>
+                    </div>
+                    <input
+                      type="range"
+                      min="300"
+                      max="7500"
+                      step="100"
+                      value={priceRange}
+                      onChange={(e) => setPriceRange(Number(e.target.value))}
+                      className="w-full accent-[#C5A059] cursor-pointer"
+                    />
+                    <div className="grid grid-cols-2 gap-2 pt-2">
+                      {[500, 1000, 2500, 7500].map(val => (
+                        <button
+                          key={val}
+                          type="button"
+                          onClick={() => setPriceRange(val)}
+                          className={`py-2 px-2.5 rounded-lg text-xs font-semibold border ${
+                            priceRange === val
+                              ? 'bg-[#0B1325] text-[#DFBF77] border-[#C5A059]'
+                              : 'bg-white text-[#556987] border-[#EDE6D8]'
+                          }`}
+                        >
+                          Under ₹{val}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {mobileActiveFilterTab === 'badge' && (
+                  <div className="space-y-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#718096] block mb-2">
+                      Curator's Distinction
+                    </span>
+                    {badges.map(b => (
+                      <button
+                        key={b}
+                        type="button"
+                        onClick={() => setSelectedBadge(b)}
+                        className={`w-full flex items-center justify-between p-3 rounded-xl text-xs font-medium border text-left transition-colors ${
+                          selectedBadge === b
+                            ? 'bg-[#0B1325] text-[#DFBF77] border-[#C5A059]'
+                            : 'bg-white text-[#0B1325] border-[#EDE6D8]'
+                        }`}
+                      >
+                        <span>{b === 'all' ? 'All Badges' : b}</span>
+                        {selectedBadge === b && <Check className="w-4 h-4" />}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Bottom Sticky Action Bar (Flipkart/Amazon format) */}
+            <div className="p-4 border-t border-[#EDE6D8] bg-white flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setShowMobileFilterDrawer(false)}
+                className="w-1/3 py-3 border border-[#EDE6D8] rounded-xl text-xs font-bold uppercase tracking-wider text-[#0B1325]"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowMobileFilterDrawer(false)}
+                className="flex-1 py-3 bg-[#C5A059] hover:bg-[#DFBF77] text-[#070D1E] rounded-xl text-xs font-bold uppercase tracking-wider shadow-md transition-colors"
+              >
+                Apply ({filteredProducts.length} items)
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
