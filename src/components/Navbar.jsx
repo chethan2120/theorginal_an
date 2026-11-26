@@ -265,23 +265,23 @@ export default function Navbar() {
             </nav>
 
             {/* Right: Actions (Search, Profile, Wishlist, Cart) */}
-            <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
               {/* Search Toggle */}
               <button
                 type="button"
                 onClick={() => setIsSearchOpen(true)}
-                className="p-2 text-[#0B1325] hover:text-[#9A7736] hover:bg-[#F3EFE6] rounded-full transition-all"
+                className="p-1.5 sm:p-2 text-[#0B1325] hover:text-[#9A7736] hover:bg-[#F3EFE6] rounded-full transition-all"
                 aria-label="Search items"
                 title="Search catalogue"
               >
                 <Search className="w-4 h-4" />
               </button>
 
-              {/* Profile Link */}
+              {/* Profile Link (Desktop / Tablet only — mobile uses slide-out Drawer) */}
               <Link
                 to="/account"
                 onClick={handleNavClick}
-                className="flex items-center gap-1.5 p-2 text-[#0B1325] hover:text-[#9A7736] hover:bg-[#F3EFE6] rounded-full transition-all"
+                className="hidden md:flex items-center gap-1.5 p-2 text-[#0B1325] hover:text-[#9A7736] hover:bg-[#F3EFE6] rounded-full transition-all"
                 aria-label="Profile"
                 title="My Account"
               >
@@ -289,11 +289,11 @@ export default function Navbar() {
                 <span className="hidden xl:inline text-xs font-semibold uppercase tracking-wider text-[#0B1325]">Profile</span>
               </Link>
 
-              {/* Wishlist Link */}
+              {/* Wishlist Link (Desktop / Tablet only — mobile uses slide-out Drawer) */}
               <Link
                 to="/wishlist"
                 onClick={handleNavClick}
-                className="relative flex items-center gap-1.5 p-2 text-[#0B1325] hover:text-[#9A7736] hover:bg-[#F3EFE6] rounded-full transition-all"
+                className="hidden md:flex relative items-center gap-1.5 p-2 text-[#0B1325] hover:text-[#9A7736] hover:bg-[#F3EFE6] rounded-full transition-all"
                 aria-label="Wishlist"
                 title="Saved Wishlist"
               >
@@ -312,7 +312,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => setIsCartOpen(true)}
-                className="flex items-center gap-2 py-2 px-3 bg-[#0B1325] hover:bg-[#152238] text-[#FDFBF7] rounded-xl transition-all shadow-sm group border border-[#C5A059]/40 ml-1"
+                className="flex items-center gap-1.5 sm:gap-2 py-1.5 sm:py-2 px-2.5 sm:px-3 bg-[#0B1325] hover:bg-[#152238] text-[#FDFBF7] rounded-xl transition-all shadow-sm group border border-[#C5A059]/40 ml-0.5 sm:ml-1"
                 aria-label="Open cart"
               >
                 <div className="relative">

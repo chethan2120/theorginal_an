@@ -39,31 +39,31 @@ export default function BrandLogo({ size = 'md', variant = 'horizontal', showTag
   }
 
   return (
-    <a href="/" onClick={handleLogoClick} className="inline-flex items-center gap-3 group focus:outline-none cursor-pointer">
+    <a href="/" onClick={handleLogoClick} className="inline-flex items-center gap-2 sm:gap-3 group focus:outline-none cursor-pointer flex-shrink-0">
       {/* Brand Emblem Logo Image */}
       <div className="relative overflow-hidden rounded-lg border border-[#C5A059]/60 shadow-sm transition-transform duration-300 group-hover:scale-105 flex-shrink-0 bg-[#070D1E]">
         <img
           src="/images/logo.jpg"
           alt="THE ORIGINAL"
-          className={`${size === 'sm' ? 'w-9 h-9' : size === 'lg' ? 'w-14 h-14' : 'w-11 h-11'} object-cover`}
+          className="w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 object-cover"
         />
       </div>
 
-      {/* Brand Typography - strictly styled with high contrast */}
-      <div className="flex flex-col text-left">
+      {/* Brand Typography - strictly styled with high contrast and zero wrapping */}
+      <div className="flex flex-col text-left whitespace-nowrap select-none">
         <span
-          className={`tracking-[0.24em] font-serif uppercase font-bold transition-colors ${
+          className={`tracking-[0.16em] sm:tracking-[0.22em] font-serif uppercase font-bold transition-colors ${
             isDark
               ? 'text-[#FDFBF7] group-hover:text-[#DFBF77]'
               : 'text-[#070D1E] group-hover:text-[#9A7736]'
-          } ${size === 'sm' ? 'text-xs sm:text-sm' : size === 'lg' ? 'text-2xl' : 'text-base sm:text-lg'}`}
+          } text-xs sm:text-sm md:text-base lg:text-lg leading-tight`}
           style={{ color: isDark ? '#FDFBF7' : '#070D1E' }}
         >
           THE ORIGINAL
         </span>
         {showTagline && (
           <span
-            className="tracking-[0.22em] font-semibold uppercase text-[9px] sm:text-[10px] -mt-0.5"
+            className="tracking-[0.16em] sm:tracking-[0.22em] font-semibold uppercase text-[8px] sm:text-[9.5px] mt-0.5 hidden xs:block"
             style={{ color: '#9A7736' }}
           >
             Royal Spices & Dry Fruits
