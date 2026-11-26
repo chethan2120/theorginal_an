@@ -8,19 +8,20 @@ export default function BrandLogo({ size = 'md', variant = 'horizontal', showTag
 
   const handleLogoClick = (e) => {
     e.preventDefault();
-    if (location.pathname === '/') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      const hero = document.getElementById('hero-section');
-      if (hero) {
-        hero.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    if (location.pathname !== '/') {
       navigate('/');
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 50);
     }
+
+    // Re-verify after route switch to ensure we are at top
+    setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 40);
   };
 
   if (variant === 'mark-only') {

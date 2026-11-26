@@ -34,6 +34,14 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleNavClick = () => {
+    setIsMobileMenuOpen(false);
+    setIsShopDropdownOpen(false);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  };
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -87,11 +95,7 @@ export default function Navbar() {
               {/* 1. Home */}
               <NavLink
                 to="/"
-                onClick={() => {
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                  const hero = document.getElementById('hero-section');
-                  if (hero) hero.scrollIntoView({ behavior: 'smooth' });
-                }}
+                onClick={handleNavClick}
                 className={({ isActive }) =>
                   `text-xs uppercase tracking-[0.2em] font-semibold transition-all py-2 relative hover:text-[#9A7736] ${
                     isActive
@@ -132,7 +136,7 @@ export default function Navbar() {
                       {/* Card 1: Dry Fruits */}
                       <Link
                         to="/dry-fruits"
-                        onClick={() => setIsShopDropdownOpen(false)}
+                        onClick={handleNavClick}
                         className="group relative rounded-xl overflow-hidden aspect-[4/3] block bg-[#0B1325] border border-slate-100 hover:border-[#C5A059] transition-all shadow-sm hover:shadow-md"
                       >
                         <img
@@ -154,7 +158,7 @@ export default function Navbar() {
                       {/* Card 2: Whole Spices */}
                       <Link
                         to="/spices?type=whole"
-                        onClick={() => setIsShopDropdownOpen(false)}
+                        onClick={handleNavClick}
                         className="group relative rounded-xl overflow-hidden aspect-[4/3] block bg-[#0B1325] border border-slate-100 hover:border-[#C5A059] transition-all shadow-sm hover:shadow-md"
                       >
                         <img
@@ -176,7 +180,7 @@ export default function Navbar() {
                       {/* Card 3: Spice Powders */}
                       <Link
                         to="/spices?type=ground"
-                        onClick={() => setIsShopDropdownOpen(false)}
+                        onClick={handleNavClick}
                         className="group relative rounded-xl overflow-hidden aspect-[4/3] block bg-[#0B1325] border border-slate-100 hover:border-[#C5A059] transition-all shadow-sm hover:shadow-md"
                       >
                         <img
@@ -203,7 +207,7 @@ export default function Navbar() {
                       </span>
                       <Link
                         to="/shop"
-                        onClick={() => setIsShopDropdownOpen(false)}
+                        onClick={handleNavClick}
                         className="text-xs font-bold text-[#0B1325] hover:text-[#9A7736] flex items-center gap-1.5 transition-colors group"
                       >
                         <span>View all products</span>
@@ -217,6 +221,7 @@ export default function Navbar() {
               {/* 3. Why Us */}
               <NavLink
                 to="/why-us"
+                onClick={handleNavClick}
                 className={({ isActive }) =>
                   `text-xs uppercase tracking-[0.2em] font-semibold transition-all py-2 relative hover:text-[#9A7736] ${
                     isActive
@@ -231,6 +236,7 @@ export default function Navbar() {
               {/* 4. About Us */}
               <NavLink
                 to="/about"
+                onClick={handleNavClick}
                 className={({ isActive }) =>
                   `text-xs uppercase tracking-[0.2em] font-semibold transition-all py-2 relative hover:text-[#9A7736] ${
                     isActive
@@ -245,6 +251,7 @@ export default function Navbar() {
               {/* 5. Contact Us */}
               <NavLink
                 to="/contact"
+                onClick={handleNavClick}
                 className={({ isActive }) =>
                   `text-xs uppercase tracking-[0.2em] font-semibold transition-all py-2 relative hover:text-[#9A7736] ${
                     isActive
@@ -273,6 +280,7 @@ export default function Navbar() {
               {/* Profile Link */}
               <Link
                 to="/account"
+                onClick={handleNavClick}
                 className="flex items-center gap-1.5 p-2 text-[#0B1325] hover:text-[#9A7736] hover:bg-[#F3EFE6] rounded-full transition-all"
                 aria-label="Profile"
                 title="My Account"
@@ -284,6 +292,7 @@ export default function Navbar() {
               {/* Wishlist Link */}
               <Link
                 to="/wishlist"
+                onClick={handleNavClick}
                 className="relative flex items-center gap-1.5 p-2 text-[#0B1325] hover:text-[#9A7736] hover:bg-[#F3EFE6] rounded-full transition-all"
                 aria-label="Wishlist"
                 title="Saved Wishlist"
@@ -354,10 +363,7 @@ export default function Navbar() {
               <nav className="mt-6 flex flex-col space-y-1">
                 <NavLink
                   to="/"
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
+                  onClick={handleNavClick}
                   className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-serif font-semibold text-[#0B1325] hover:bg-[#F3EFE6]"
                 >
                   <span>Home</span>
@@ -371,7 +377,7 @@ export default function Navbar() {
                   </span>
                   <Link
                     to="/dry-fruits"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={handleNavClick}
                     className="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold text-[#0B1325] hover:bg-[#F3EFE6]"
                   >
                     <span>Dry Fruits</span>
@@ -379,7 +385,7 @@ export default function Navbar() {
                   </Link>
                   <Link
                     to="/spices?type=whole"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={handleNavClick}
                     className="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold text-[#0B1325] hover:bg-[#F3EFE6]"
                   >
                     <span>Whole Spices</span>
@@ -387,7 +393,7 @@ export default function Navbar() {
                   </Link>
                   <Link
                     to="/spices?type=ground"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={handleNavClick}
                     className="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold text-[#0B1325] hover:bg-[#F3EFE6]"
                   >
                     <span>Spice Powders</span>
@@ -395,7 +401,7 @@ export default function Navbar() {
                   </Link>
                   <Link
                     to="/shop"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={handleNavClick}
                     className="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold text-[#9A7736] hover:bg-[#F3EFE6]"
                   >
                     <span>View All Products</span>
@@ -405,7 +411,7 @@ export default function Navbar() {
 
                 <NavLink
                   to="/why-us"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={handleNavClick}
                   className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-serif font-semibold text-[#0B1325] hover:bg-[#F3EFE6]"
                 >
                   <span>Why Us</span>
@@ -414,7 +420,7 @@ export default function Navbar() {
 
                 <NavLink
                   to="/about"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={handleNavClick}
                   className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-serif font-semibold text-[#0B1325] hover:bg-[#F3EFE6]"
                 >
                   <span>About Us</span>
@@ -423,7 +429,7 @@ export default function Navbar() {
 
                 <NavLink
                   to="/contact"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={handleNavClick}
                   className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-serif font-semibold text-[#0B1325] hover:bg-[#F3EFE6]"
                 >
                   <span>Contact Us</span>
@@ -436,7 +442,7 @@ export default function Navbar() {
             <div className="pt-6 border-t border-[#EDE6D8] text-xs space-y-2">
               <Link
                 to="/account"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={handleNavClick}
                 className="flex items-center justify-between text-[#0B1325] font-semibold hover:text-[#9A7736] py-1"
               >
                 <span>Profile / My Account</span>
@@ -444,7 +450,7 @@ export default function Navbar() {
               </Link>
               <Link
                 to="/wishlist"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={handleNavClick}
                 className="flex items-center justify-between text-[#0B1325] font-semibold hover:text-[#9A7736] py-1"
               >
                 <span>Wishlist ({wishlistCount})</span>

@@ -3,6 +3,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
+  if (typeof ScrollTrigger.clearScrollMemory === 'function') {
+    ScrollTrigger.clearScrollMemory('manual');
+  }
 }
 
 /**
