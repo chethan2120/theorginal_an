@@ -285,6 +285,7 @@ export default function HomePage() {
       likes: 1840,
       ingredients: ['7.8% Natural Curcumin', 'Volatile Turmerones', 'Cold-Ground Liquid N₂', 'Zero Adulteration'],
       accent: '#E5A00D',
+      price: 299,
       weight: '100g'
     },
     {
@@ -300,6 +301,7 @@ export default function HomePage() {
       likes: 2150,
       ingredients: ['8mm+ Extra Bold Pods', 'Sun-Shade Dried', 'Eucalyptus & Mint Notes', 'Essential Oils > 8%'],
       accent: '#4E8752',
+      price: 499,
       weight: '100g'
     },
     {
@@ -315,6 +317,7 @@ export default function HomePage() {
       likes: 3200,
       ingredients: ['Grade A1 Mongra', 'Crocin Strength > 240', 'Zero Yellow Style', 'Hand-Plucked Autumn'],
       accent: '#D13838',
+      price: 499,
       weight: '1g'
     },
     {
@@ -330,6 +333,7 @@ export default function HomePage() {
       likes: 1980,
       ingredients: ['W180 Jumbo Grade', '100% Raw Unroasted', 'Zero Cholesterol', 'Sweet Coconut Cream'],
       accent: '#C5A059',
+      price: 479,
       weight: '250g'
     },
     {
@@ -345,6 +349,7 @@ export default function HomePage() {
       likes: 1650,
       ingredients: ['Nonpareil Supreme 20/22', 'Steam Pasteurized', 'Zero PPO Chemicals', 'Snappy Freshness'],
       accent: '#B87B44',
+      price: 399,
       weight: '250g'
     }
   ];
@@ -354,6 +359,13 @@ export default function HomePage() {
     if (product) {
       addToCart(product, dish.weight || '100g', 1);
       showToast(`Added ${dish.title} ${dish.subtitle} (${dish.weight}) to your bag!`, 'success');
+    }
+  };
+
+  const handleExploreTerroir = (dish) => {
+    const product = PRODUCTS.find(p => p.id === dish.productId);
+    if (product) {
+      setQuickViewProduct(product);
     }
   };
 
@@ -396,36 +408,8 @@ export default function HomePage() {
           {/* Unified Architectural Luxury Frame */}
           <div className="relative rounded-2xl sm:rounded-3xl border border-[#C5A059]/35 bg-gradient-to-b from-[#0C152B] via-[#080E20] to-[#040814] shadow-[0_25px_70px_-15px_rgba(0,0,0,0.9)] overflow-hidden p-5 sm:p-8 lg:p-10 backdrop-blur-sm">
             
-            {/* Frame Top Bar: Featured Terroirs Quick Switcher */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pb-5 border-b border-[#C5A059]/20 relative z-10">
-              <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#DFBF77] mr-1 hidden md:inline-block">
-                  Featured Terroirs:
-                </span>
-                {HERO_HARVESTS.map((harvest, idx) => (
-                  <button
-                    key={harvest.id}
-                    type="button"
-                    onClick={() => setHeroHarvestIdx(idx)}
-                    className={`px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all flex items-center gap-2 cursor-pointer ${
-                      heroHarvestIdx === idx
-                        ? 'bg-[#C5A059] text-[#070D1E] shadow-lg shadow-[#C5A059]/25 font-bold'
-                        : 'bg-[#152238]/80 hover:bg-[#1E2E4B] text-slate-300 border border-[#C5A059]/30'
-                    }`}
-                  >
-                    <span className={`w-1.5 h-1.5 rounded-full ${heroHarvestIdx === idx ? 'bg-[#070D1E]' : 'bg-[#DFBF77]'}`} />
-                    <span>{harvest.tabLabel}</span>
-                  </button>
-                ))}
-              </div>
-
-              <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#152238]/80 border border-[#C5A059]/30 text-[10.5px] font-medium text-[#DFBF77] tracking-wider">
-                <span>100% Single-Origin GI • Cold-Ground Under Liquid N₂</span>
-              </div>
-            </div>
-
             {/* Frame Main Grid: Typography & Pure Product Showcase */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-6 sm:my-8 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-4 sm:my-6 relative z-10">
               
               {/* Left Column: Bold Luxury Typography & Brand Positioning */}
               <div className="lg:col-span-7 space-y-4 sm:space-y-5 text-center lg:text-left scroll-slide-left">
@@ -788,8 +772,8 @@ export default function HomePage() {
       </section>
 
       {/* 4. The Royal Orbit Showcase: Spices & Dry Fruits Carousel */}
-      <section className="bg-[#070D1E] text-white py-10 sm:py-14 border-y-2 border-[#C5A059]/40 overflow-hidden relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4 text-center">
+      <section className="bg-[#070D1E] text-white py-12 sm:py-16 border-y-2 border-[#C5A059]/40 overflow-hidden relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#152238] border border-[#C5A059]/40 text-[#DFBF77] text-xs font-semibold uppercase tracking-widest mb-2">
             <Compass className="w-3.5 h-3.5 text-[#C5A059]" />
             <span>Interactive Sensory Showcase</span>
@@ -798,15 +782,15 @@ export default function HomePage() {
             The Royal Orbit Showcase
           </h2>
           <p className="text-xs sm:text-sm text-[#CBD5E1] max-w-xl mx-auto mt-2">
-            Scroll down to rotate through our single-origin spices and imperial dry fruits. Press "Add to Bag" to acquire any harvest directly.
+            Select or rotate through our single-origin spices and imperial dry fruits. Press "Add to Bag" to acquire any harvest directly.
           </p>
         </div>
 
         <div className="w-full">
           <DishOrbitCarousel
             dishes={SPICE_ORBIT_ITEMS}
-            height="530px"
             onOrder={handleOrbitOrder}
+            onPlay={handleExploreTerroir}
           />
         </div>
       </section>
