@@ -3,18 +3,9 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { Compass, ShoppingBag, ArrowRight } from "lucide-react"
 
 gsap.registerPlugin(ScrollTrigger)
-
-/*
- * Dish Orbit Carousel:
- * Plated dish swings on an orbital circular track.
- * Changing dishes swings out over the top while the next swings in.
- * Two-weight titles wipe in/out with directional clipping masks.
- * The SVG arc morphs and turns with the accent color.
- * The details card cross-fades with staggered items.
- * Driven smoothly by page scroll, automatic timer, arrow buttons, thumbnails, and touch swipes.
- */
 
 export type Dish = {
   productId?: string
@@ -83,23 +74,23 @@ export function arcPath(a0: number, a1: number, cx: number, cy: number, r: numbe
 }
 
 export const ARC_REST = [
-  [50, 98],
-  [46, 124],
-  [60, 126],
-  [40, 100],
-  [48, 115],
+  [48, 100],
+  [44, 122],
+  [58, 126],
+  [42, 102],
+  [46, 116],
 ]
 
 export function arcRest(index: number): number[] {
   return ARC_REST[((index % ARC_REST.length) + ARC_REST.length) % ARC_REST.length]
 }
 
-export const ARC_SWEEP = [38, 146]
+export const ARC_SWEEP = [36, 146]
 
-const ORBIT_X = 299
-const ORBIT_Y = -450
-const ORBIT_R = 650
-const SWING = 50
+const ORBIT_X = 275
+const ORBIT_Y = -470
+const ORBIT_R = 640
+const SWING = 48
 const ITEM = 118
 const VISIBLE = 5
 
@@ -107,113 +98,124 @@ const FONT = "dsh-face"
 
 const CSS =
   ".dsh-trk{position:relative;width:100%}" +
-  ".dsh-root{position:relative;overflow:hidden;width:100%;background:#070D1E;color:#FDFBF7;" +
+  // Single Unified Luxury Architectural Frame
+  ".dsh-frame{position:relative;border-radius:1.5rem;border:1px solid rgba(197,160,89,0.38);" +
+  "background:linear-gradient(180deg,#0C152B 0%,#080E20 50%,#040814 100%);" +
+  "box-shadow:0 25px 70px -15px rgba(0,0,0,0.95);overflow:hidden;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);" +
+  "padding:22px 24px 24px}" +
+  ".dsh-frame-hdr{text-align:center;margin-bottom:14px;position:relative;z-index:10}" +
+  ".dsh-frame-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;" +
+  "background:#152238;border:1px solid rgba(197,160,89,0.4);color:#DFBF77;font-size:11px;font-weight:700;" +
+  "letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}" +
+  ".dsh-frame-title{font-family:Playfair Display,Georgia,serif;font-size:32px;font-weight:700;color:#FDFBF7;margin:0;letter-spacing:-.01em;line-height:1.15}" +
+  ".dsh-frame-sub{font-size:12.5px;color:#CBD5E1;max-width:560px;margin:5px auto 0;line-height:1.4;font-weight:300}" +
+  // The Orbit Stage Inside the Frame
+  ".dsh-root{position:relative;overflow:hidden;width:100%;height:470px;color:#FDFBF7;" +
   "font-family:" + FONT + ",ui-sans-serif,system-ui,sans-serif;-webkit-tap-highlight-color:transparent}" +
   ".dsh-root *{box-sizing:border-box}" +
-  ".dsh-bd{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;pointer-events:none}" +
-  ".dsh-wash{position:absolute;inset:0;background:rgba(7,13,30,0.4);pointer-events:none}" +
-  ".dsh-dim{position:absolute;inset:0;background:#070D1E;mix-blend-mode:multiply;opacity:.72;pointer-events:none}" +
-  ".dsh-canvas{position:absolute;left:50%;top:50%;width:960px;height:520px;transform:translate(-50%,-50%) scale(var(--dsh-s,1));transform-origin:50% 50%}" +
-  ".dsh-arc{position:absolute;left:0;top:0;width:960px;height:520px;overflow:visible;pointer-events:none}" +
+  ".dsh-canvas{position:absolute;left:50%;top:50%;width:960px;height:470px;transform:translate(-50%,-50%) scale(var(--dsh-s,1));transform-origin:50% 50%}" +
+  ".dsh-arc{position:absolute;left:0;top:-20px;width:960px;height:490px;overflow:visible;pointer-events:none}" +
   ".dsh-btn{appearance:none;border:0;background:none;color:inherit;font:inherit;padding:0;margin:0;cursor:pointer}" +
   ".dsh-btn:focus-visible{outline:2px solid #C5A059;outline-offset:3px;border-radius:10px}" +
-  ".dsh-ico{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}" +
-  ".dsh-pager{position:absolute;left:76px;top:172px;display:flex;flex-direction:column;align-items:center;gap:7px;z-index:2}" +
+  ".dsh-ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}" +
+  ".dsh-pager{position:absolute;left:64px;top:125px;display:flex;flex-direction:column;align-items:center;gap:7px;z-index:3}" +
   ".dsh-dot{width:14px;height:10px;display:grid;place-items:center}" +
-  ".dsh-dot i{display:block;width:3px;height:3px;border-radius:3px;background:#C5A059;opacity:.45;transition:height .45s cubic-bezier(.3,.7,.2,1),opacity .3s}" +
-  ".dsh-dot[aria-current] i{height:22px;opacity:1;background:#DFBF77}" +
-  ".dsh-dot[aria-current]{height:26px}" +
+  ".dsh-dot i{display:block;width:3px;height:3px;border-radius:3px;background:#C5A059;opacity:.4;transition:height .45s cubic-bezier(.3,.7,.2,1),opacity .3s}" +
+  ".dsh-dot[aria-current] i{height:20px;opacity:1;background:#DFBF77}" +
+  ".dsh-dot[aria-current]{height:24px}" +
   ".dsh-dot{transition:height .45s cubic-bezier(.3,.7,.2,1)}" +
-  ".dsh-plates{position:absolute;left:130px;top:82px;width:245px;height:245px;touch-action:pan-y;z-index:3}" +
+  ".dsh-plates{position:absolute;left:110px;top:40px;width:240px;height:240px;touch-action:pan-y;z-index:4}" +
   ".dsh-orbit{position:absolute;inset:0;transform-origin:69% -217%;visibility:hidden;will-change:transform}" +
-  ".dsh-orbit>img{display:block;width:245px;height:245px;max-width:none;object-fit:cover;border-radius:50%;border:3px solid rgba(212,175,55,0.8);user-select:none;-webkit-user-drag:none;background:#0B1326;" +
-  "filter:drop-shadow(0 16px 25px rgba(0,0,0,.65)) drop-shadow(0 3px 8px rgba(0,0,0,.4))}" +
-  ".dsh-head{position:absolute;left:388px;top:90px;width:360px;height:165px;z-index:4}" +
+  ".dsh-orbit>img{display:block;width:240px;height:240px;max-width:none;object-fit:cover;border-radius:50%;border:3px solid rgba(212,175,55,0.85);user-select:none;-webkit-user-drag:none;background:#0B1326;" +
+  "filter:drop-shadow(0 16px 25px rgba(0,0,0,.7)) drop-shadow(0 3px 8px rgba(0,0,0,.4))}" +
+  ".dsh-head{position:absolute;left:375px;top:42px;width:365px;height:155px;z-index:5}" +
   ".dsh-hd{position:absolute;inset:0;visibility:hidden}" +
-  ".dsh-eye{font-size:12px;font-weight:600;letter-spacing:.05em;color:#DFBF77;text-transform:uppercase;margin:0 0 4px 2px}" +
-  ".dsh-t1,.dsh-t2{display:block;line-height:1.08;text-transform:uppercase;margin:0;word-break:keep-all}" +
-  ".dsh-t1{font-weight:300;letter-spacing:-.01em;margin-top:4px;color:#FDFBF7}" +
-  ".dsh-t2{font-weight:800;letter-spacing:-.02em;margin-top:4px;color:#DFBF77}" +
-  ".dsh-acts{position:absolute;left:388px;top:280px;display:flex;gap:20px;font-size:12.5px;font-weight:600;z-index:4}" +
-  ".dsh-acts .dsh-btn{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:12px;transition:all .25s}" +
-  ".dsh-acts .dsh-btn-primary{background:#C5A059;color:#070D1E;font-weight:700;box-shadow:0 4px 14px rgba(197,160,89,0.3)}" +
+  ".dsh-eye{font-size:11.5px;font-weight:700;letter-spacing:.06em;color:#DFBF77;text-transform:uppercase;margin:0 0 4px 2px}" +
+  ".dsh-t1,.dsh-t2{display:block;line-height:1.06;text-transform:uppercase;margin:0;word-break:keep-all;font-family:Playfair Display,Georgia,serif}" +
+  ".dsh-t1{font-weight:400;letter-spacing:-.01em;margin-top:3px;color:#FDFBF7}" +
+  ".dsh-t2{font-weight:800;letter-spacing:-.02em;margin-top:3px;color:#DFBF77}" +
+  ".dsh-acts{position:absolute;left:375px;top:222px;display:flex;gap:18px;font-size:12px;font-weight:700;z-index:5}" +
+  ".dsh-acts .dsh-btn{display:flex;align-items:center;gap:8px;padding:9px 18px;border-radius:12px;transition:all .25s}" +
+  ".dsh-acts .dsh-btn-primary{background:#C5A059;color:#070D1E;box-shadow:0 4px 14px rgba(197,160,89,0.35)}" +
   ".dsh-acts .dsh-btn-primary:hover{background:#DFBF77}" +
   ".dsh-acts .dsh-btn-sec{background:rgba(21,34,56,0.85);color:#FDFBF7;border:1px solid rgba(197,160,89,0.4)}" +
   ".dsh-acts .dsh-btn-sec:hover{background:#1E2E4B;border-color:#DFBF77}" +
-  ".dsh-acts .dsh-ico{width:15px;height:15px}" +
+  ".dsh-acts .dsh-ico{width:14px;height:14px}" +
   ".dsh-acts .dsh-fill{fill:currentColor;stroke:none}" +
-  ".dsh-card{position:absolute;left:730px;top:95px;width:220px;padding:16px 18px;border-radius:18px;" +
+  ".dsh-card{position:absolute;left:715px;top:45px;width:225px;padding:15px 17px;border-radius:16px;" +
   "background:rgba(11,19,37,0.85);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(197,160,89,0.25);" +
-  "box-shadow:0 18px 40px -20px rgba(0,0,0,.6);z-index:4}" +
-  ".dsh-tabs{display:flex;justify-content:space-between;padding:0 4px;font-size:11.5px;margin-bottom:14px;border-bottom:1px solid rgba(197,160,89,0.2);padding-bottom:6px}" +
+  "box-shadow:0 18px 40px -20px rgba(0,0,0,.6);z-index:5}" +
+  ".dsh-tabs{display:flex;justify-content:space-between;padding:0 2px;font-size:11px;margin-bottom:12px;border-bottom:1px solid rgba(197,160,89,0.2);padding-bottom:5px}" +
   ".dsh-tab{color:#94A3B8;font-weight:500;padding:2px 0;transition:color .2s}" +
   ".dsh-tab[aria-selected=true]{color:#DFBF77;font-weight:700}" +
   ".dsh-bodies{display:grid}" +
   ".dsh-body{grid-area:1/1;visibility:hidden}" +
-  ".dsh-rate{position:relative;height:52px;margin:0 0 10px 4px}" +
-  ".dsh-badge{position:absolute;left:0;top:0;width:42px;height:52px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center}" +
-  ".dsh-badge svg{width:14px;height:14px;fill:#070D1E}" +
-  ".dsh-num{position:absolute;left:50px;top:6px;font-size:32px;font-weight:700;letter-spacing:-.04em;line-height:1;color:#FDFBF7}" +
-  ".dsh-chef{font-size:15px;font-weight:700;letter-spacing:-.01em;margin:0;color:#FDFBF7}" +
-  ".dsh-kit{font-size:10px;color:#94A3B8;margin:2px 0 10px}" +
-  ".dsh-desc{font-size:11.5px;line-height:1.4;margin:0;min-height:50px;color:#CBD5E1}" +
-  ".dsh-ing{display:flex;flex-wrap:wrap;gap:4px;margin:0;padding:0;list-style:none;min-height:50px}" +
-  ".dsh-ing li{font-size:10px;padding:3px 7px;border-radius:99px;background:rgba(197,160,89,0.15);color:#DFBF77;border:1px solid rgba(197,160,89,0.25)}" +
-  ".dsh-react{display:flex;gap:10px;margin-top:14px}" +
-  ".dsh-like{display:flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:99px;font-size:10.5px;font-weight:600;" +
-  "background:rgba(197,160,89,0.15);border:1px solid rgba(197,160,89,0.3);color:#DFBF77;transition:background .25s}" +
-  ".dsh-react .dsh-ico{width:14px;height:14px}" +
-  ".dsh-react [aria-pressed=true] .dsh-ico{fill:currentColor}" +
-  ".dsh-strip{position:absolute;left:130px;top:370px;width:700px;height:122px;display:flex;align-items:center;z-index:4}" +
-  ".dsh-arrow{width:36px;height:36px;display:grid;place-items:center;flex:none;background:rgba(11,19,37,0.7);border:1px solid rgba(197,160,89,0.3);border-radius:10px;color:#DFBF77;transition:all .2s}" +
+  ".dsh-rate{position:relative;height:48px;margin:0 0 8px 2px}" +
+  ".dsh-badge{position:absolute;left:0;top:0;width:38px;height:48px;border-radius:8px;display:flex;align-items:center;justify-content:center}" +
+  ".dsh-badge svg{width:13px;height:13px;fill:#070D1E}" +
+  ".dsh-num{position:absolute;left:46px;top:4px;font-size:28px;font-weight:700;letter-spacing:-.04em;line-height:1;color:#FDFBF7}" +
+  ".dsh-chef{font-size:14px;font-weight:700;letter-spacing:-.01em;margin:0;color:#FDFBF7}" +
+  ".dsh-kit{font-size:9.5px;color:#94A3B8;margin:2px 0 8px}" +
+  ".dsh-desc{font-size:11px;line-height:1.4;margin:0;min-height:48px;color:#CBD5E1}" +
+  ".dsh-ing{display:flex;flex-wrap:wrap;gap:4px;margin:0;padding:0;list-style:none;min-height:48px}" +
+  ".dsh-ing li{font-size:9.5px;padding:2px 6px;border-radius:99px;background:rgba(197,160,89,0.15);color:#DFBF77;border:1px solid rgba(197,160,89,0.25)}" +
+  ".dsh-react{display:flex;gap:8px;margin-top:12px}" +
+  ".dsh-like{display:flex;align-items:center;gap:5px;height:28px;padding:0 10px;border-radius:99px;font-size:10px;font-weight:600;" +
+  "background:rgba(197,160,89,0.15);border:1px solid rgba(197,160,89,0.3);color:#DFBF77}" +
+  ".dsh-react .dsh-ico{width:13px;height:13px}" +
+  ".dsh-strip{position:absolute;left:110px;top:335px;width:720px;height:115px;display:flex;align-items:center;z-index:5}" +
+  ".dsh-arrow{width:34px;height:34px;display:grid;place-items:center;flex:none;background:rgba(11,19,37,0.7);border:1px solid rgba(197,160,89,0.3);border-radius:10px;color:#DFBF77;transition:all .2s}" +
   ".dsh-arrow:hover{background:#152238;border-color:#DFBF77;color:#FFF}" +
-  ".dsh-arrow svg{width:12px;height:16px;fill:currentColor}" +
-  ".dsh-win{position:relative;width:" + (ITEM * 4 + 40) + "px;height:122px;overflow:hidden;flex:none;margin:0 8px}" +
+  ".dsh-arrow svg{width:11px;height:14px;fill:currentColor}" +
+  ".dsh-win{position:relative;width:" + (ITEM * 5) + "px;height:115px;overflow:hidden;flex:none;margin:0 8px}" +
   ".dsh-track{position:absolute;left:0;top:0;display:flex;transition:transform .6s cubic-bezier(.65,0,.35,1)}" +
-  ".dsh-th{width:" + ITEM + "px;height:122px;display:flex;justify-content:center;padding-top:3px}" +
-  ".dsh-th .dsh-btn{width:90px;height:116px;border-radius:14px;display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:8px;transition:all .35s;border:1px solid transparent}" +
+  ".dsh-th{width:" + ITEM + "px;height:115px;display:flex;justify-content:center;padding-top:2px}" +
+  ".dsh-th .dsh-btn{width:92px;height:110px;border-radius:14px;display:flex;flex-direction:column;align-items:center;gap:5px;padding-top:7px;transition:all .35s;border:1px solid transparent}" +
   ".dsh-th .dsh-btn[aria-current]{background:rgba(21,34,56,0.85);border-color:#C5A059;box-shadow:0 8px 20px -8px rgba(197,160,89,0.4)}" +
-  ".dsh-th img{width:54px;height:54px;max-width:none;object-fit:cover;border-radius:50%;border:1px solid rgba(197,160,89,0.4);transition:transform .35s}" +
+  ".dsh-th img{width:50px;height:50px;max-width:none;object-fit:cover;border-radius:50%;border:1px solid rgba(197,160,89,0.4);transition:transform .35s}" +
   ".dsh-th .dsh-btn[aria-current] img{transform:scale(1.08);border-color:#DFBF77}" +
-  ".dsh-th span{font-size:10px;line-height:1.25;text-align:center;font-weight:600;color:#CBD5E1;max-width:82px}" +
+  ".dsh-th span{font-size:9.5px;line-height:1.2;text-align:center;font-weight:600;color:#CBD5E1;max-width:82px}" +
   ".dsh-th .dsh-btn[aria-current] span{color:#DFBF77}" +
   ".dsh-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}" +
-  // ==================== MOBILE ADAPTATION (< 768px) ====================
+  // Mobile (< 768px) Single Frame Layout
   "@media (max-width:767px){" +
-  ".dsh-root{height:590px;overflow:hidden}" +
-  ".dsh-canvas{position:relative;left:0;top:0;width:100%;height:590px;transform:none;overflow:hidden}" +
-  ".dsh-arc{left:50%;top:-20px;width:340px;height:240px;transform:translateX(-50%)}" +
+  ".dsh-frame{padding:14px 10px 14px;border-radius:1.25rem}" +
+  ".dsh-frame-title{font-size:20px}" +
+  ".dsh-frame-sub{font-size:10.5px;margin-top:2px}" +
+  ".dsh-root{height:485px;overflow:hidden}" +
+  ".dsh-canvas{position:relative;left:0;top:0;width:100%;height:485px;transform:none;overflow:hidden}" +
+  ".dsh-arc{left:50%;top:-22px;width:320px;height:210px;transform:translateX(-50%)}" +
   ".dsh-pager{display:none}" +
-  ".dsh-plates{position:absolute;left:50%;top:18px;width:170px;height:170px;transform:translateX(-50%);margin:0}" +
-  ".dsh-orbit{position:absolute;inset:0;transform-origin:50% -120%;visibility:hidden}" +
-  ".dsh-orbit>img{width:170px;height:170px;border-width:2.5px}" +
-  ".dsh-head{position:absolute;left:50%;top:205px;width:92%;transform:translateX(-50%);text-align:center;height:70px}" +
+  ".dsh-plates{position:absolute;left:50%;top:10px;width:145px;height:145px;transform:translateX(-50%);margin:0}" +
+  ".dsh-orbit{position:absolute;inset:0;transform-origin:50% -110%;visibility:hidden}" +
+  ".dsh-orbit>img{width:145px;height:145px;border-width:2px}" +
+  ".dsh-head{position:absolute;left:50%;top:165px;width:92%;transform:translateX(-50%);text-align:center;height:58px}" +
   ".dsh-hd{text-align:center}" +
-  ".dsh-eye{font-size:10.5px;margin-bottom:2px}" +
-  ".dsh-t1{font-size:19px !important;line-height:1.15;letter-spacing:-.01em;margin-top:2px;white-space:normal}" +
-  ".dsh-t2{font-size:21px !important;line-height:1.15;letter-spacing:-.02em;margin-top:2px;white-space:normal}" +
-  ".dsh-acts{position:absolute;left:50%;top:285px;transform:translateX(-50%);gap:12px;width:90%;max-width:340px;justify-content:center}" +
-  ".dsh-acts .dsh-btn{padding:7px 14px;font-size:11.5px;flex:1;justify-content:center}" +
-  ".dsh-card{position:absolute;left:50%;top:338px;transform:translateX(-50%);width:92%;max-width:360px;padding:10px 14px;border-radius:14px}" +
-  ".dsh-tabs{margin-bottom:6px;font-size:10.5px}" +
-  ".dsh-rate{height:36px;margin-bottom:4px}" +
-  ".dsh-badge{width:28px;height:36px;border-radius:6px}" +
-  ".dsh-badge svg{width:11px;height:11px}" +
-  ".dsh-num{left:36px;top:3px;font-size:22px}" +
-  ".dsh-chef{font-size:12.5px}" +
-  ".dsh-kit{font-size:9.5px;margin:1px 0 4px}" +
-  ".dsh-desc{font-size:10.5px;line-height:1.3;min-height:30px}" +
-  ".dsh-ing{min-height:30px;gap:3px}" +
-  ".dsh-ing li{font-size:9px;padding:2px 6px}" +
+  ".dsh-eye{font-size:10px;margin-bottom:2px}" +
+  ".dsh-t1{font-size:16px !important;line-height:1.15;letter-spacing:-.01em;margin-top:2px;white-space:normal}" +
+  ".dsh-t2{font-size:18px !important;line-height:1.15;letter-spacing:-.02em;margin-top:2px;white-space:normal}" +
+  ".dsh-acts{position:absolute;left:50%;top:228px;transform:translateX(-50%);gap:8px;width:92%;max-width:320px;justify-content:center}" +
+  ".dsh-acts .dsh-btn{padding:6px 12px;font-size:10.5px;flex:1;justify-content:center}" +
+  ".dsh-card{position:absolute;left:50%;top:268px;transform:translateX(-50%);width:92%;max-width:330px;padding:7px 10px;border-radius:12px}" +
+  ".dsh-tabs{margin-bottom:4px;font-size:10px}" +
+  ".dsh-rate{height:28px;margin-bottom:2px}" +
+  ".dsh-badge{width:22px;height:28px;border-radius:5px}" +
+  ".dsh-badge svg{width:9px;height:9px}" +
+  ".dsh-num{left:28px;top:2px;font-size:18px}" +
+  ".dsh-chef{font-size:12px}" +
+  ".dsh-kit{font-size:9px;margin:1px 0 2px}" +
+  ".dsh-desc{font-size:10px;line-height:1.25;min-height:24px}" +
+  ".dsh-ing{min-height:24px;gap:2px}" +
+  ".dsh-ing li{font-size:8px;padding:1.5px 5px}" +
   ".dsh-react{display:none}" +
-  ".dsh-strip{position:absolute;left:50%;top:488px;transform:translateX(-50%);width:96%;max-width:380px;height:84px;justify-content:center}" +
-  ".dsh-arrow{width:28px;height:28px;border-radius:8px}" +
-  ".dsh-arrow svg{width:9px;height:12px}" +
-  ".dsh-win{width:290px;height:84px;margin:0 4px}" +
-  ".dsh-th{width:58px;height:84px}" +
-  ".dsh-th .dsh-btn{width:54px;height:80px;padding-top:4px;gap:3px;border-radius:10px}" +
-  ".dsh-th img{width:36px;height:36px}" +
-  ".dsh-th span{font-size:8.5px;max-width:50px;line-height:1.15}" +
+  ".dsh-strip{position:absolute;left:50%;top:395px;transform:translateX(-50%);width:96%;max-width:350px;height:78px;justify-content:center}" +
+  ".dsh-arrow{width:24px;height:24px;border-radius:6px}" +
+  ".dsh-arrow svg{width:8px;height:10px}" +
+  ".dsh-win{width:270px;height:78px;margin:0 3px}" +
+  ".dsh-th{width:54px;height:78px}" +
+  ".dsh-th .dsh-btn{width:50px;height:74px;padding-top:2px;gap:2px;border-radius:10px}" +
+  ".dsh-th img{width:32px;height:32px}" +
+  ".dsh-th span{font-size:8px;max-width:46px;line-height:1.1}" +
   "}" +
   "@media (prefers-reduced-motion:reduce){.dsh-track,.dsh-dot,.dsh-dot i,.dsh-th .dsh-btn,.dsh-th img,.dsh-like{transition:none}}"
 
@@ -241,7 +243,7 @@ const Icon = {
 
 export function DishOrbitCarousel({
   dishes,
-  height = "540px",
+  height = "470px",
   backdrop,
   fontSrc = FONT_DATA,
   onPlay,
@@ -253,7 +255,6 @@ export function DishOrbitCarousel({
   const [index, setIndex] = useState(0)
   const [tab, setTab] = useState("overview")
   const [liked, setLiked] = useState({} as Record<number, boolean>)
-  const [isPaused, setIsPaused] = useState(false)
 
   const trackRef = useRef<HTMLDivElement | null>(null)
   const rootRef = useRef<HTMLDivElement | null>(null)
@@ -272,7 +273,7 @@ export function DishOrbitCarousel({
   const reducedRef = useRef(false)
   const swipe = useRef<{ x: number; y: number } | null>(null)
 
-  // Fit 960x520 design canvas to root for screens >= 768px
+  // Scale 960x470 canvas to fit root for screens >= 768px
   useLayoutEffect(() => {
     const el = rootRef.current
     if (!el) return
@@ -280,7 +281,7 @@ export function DishOrbitCarousel({
       const w = el.clientWidth
       const h = el.clientHeight
       if (w >= 768) {
-        el.style.setProperty("--dsh-s", String(Math.min(w / 960, h / 520, 1.4)))
+        el.style.setProperty("--dsh-s", String(Math.min(w / 960, h / 470, 1.2)))
       } else {
         el.style.removeProperty("--dsh-s")
       }
@@ -299,7 +300,7 @@ export function DishOrbitCarousel({
     return () => mq.removeEventListener("change", on)
   }, [])
 
-  // The Swap GSAP Timeline (Swings dish on circular orbit, wipes title lines, stretches arc, cross-fades card)
+  // Swap GSAP Timeline: Swings plate on orbit, wipes titles, morphs arc, cross-fades card
   useLayoutEffect(() => {
     const from = shown.current
     const to = index
@@ -350,12 +351,12 @@ export function DishOrbitCarousel({
     })
     tlRef.current = tl
 
-    // 1. Plate: swings out over the top on the orbit, next one swings in from opposite side
+    // 1. Plate: swings out over top along orbit, next plate swings in from opposite side
     tl.to(a.orbit, { rotation: SWING * d, duration: 0.62, ease: "power2.in" }, 0)
       .set(a.orbit, { autoAlpha: 0, rotation: 0 }, 0.62)
       .fromTo(b.orbit, { autoAlpha: 1, rotation: -SWING * d }, { rotation: 0, duration: 0.95, ease: "power3.out" }, 0.3)
 
-    // 2. Title: thin line wipes out to right, heavy line wipes out to left, incoming lines wipe in
+    // 2. Title: thin line wipes right, heavy line wipes left, incoming wipes in
     tl.to(a.t1, { clipPath: HIDE_1, duration: 0.42, ease: "power2.in" }, 0)
       .to(a.t2, { clipPath: HIDE_2, duration: 0.42, ease: "power2.in" }, 0.06)
       .to(a.eye, { autoAlpha: 0, duration: 0.25 }, 0)
@@ -365,7 +366,7 @@ export function DishOrbitCarousel({
       .fromTo(b.t1, { clipPath: HIDE_1 }, { clipPath: SHOW, duration: 0.7, ease: "power3.out" }, 0.55)
       .fromTo(b.t2, { clipPath: HIDE_2 }, { clipPath: SHOW, duration: 0.7, ease: "power3.out" }, 0.62)
 
-    // 3. Card: cross-fades with staggered entry
+    // 3. Card: cross-fade with staggered entry
     tl.to(a.body, { autoAlpha: 0, y: -6, duration: 0.3, ease: "power1.in" }, 0.05).set(b.body, { autoAlpha: 1, y: 0 }, 0.4)
     if (b.body)
       tl.fromTo(
@@ -403,27 +404,33 @@ export function DishOrbitCarousel({
     const next = wrapIndex(to, n)
     if (next === index) return
     select(next, dir ?? stepDirection(index, next, n))
+
+    // Smoothly align scroll position if currently in pinned state
+    if (stRef.current && stRef.current.isActive) {
+      const scrollPos = stRef.current.start + (next / Math.max(1, n - 1)) * (stRef.current.end - stRef.current.start)
+      window.scrollTo({ top: scrollPos, behavior: "smooth" })
+    }
   }
 
   const step = (d: 1 | -1) => go(index + d, d)
 
-  // ScrollTrigger: advances dishes as user scrolls down without header collision
+  // Scroll Action: Pin section in viewport and rotate through cards as user scrolls down
   useEffect(() => {
     const el = trackRef.current
     if (!el || n < 2) return
 
     const sectionEl = (el.closest("section") as HTMLElement) || el
-    const isDesktop = typeof window !== "undefined" && window.innerWidth >= 768
+    // 320px of scroll per card change
+    const scrollPerDish = 320
+    const scrollDistance = scrollPerDish * (n - 1)
 
-    // On Desktop, pin safely below the sticky navbar (top 72px)
-    // On Mobile, do not pin to allow silky smooth touch scrolling, but advance as user scrolls
     const st = ScrollTrigger.create({
       trigger: sectionEl,
-      start: isDesktop ? "top 72px" : "top 80%",
-      end: isDesktop ? "+=1200" : "bottom 20%",
-      pin: isDesktop,
+      start: "top top", // Section pins at top of viewport
+      end: `+=${scrollDistance}`,
+      pin: true,
       anticipatePin: 1,
-      scrub: isDesktop ? 0.3 : false,
+      scrub: 0.2,
       onUpdate: (self) => {
         const progress = Math.max(0, Math.min(0.9999, self.progress))
         const target = Math.min(n - 1, Math.floor(progress * n))
@@ -435,19 +442,15 @@ export function DishOrbitCarousel({
     })
 
     stRef.current = st
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh()
+    }, 250)
+
     return () => {
+      clearTimeout(refreshTimer)
       st.kill()
     }
   }, [n])
-
-  // Automatic slideshow (every 4.5 seconds, pauses when user hovers or touches)
-  useEffect(() => {
-    if (isPaused || n < 2) return
-    const timer = setInterval(() => {
-      step(1)
-    }, 4500)
-    return () => clearInterval(timer)
-  }, [index, isPaused, n])
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowRight") {
@@ -461,13 +464,11 @@ export function DishOrbitCarousel({
 
   const onPointerDown = (e: React.PointerEvent) => {
     swipe.current = { x: e.clientX, y: e.clientY }
-    setIsPaused(true)
   }
 
   const onPointerUp = (e: React.PointerEvent) => {
     const s = swipe.current
     swipe.current = null
-    setTimeout(() => setIsPaused(false), 2000)
     if (!s) return
     const dx = e.clientX - s.x
     if (Math.abs(dx) > 35 && Math.abs(dx) > Math.abs(e.clientY - s.y) * 1.3) {
@@ -479,251 +480,270 @@ export function DishOrbitCarousel({
   const dish = dishes[index]
 
   return (
-    <div
-      ref={trackRef}
-      className={"dsh-trk" + (className ? " " + className : "")}
-      style={{ height: height || "540px" }}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
-      <div
-        ref={rootRef}
-        className="dsh-root"
-        style={{ height: height || "540px" }}
-        role="region"
-        aria-roledescription="carousel"
-        aria-label="Royal Spices & Dry Fruits Showcase"
-        tabIndex={0}
-        onKeyDown={onKeyDown}
-      >
-        <style>
-          {(fontSrc ? "@font-face{font-family:" + FONT + ";src:url(" + fontSrc + ") format('woff2');font-weight:100 900;font-display:swap}" : "") + CSS}
-        </style>
-        {backdrop ? <img className="dsh-bd" src={backdrop} alt="" width={1200} height={900} /> : null}
-        {backdrop ? <div className="dsh-dim" /> : null}
-        {backdrop ? <div className="dsh-wash" /> : null}
+    <div ref={trackRef} className={"dsh-trk" + (className ? " " + className : "")}>
+      
+      {/* 1. SINGLE LUXURY ARCHITECTURAL FRAME */}
+      <div className="dsh-frame">
+        
+        {/* Frame Ambient Backlight */}
+        <div
+          className="absolute top-1/3 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] rounded-full blur-[130px] pointer-events-none transition-all duration-700 opacity-25"
+          style={{ backgroundColor: dish?.accent || "#C5A059" }}
+        />
 
-        <div className="dsh-canvas">
-          {/* Morphing Accent Arc */}
-          <svg className="dsh-arc" viewBox="0 0 960 520" aria-hidden="true">
-            <path ref={arcRef} style={{ opacity: 0.38 }} />
-          </svg>
-
-          {/* Left Vertical Pager Dots (Desktop) */}
-          <div className="dsh-pager" role="tablist" aria-label="Choose a harvest">
-            {dishes.map((d, i) => (
-              <button
-                key={i}
-                type="button"
-                role="tab"
-                className="dsh-btn dsh-dot"
-                aria-selected={i === index}
-                aria-current={i === index ? "true" : undefined}
-                aria-label={d.title + " " + d.subtitle}
-                onClick={() => go(i)}
-              >
-                <i />
-              </button>
-            ))}
+        {/* Frame Top Header */}
+        <div className="dsh-frame-hdr">
+          <div className="dsh-frame-badge">
+            <Compass className="w-3.5 h-3.5 text-[#C5A059]" />
+            <span>Interactive Sensory Showcase</span>
           </div>
+          <h2 className="dsh-frame-title">The Royal Orbit Showcase</h2>
+          <p className="dsh-frame-sub">
+            Scroll down to rotate through our single-origin harvests. Press "Add to Bag" to acquire directly.
+          </p>
+        </div>
 
-          {/* Plated Dishes on Orbit */}
-          <div
-            className="dsh-plates"
-            onPointerDown={onPointerDown}
-            onPointerUp={onPointerUp}
-            onPointerCancel={() => (swipe.current = null)}
-          >
-            {dishes.map((d, i) => (
-              <div
-                key={i}
-                ref={(el) => {
-                  orbits.current[i] = el
-                }}
-                className="dsh-orbit"
-                aria-hidden={i !== index}
-              >
-                <img
-                  src={d.image}
-                  alt={d.alt ?? d.title + " " + d.subtitle}
-                  width={245}
-                  height={245}
-                  draggable={false}
-                />
-              </div>
-            ))}
-          </div>
+        {/* Frame Orbit Stage */}
+        <div
+          ref={rootRef}
+          className="dsh-root"
+          style={{ height: height || "470px" }}
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Royal Spices & Dry Fruits Showcase"
+          tabIndex={0}
+          onKeyDown={onKeyDown}
+        >
+          <style>
+            {(fontSrc ? "@font-face{font-family:" + FONT + ";src:url(" + fontSrc + ") format('woff2');font-weight:100 900;font-display:swap}" : "") + CSS}
+          </style>
+          {backdrop ? <img className="dsh-bd" src={backdrop} alt="" width={1200} height={900} /> : null}
+          {backdrop ? <div className="dsh-dim" /> : null}
+          {backdrop ? <div className="dsh-wash" /> : null}
 
-          {/* Two-Weight Directional Wiping Title */}
-          <div className="dsh-head" aria-live="polite">
-            {dishes.map((d, i) => (
-              <div
-                key={i}
-                ref={(el) => {
-                  heads.current[i] = el
-                }}
-                className="dsh-hd"
-                aria-hidden={i !== index}
-              >
-                <p className="dsh-eye">{d.eyebrow ?? `#${i + 1} Imperial Harvest`}</p>
-                <h3 style={{ margin: 0, font: "inherit" }}>
-                  <span
-                    className="dsh-t1"
-                    style={{ fontSize: fitSize(d.title.length, 36, 360, 0.65) + "px" }}
-                  >
-                    {d.title}
-                  </span>
-                  <span
-                    className="dsh-t2"
-                    style={{ fontSize: fitSize(d.subtitle.length, 42, 360, 0.68) + "px" }}
-                  >
-                    {d.subtitle}
-                  </span>
-                </h3>
-              </div>
-            ))}
-          </div>
+          <div className="dsh-canvas">
+            {/* Morphing Accent Arc */}
+            <svg className="dsh-arc" viewBox="0 0 960 490" aria-hidden="true">
+              <path ref={arcRef} style={{ opacity: 0.38 }} />
+            </svg>
 
-          {/* Action Buttons */}
-          <div className="dsh-acts">
-            <button
-              type="button"
-              className="dsh-btn dsh-btn-sec"
-              onClick={() => dish && onPlay?.(dish, index)}
-            >
-              {Icon.play}
-              <span>Explore Terroir</span>
-            </button>
-            <button
-              type="button"
-              className="dsh-btn dsh-btn-primary"
-              onClick={() => dish && onOrder?.(dish, index)}
-            >
-              {Icon.order}
-              <span>Add to Bag {dish.price ? `• ₹${dish.price}` : ""}</span>
-            </button>
-          </div>
-
-          {/* Terroir Spec Card (Right Side) */}
-          <div className="dsh-card">
-            <div className="dsh-tabs" role="tablist" aria-label="Terroir details">
-              {["overview", "ingredients"].map((t) => (
+            {/* Left Vertical Pager Dots (Desktop) */}
+            <div className="dsh-pager" role="tablist" aria-label="Choose a harvest">
+              {dishes.map((d, i) => (
                 <button
-                  key={t}
+                  key={i}
                   type="button"
                   role="tab"
-                  className="dsh-btn dsh-tab"
-                  aria-selected={tab === t}
-                  onClick={() => setTab(t)}
+                  className="dsh-btn dsh-dot"
+                  aria-selected={i === index}
+                  aria-current={i === index ? "true" : undefined}
+                  aria-label={d.title + " " + d.subtitle}
+                  onClick={() => go(i)}
                 >
-                  {t === "overview" ? "Terroir" : "Purity Specs"}
+                  <i />
                 </button>
               ))}
             </div>
-            <div className="dsh-bodies">
+
+            {/* Plated Dishes on Orbit */}
+            <div
+              className="dsh-plates"
+              onPointerDown={onPointerDown}
+              onPointerUp={onPointerUp}
+              onPointerCancel={() => (swipe.current = null)}
+            >
               {dishes.map((d, i) => (
                 <div
                   key={i}
                   ref={(el) => {
-                    bodies.current[i] = el
+                    orbits.current[i] = el
                   }}
-                  className="dsh-body"
+                  className="dsh-orbit"
                   aria-hidden={i !== index}
                 >
-                  <div className="dsh-rate">
-                    <div className="dsh-badge" style={{ background: d.accent }}>
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.2l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z" />
-                      </svg>
-                    </div>
-                    <span
-                      className="dsh-num"
-                      aria-label={"Rated " + d.rating.toFixed(1) + " out of 5"}
-                    >
-                      {d.rating.toFixed(1)}
-                    </span>
-                  </div>
-                  <p className="dsh-chef">{d.chef}</p>
-                  <p className="dsh-kit">{d.kitchen ?? " "}</p>
-                  {tab === "overview" || !d.ingredients?.length ? (
-                    <p className="dsh-desc">{d.description}</p>
-                  ) : (
-                    <ul className="dsh-ing">
-                      {d.ingredients.map((x) => (
-                        <li key={x}>{x}</li>
-                      ))}
-                    </ul>
-                  )}
-                  <div className="dsh-react">
-                    <button
-                      type="button"
-                      className="dsh-btn dsh-like"
-                      aria-pressed={!!liked[i]}
-                      tabIndex={i === index ? 0 : -1}
-                      onClick={() => setLiked((s) => ({ ...s, [i]: !s[i] }))}
-                    >
-                      {Icon.up}
-                      {d.likes + (liked[i] ? 1 : 0)} Patrons
-                    </button>
-                  </div>
+                  <img
+                    src={d.image}
+                    alt={d.alt ?? d.title + " " + d.subtitle}
+                    width={240}
+                    height={240}
+                    draggable={false}
+                  />
                 </div>
               ))}
             </div>
-          </div>
 
-          {/* Bottom Thumbnail Strip (Desktop & Mobile) */}
-          <div className="dsh-strip">
-            <button
-              type="button"
-              className="dsh-btn dsh-arrow"
-              aria-label="Previous harvest"
-              onClick={() => step(-1)}
-            >
-              <svg viewBox="0 0 12 16" aria-hidden="true">
-                <path d="M11 0v16L0 8z" />
-              </svg>
-            </button>
-            <div className="dsh-win">
-              <div
-                className="dsh-track"
-                style={{
-                  transform:
-                    typeof window !== "undefined" && window.innerWidth < 768
-                      ? `translateX(${-start * 58}px)`
-                      : `translateX(${-start * ITEM}px)`,
-                }}
-              >
-                {dishes.map((d, i) => (
-                  <div key={i} className="dsh-th">
-                    <button
-                      type="button"
-                      className="dsh-btn"
-                      aria-current={i === index ? "true" : undefined}
-                      onClick={() => go(i)}
+            {/* Two-Weight Directional Wiping Title */}
+            <div className="dsh-head" aria-live="polite">
+              {dishes.map((d, i) => (
+                <div
+                  key={i}
+                  ref={(el) => {
+                    heads.current[i] = el
+                  }}
+                  className="dsh-hd"
+                  aria-hidden={i !== index}
+                >
+                  <p className="dsh-eye">{d.eyebrow ?? `#${i + 1} Imperial Harvest`}</p>
+                  <h3 style={{ margin: 0, font: "inherit" }}>
+                    <span
+                      className="dsh-t1"
+                      style={{ fontSize: fitSize(d.title.length, 36, 365, 0.65) + "px" }}
                     >
-                      <img src={d.image} alt="" width={54} height={54} draggable={false} />
-                      <span>{d.label ?? d.subtitle}</span>
-                    </button>
+                      {d.title}
+                    </span>
+                    <span
+                      className="dsh-t2"
+                      style={{ fontSize: fitSize(d.subtitle.length, 42, 365, 0.68) + "px" }}
+                    >
+                      {d.subtitle}
+                    </span>
+                  </h3>
+                </div>
+              ))}
+            </div>
+
+            {/* Action Buttons */}
+            <div className="dsh-acts">
+              <button
+                type="button"
+                className="dsh-btn dsh-btn-sec"
+                onClick={() => dish && onPlay?.(dish, index)}
+              >
+                {Icon.play}
+                <span>Explore Terroir</span>
+              </button>
+              <button
+                type="button"
+                className="dsh-btn dsh-btn-primary"
+                onClick={() => dish && onOrder?.(dish, index)}
+              >
+                {Icon.order}
+                <span>Add to Bag {dish.price ? `• ₹${dish.price}` : ""}</span>
+              </button>
+            </div>
+
+            {/* Terroir Spec Card (Right Side) */}
+            <div className="dsh-card">
+              <div className="dsh-tabs" role="tablist" aria-label="Terroir details">
+                {["overview", "ingredients"].map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    role="tab"
+                    className="dsh-btn dsh-tab"
+                    aria-selected={tab === t}
+                    onClick={() => setTab(t)}
+                  >
+                    {t === "overview" ? "Terroir" : "Purity Specs"}
+                  </button>
+                ))}
+              </div>
+              <div className="dsh-bodies">
+                {dishes.map((d, i) => (
+                  <div
+                    key={i}
+                    ref={(el) => {
+                      bodies.current[i] = el
+                    }}
+                    className="dsh-body"
+                    aria-hidden={i !== index}
+                  >
+                    <div className="dsh-rate">
+                      <div className="dsh-badge" style={{ background: d.accent }}>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.2l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z" />
+                        </svg>
+                      </div>
+                      <span
+                        className="dsh-num"
+                        aria-label={"Rated " + d.rating.toFixed(1) + " out of 5"}
+                      >
+                        {d.rating.toFixed(1)}
+                      </span>
+                    </div>
+                    <p className="dsh-chef">{d.chef}</p>
+                    <p className="dsh-kit">{d.kitchen ?? " "}</p>
+                    {tab === "overview" || !d.ingredients?.length ? (
+                      <p className="dsh-desc">{d.description}</p>
+                    ) : (
+                      <ul className="dsh-ing">
+                        {d.ingredients.map((x) => (
+                          <li key={x}>{x}</li>
+                        ))}
+                      </ul>
+                    )}
+                    <div className="dsh-react">
+                      <button
+                        type="button"
+                        className="dsh-btn dsh-like"
+                        aria-pressed={!!liked[i]}
+                        tabIndex={i === index ? 0 : -1}
+                        onClick={() => setLiked((s) => ({ ...s, [i]: !s[i] }))}
+                      >
+                        {Icon.up}
+                        {d.likes + (liked[i] ? 1 : 0)} Patrons
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-            <button
-              type="button"
-              className="dsh-btn dsh-arrow"
-              aria-label="Next harvest"
-              onClick={() => step(1)}
-            >
-              <svg viewBox="0 0 12 16" aria-hidden="true">
-                <path d="M1 0v16l11-8z" />
-              </svg>
-            </button>
+
+            {/* Bottom Thumbnail Strip (5 harvests) */}
+            <div className="dsh-strip">
+              <button
+                type="button"
+                className="dsh-btn dsh-arrow"
+                aria-label="Previous harvest"
+                onClick={() => step(-1)}
+              >
+                <svg viewBox="0 0 12 16" aria-hidden="true">
+                  <path d="M11 0v16L0 8z" />
+                </svg>
+              </button>
+              <div className="dsh-win">
+                <div
+                  className="dsh-track"
+                  style={{
+                    transform:
+                      typeof window !== "undefined" && window.innerWidth < 768
+                        ? `translateX(${-start * 54}px)`
+                        : `translateX(${-start * ITEM}px)`,
+                  }}
+                >
+                  {dishes.map((d, i) => (
+                    <div key={i} className="dsh-th">
+                      <button
+                        type="button"
+                        className="dsh-btn"
+                        aria-current={i === index ? "true" : undefined}
+                        onClick={() => go(i)}
+                      >
+                        <img src={d.image} alt="" width={50} height={50} draggable={false} />
+                        <span>{d.label ?? d.subtitle}</span>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <button
+                type="button"
+                className="dsh-btn dsh-arrow"
+                aria-label="Next harvest"
+                onClick={() => step(1)}
+              >
+                <svg viewBox="0 0 12 16" aria-hidden="true">
+                  <path d="M1 0v16l11-8z" />
+                </svg>
+              </button>
+            </div>
           </div>
+
+          <p className="dsh-sr" aria-live="polite">
+            {dish ? "Harvest " + (index + 1) + " of " + n + ": " + dish.title + " " + dish.subtitle : ""}
+          </p>
         </div>
 
-        <p className="dsh-sr" aria-live="polite">
-          {dish ? "Harvest " + (index + 1) + " of " + n + ": " + dish.title + " " + dish.subtitle : ""}
-        </p>
       </div>
     </div>
   )

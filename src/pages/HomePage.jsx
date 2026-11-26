@@ -771,22 +771,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. The Royal Orbit Showcase: Spices & Dry Fruits Carousel */}
-      <section className="bg-[#070D1E] text-white py-12 sm:py-16 border-y-2 border-[#C5A059]/40 overflow-hidden relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#152238] border border-[#C5A059]/40 text-[#DFBF77] text-xs font-semibold uppercase tracking-widest mb-2">
-            <Compass className="w-3.5 h-3.5 text-[#C5A059]" />
-            <span>Interactive Sensory Showcase</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#FDFBF7] tracking-tight scroll-text-reveal">
-            The Royal Orbit Showcase
-          </h2>
-          <p className="text-xs sm:text-sm text-[#CBD5E1] max-w-xl mx-auto mt-2">
-            Select or rotate through our single-origin spices and imperial dry fruits. Press "Add to Bag" to acquire any harvest directly.
-          </p>
-        </div>
+      {/* 4. The Royal Orbit Showcase: Single Luxury Architectural Frame with Pinned Scroll Rotation */}
+      <section
+        id="royal-orbit-section"
+        className="relative bg-[#070D1E] text-white border-y-2 border-[#C5A059]/40 pt-20 sm:pt-24 pb-8 sm:pb-12 min-h-screen flex flex-col justify-center overflow-hidden"
+      >
+        <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-[#C5A059]/10 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute bottom-10 left-10 w-[500px] h-[500px] bg-[#152238]/60 rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
           <DishOrbitCarousel
             dishes={SPICE_ORBIT_ITEMS}
             onOrder={handleOrbitOrder}
