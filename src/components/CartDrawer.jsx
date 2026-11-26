@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck, Tag, Sparkles } from 'lucide-react';
+import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck, Tag, Check } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useNotification } from '../context/NotificationContext';
 
@@ -100,7 +100,7 @@ export default function CartDrawer() {
               </div>
             ) : (
               <div className="flex items-center gap-2 text-xs font-semibold text-emerald-800">
-                <Sparkles className="w-4 h-4 text-[#C5A059]" />
+                <Check className="w-4 h-4 text-[#C5A059]" />
                 <span>You have unlocked Complimentary Royal Express Shipping!</span>
               </div>
             )}

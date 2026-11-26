@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Lock, Sparkles, AlertCircle, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Lock, Loader2, AlertCircle, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useNotification } from '../context/NotificationContext';
 
@@ -463,7 +463,7 @@ export default function CheckoutPage() {
                 >
                   {isSubmitting ? (
                     <>
-                      <Sparkles className="w-4 h-4 text-[#C5A059] animate-spin" />
+                      <Loader2 className="w-4 h-4 text-[#C5A059] animate-spin" />
                       <span>Confirming Your Order...</span>
                     </>
                   ) : (

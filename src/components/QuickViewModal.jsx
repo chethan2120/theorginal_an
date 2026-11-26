@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { X, Star, ShoppingBag, Check, Heart, ArrowRight } from 'lucide-react';
+import { X, Star, ShoppingBag, Check, Heart, ArrowRight, MapPin } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useNotification } from '../context/NotificationContext';
@@ -126,9 +126,12 @@ export default function QuickViewModal({ product, onClose }) {
 
                 {/* Sourcing Highlight */}
                 {product.origin && (
-                  <div className="mt-4 p-3 bg-[#FAF7F2] rounded-xl border border-[#EDE6D8] text-xs">
-                    <span className="font-semibold text-[#0B1325]">📍 Terroir Origin: </span>
-                    <span className="text-[#556987]">{product.origin}</span>
+                  <div className="mt-4 p-3 bg-[#FAF7F2] rounded-xl border border-[#EDE6D8] text-xs flex items-center gap-2">
+                    <MapPin className="w-3.5 h-3.5 text-[#C5A059] flex-shrink-0" />
+                    <div>
+                      <span className="font-semibold text-[#0B1325]">Terroir Origin: </span>
+                      <span className="text-[#556987]">{product.origin}</span>
+                    </div>
                   </div>
                 )}
 

@@ -8,9 +8,10 @@ import {
   ChevronDown,
   Compass,
   Check,
-  Sparkles,
   ShoppingBag,
-  ShieldCheck
+  ShieldCheck,
+  Truck,
+  Snowflake
 } from 'lucide-react';
 import { PRODUCTS, CATEGORIES } from '../data/products';
 import { TESTIMONIALS, BRAND_VALUES } from '../data/reviews';
@@ -349,7 +350,7 @@ export default function HomePage() {
       />
 
       {/* 1. Grand Editorial Hero Section */}
-      <section className="relative bg-[#070D1E] text-white overflow-hidden border-b-2 border-[#C5A059]/40 pt-3 sm:pt-5 pb-12 sm:pb-16">
+      <section id="hero-section" className="relative bg-[#070D1E] text-white overflow-hidden border-b-2 border-[#C5A059]/40 pt-4 sm:pt-6 pb-12 sm:pb-16">
         {/* Ambient Atmosphere Glows with Parallax */}
         <div data-speed="0.25" className="scroll-parallax absolute top-0 right-1/4 w-[600px] h-[600px] bg-[#C5A059]/10 rounded-full blur-[140px] pointer-events-none" />
         <div data-speed="0.2" className="scroll-parallax absolute bottom-0 left-10 w-[500px] h-[500px] bg-[#152238]/70 rounded-full blur-[120px] pointer-events-none" />
@@ -360,6 +361,11 @@ export default function HomePage() {
             
             {/* Left Column: Bold Luxury Typography & Brand Positioning */}
             <div className="lg:col-span-7 space-y-4 sm:space-y-5 text-center lg:text-left scroll-slide-left">
+
+              {/* Royal Standard Eyebrow */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#152238]/90 border border-[#C5A059]/40 text-[#DFBF77] text-[10.5px] font-semibold tracking-[0.25em] uppercase mb-1">
+                <span>THE ROYAL STANDARD • SINGLE-ORIGIN HARVESTS</span>
+              </div>
 
               {/* Main Headline */}
               <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#FDFBF7] leading-[1.12] scroll-text-reveal">
@@ -470,7 +476,7 @@ export default function HomePage() {
                     {/* Floating Potency Tag */}
                     <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
                       <span className="px-3 py-1 rounded-full bg-[#070D1E]/90 border border-[#C5A059]/50 text-[#DFBF77] text-[10px] font-bold uppercase tracking-wider backdrop-blur-md">
-                        ✦ {activeHeroSlide.potency}
+                        {activeHeroSlide.potency}
                       </span>
                     </div>
                   </div>
@@ -493,9 +499,10 @@ export default function HomePage() {
                     {activeHeroSlide.highlights.map((h, i) => (
                       <span
                         key={i}
-                        className="px-2.5 py-0.5 rounded-md bg-[#152238] border border-[#C5A059]/25 text-[10px] text-[#DFBF77] font-medium"
+                        className="px-2.5 py-0.5 rounded-md bg-[#152238] border border-[#C5A059]/25 text-[10px] text-[#DFBF77] font-medium flex items-center gap-1"
                       >
-                        ✓ {h}
+                        <Check className="w-2.5 h-2.5 text-[#DFBF77]" />
+                        <span>{h}</span>
                       </span>
                     ))}
                   </div>
@@ -535,66 +542,66 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4 Value Pillar Cards Below Hero */}
-      <section className="bg-[#0B1325] border-b border-[#C5A059]/30 py-6 sm:py-8 relative z-20">
+      {/* 4 Value Pillars Banner (Separated in Crisp White Background Theme) */}
+      <section className="bg-white border-b border-[#EDE6D8] py-10 sm:py-14 relative z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
             
             {/* Card 1: Certified GI Terroirs */}
-            <div className="bg-[#152238]/90 hover:bg-[#1E2E4B] border border-[#C5A059]/30 hover:border-[#C5A059]/60 rounded-2xl p-4 sm:p-5 flex items-start gap-4 transition-all duration-300 shadow-md group">
-              <div className="w-10 h-10 rounded-xl bg-[#070D1E] border border-[#C5A059]/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                <Compass className="w-5 h-5 text-[#DFBF77]" />
+            <div className="bg-[#FAF7F2] hover:bg-[#F3EFE6] border border-[#EDE6D8] hover:border-[#C5A059]/60 rounded-2xl p-5 sm:p-6 flex items-start gap-4 transition-all duration-300 shadow-xs hover:shadow-md group">
+              <div className="w-11 h-11 rounded-xl bg-white border border-[#EDE6D8] group-hover:border-[#C5A059]/50 flex items-center justify-center flex-shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+                <Compass className="w-5 h-5 text-[#9A7736]" />
               </div>
               <div className="min-w-0">
-                <h4 className="font-serif font-bold text-sm sm:text-base text-[#FDFBF7] tracking-wide">
+                <h4 className="font-serif font-bold text-sm sm:text-base text-[#0B1325] tracking-wide">
                   Certified GI Terroirs
                 </h4>
-                <p className="text-xs text-[#CBD5E1] mt-1 leading-snug font-light">
+                <p className="text-xs text-[#556987] mt-1 leading-snug font-normal">
                   Single-origin authentic provenance
                 </p>
               </div>
             </div>
 
             {/* Card 2: 7-Stage Lab Certified */}
-            <div className="bg-[#152238]/90 hover:bg-[#1E2E4B] border border-[#C5A059]/30 hover:border-[#C5A059]/60 rounded-2xl p-4 sm:p-5 flex items-start gap-4 transition-all duration-300 shadow-md group">
-              <div className="w-10 h-10 rounded-xl bg-[#070D1E] border border-[#C5A059]/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                <ShieldCheck className="w-5 h-5 text-[#DFBF77]" />
+            <div className="bg-[#FAF7F2] hover:bg-[#F3EFE6] border border-[#EDE6D8] hover:border-[#C5A059]/60 rounded-2xl p-5 sm:p-6 flex items-start gap-4 transition-all duration-300 shadow-xs hover:shadow-md group">
+              <div className="w-11 h-11 rounded-xl bg-white border border-[#EDE6D8] group-hover:border-[#C5A059]/50 flex items-center justify-center flex-shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+                <ShieldCheck className="w-5 h-5 text-[#9A7736]" />
               </div>
               <div className="min-w-0">
-                <h4 className="font-serif font-bold text-sm sm:text-base text-[#FDFBF7] tracking-wide">
+                <h4 className="font-serif font-bold text-sm sm:text-base text-[#0B1325] tracking-wide">
                   7-Stage Lab Certified
                 </h4>
-                <p className="text-xs text-[#CBD5E1] mt-1 leading-snug font-light">
+                <p className="text-xs text-[#556987] mt-1 leading-snug font-normal">
                   Zero dyes, fillers, or adulterants
                 </p>
               </div>
             </div>
 
             {/* Card 3: Nitrogen Fresh Sealed */}
-            <div className="bg-[#152238]/90 hover:bg-[#1E2E4B] border border-[#C5A059]/30 hover:border-[#C5A059]/60 rounded-2xl p-4 sm:p-5 flex items-start gap-4 transition-all duration-300 shadow-md group">
-              <div className="w-10 h-10 rounded-xl bg-[#070D1E] border border-[#C5A059]/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                <Sparkles className="w-5 h-5 text-[#DFBF77]" />
+            <div className="bg-[#FAF7F2] hover:bg-[#F3EFE6] border border-[#EDE6D8] hover:border-[#C5A059]/60 rounded-2xl p-5 sm:p-6 flex items-start gap-4 transition-all duration-300 shadow-xs hover:shadow-md group">
+              <div className="w-11 h-11 rounded-xl bg-white border border-[#EDE6D8] group-hover:border-[#C5A059]/50 flex items-center justify-center flex-shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+                <Snowflake className="w-5 h-5 text-[#9A7736]" />
               </div>
               <div className="min-w-0">
-                <h4 className="font-serif font-bold text-sm sm:text-base text-[#FDFBF7] tracking-wide">
+                <h4 className="font-serif font-bold text-sm sm:text-base text-[#0B1325] tracking-wide">
                   Nitrogen Fresh Sealed
                 </h4>
-                <p className="text-xs text-[#CBD5E1] mt-1 leading-snug font-light">
+                <p className="text-xs text-[#556987] mt-1 leading-snug font-normal">
                   Preserving delicate volatile oils
                 </p>
               </div>
             </div>
 
-            {/* Card 4: 👑 Complimentary Express */}
-            <div className="bg-[#152238]/90 hover:bg-[#1E2E4B] border border-[#C5A059]/30 hover:border-[#C5A059]/60 rounded-2xl p-4 sm:p-5 flex items-start gap-4 transition-all duration-300 shadow-md group">
-              <div className="w-10 h-10 rounded-xl bg-[#070D1E] border border-[#C5A059]/40 flex items-center justify-center flex-shrink-0 text-lg group-hover:scale-110 transition-transform">
-                👑
+            {/* Card 4: Complimentary Express */}
+            <div className="bg-[#FAF7F2] hover:bg-[#F3EFE6] border border-[#EDE6D8] hover:border-[#C5A059]/60 rounded-2xl p-5 sm:p-6 flex items-start gap-4 transition-all duration-300 shadow-xs hover:shadow-md group">
+              <div className="w-11 h-11 rounded-xl bg-white border border-[#EDE6D8] group-hover:border-[#C5A059]/50 flex items-center justify-center flex-shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+                <Truck className="w-5 h-5 text-[#9A7736]" />
               </div>
               <div className="min-w-0">
-                <h4 className="font-serif font-bold text-sm sm:text-base text-[#FDFBF7] tracking-wide">
+                <h4 className="font-serif font-bold text-sm sm:text-base text-[#0B1325] tracking-wide">
                   Complimentary Express
                 </h4>
-                <p className="text-xs text-[#CBD5E1] mt-1 leading-snug font-light">
+                <p className="text-xs text-[#556987] mt-1 leading-snug font-normal">
                   Free delivery on orders over ₹999
                 </p>
               </div>
@@ -766,7 +773,7 @@ export default function HomePage() {
       <section className="bg-[#070D1E] text-white py-10 sm:py-14 border-y-2 border-[#C5A059]/40 overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4 text-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#152238] border border-[#C5A059]/40 text-[#DFBF77] text-xs font-semibold uppercase tracking-widest mb-2">
-            <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+            <Compass className="w-3.5 h-3.5 text-[#C5A059]" />
             <span>Interactive Sensory Showcase</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#FDFBF7] tracking-tight scroll-text-reveal">

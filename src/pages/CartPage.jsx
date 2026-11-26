@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Trash2, ArrowRight, ShieldCheck, ShoppingBag, Sparkles, MessageSquare } from 'lucide-react';
+import { Trash2, ArrowRight, ShieldCheck, ShoppingBag, Tag, Check, MessageSquare } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useNotification } from '../context/NotificationContext';
 
@@ -110,7 +110,7 @@ export default function CartPage() {
             </div>
           ) : (
             <div className="flex items-center gap-2 text-xs font-bold text-emerald-800">
-              <Sparkles className="w-4 h-4 text-[#C5A059]" />
+              <Check className="w-4 h-4 text-[#C5A059]" />
               <span>Complimentary Royal Express Shipping Unlocked!</span>
             </div>
           )}
@@ -263,9 +263,10 @@ export default function CartPage() {
                       applyPromoCode('ORIGINAL10');
                       showToast("Privilege code 'ORIGINAL10' applied!", 'success');
                     }}
-                    className="text-[10px] text-[#9A7736] font-medium bg-[#FAF7F2] px-2 py-1 rounded border border-[#EDE6D8] hover:border-[#C5A059]"
+                    className="text-[10px] text-[#9A7736] font-medium bg-[#FAF7F2] px-2 py-1 rounded border border-[#EDE6D8] hover:border-[#C5A059] inline-flex items-center gap-1"
                   >
-                    🏷️ ORIGINAL10 (10% Off)
+                    <Tag className="w-2.5 h-2.5" />
+                    <span>ORIGINAL10 (10% Off)</span>
                   </button>
                 </div>
               </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Compass, Sparkles, Award, ShieldCheck, MapPin } from 'lucide-react';
+import { Compass, Award, ShieldCheck, MapPin } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
 import ProductCard from '../components/ProductCard';
 import QuickViewModal from '../components/QuickViewModal';
@@ -35,7 +35,7 @@ export default function OriginsPage() {
 
             <div className="flex flex-wrap gap-4 pt-2 text-xs text-[#DFBF77]">
               <span className="flex items-center gap-1.5 bg-[#152238] px-3 py-1.5 rounded-lg border border-[#C5A059]/30">
-                <Sparkles className="w-4 h-4 text-[#C5A059]" /> 100% Traceable Estates
+                <MapPin className="w-4 h-4 text-[#C5A059]" /> 100% Traceable Estates
               </span>
               <span className="flex items-center gap-1.5 bg-[#152238] px-3 py-1.5 rounded-lg border border-[#C5A059]/30">
                 <Award className="w-4 h-4 text-[#C5A059]" /> Peak Altitude Terroirs

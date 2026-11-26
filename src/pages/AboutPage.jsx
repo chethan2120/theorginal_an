@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { HeartHandshake, Leaf, ArrowRight, Sparkles, Award, ShieldCheck, MapPin } from 'lucide-react';
+import { HeartHandshake, Leaf, ArrowRight, Award, ShieldCheck, MapPin } from 'lucide-react';
 import { initScrollAnimations } from '../utils/scrollAnimations';
 
 export default function AboutPage() {
@@ -49,7 +49,7 @@ export default function AboutPage() {
         {/* 1. Hero Section */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4 scroll-fade">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#152238] border border-[#C5A059]/40 text-[#DFBF77] text-xs font-semibold uppercase tracking-widest">
-            <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+            <Award className="w-3.5 h-3.5 text-[#C5A059]" />
             <span>The Heritage & Philosophy</span>
           </div>
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Award, ShieldCheck } from 'lucide-react';
+import { Award, ShieldCheck } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
 import ProductCard from '../components/ProductCard';
 import QuickViewModal from '../components/QuickViewModal';
@@ -26,7 +26,7 @@ export default function DryFruitsPage() {
         <div className="relative bg-[#0B1325] text-white rounded-3xl p-8 sm:p-12 lg:p-16 border-2 border-[#C5A059]/40 shadow-2xl overflow-hidden mb-16">
           <div className="relative z-10 max-w-2xl space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#152238] border border-[#C5A059]/40 text-[#DFBF77] text-xs font-semibold uppercase tracking-widest">
-              <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+              <Award className="w-3.5 h-3.5 text-[#C5A059]" />
               <span>Colossal Graded Harvests & Sun-Dried Fruits</span>
             </div>
 

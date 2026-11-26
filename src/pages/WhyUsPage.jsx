@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldCheck, Award, Sparkles, CheckCircle2, ArrowRight, Leaf, Snowflake, Microscope, Scale, Compass } from 'lucide-react';
+import { ShieldCheck, Award, CheckCircle2, ArrowRight, Leaf, Snowflake, Microscope, Scale, Compass } from 'lucide-react';
 import { initScrollAnimations } from '../utils/scrollAnimations';
 
 export default function WhyUsPage() {
@@ -127,7 +127,7 @@ export default function WhyUsPage() {
             {/* Left Hero Content */}
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left scroll-slide-left">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#152238] border border-[#C5A059]/40 text-[#DFBF77] text-xs font-semibold uppercase tracking-widest shadow-sm">
-                <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[#C5A059]" />
                 <span>The Royal Standard of Purity</span>
               </div>
 
@@ -170,7 +170,7 @@ export default function WhyUsPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#070D1E]/90 via-transparent to-transparent pointer-events-none" />
                   <div className="absolute bottom-4 left-4 right-4">
                     <span className="px-3 py-1 rounded-full bg-[#070D1E]/90 border border-[#C5A059]/50 text-[#DFBF77] text-[10px] font-bold uppercase tracking-wider backdrop-blur-md">
-                      ✦ Single-Origin GI Harvests Only
+                      Single-Origin GI Harvests Only
                     </span>
                     <p className="font-serif text-sm font-bold text-white mt-2">
                       Zero Auction Blending • 100% Direct Terroir
@@ -187,19 +187,19 @@ export default function WhyUsPage() {
       <div className="sticky top-[70px] z-30 bg-[#0B1325]/95 backdrop-blur-md border-b border-[#C5A059]/30 py-2.5 px-4 shadow-md">
         <div className="max-w-7xl mx-auto flex items-center justify-center gap-3 sm:gap-6 overflow-x-auto text-[11px] uppercase tracking-wider font-semibold text-slate-300">
           <a href="#standards" className="hover:text-[#DFBF77] transition-colors whitespace-nowrap">
-            ✦ Purity Pillars
+            Purity Pillars
           </a>
           <span className="text-[#C5A059]/50">•</span>
           <a href="#visual-showcase" className="hover:text-[#DFBF77] transition-colors whitespace-nowrap">
-            ✦ Physical Standards
+            Physical Standards
           </a>
           <span className="text-[#C5A059]/50">•</span>
           <a href="#comparison" className="hover:text-[#DFBF77] transition-colors whitespace-nowrap">
-            ✦ Lab Comparison
+            Lab Comparison
           </a>
           <span className="text-[#C5A059]/50">•</span>
           <a href="#ethical" className="hover:text-[#DFBF77] transition-colors whitespace-nowrap">
-            ✦ Ethical Farm-Gate
+            Ethical Farm-Gate
           </a>
         </div>
       </div>
@@ -274,7 +274,7 @@ export default function WhyUsPage() {
                     {item.title}
                   </h4>
                   <div className="text-xs font-semibold text-[#DFBF77] flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+                    <Award className="w-3.5 h-3.5 text-[#C5A059]" />
                     <span>{item.metric}</span>
                   </div>
                   <p className="text-[11px] text-slate-400">

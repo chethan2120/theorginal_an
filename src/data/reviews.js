@@ -56,7 +56,7 @@ export const BRAND_VALUES = [
     id: "zero-adulteration",
     title: "Zero-Adulteration Purity",
     description: "Zero synthetic dyes, zero spent husk fillers, zero chemical sulfur shines, and zero lead-chromate coloring.",
-    icon: "Sparkles"
+    icon: "ShieldCheck"
   },
   {
     id: "nitrogen-fresh",

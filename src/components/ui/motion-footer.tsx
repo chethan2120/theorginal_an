@@ -214,13 +214,13 @@ MagneticButton.displayName = "MagneticButton";
 // -------------------------------------------------------------------------
 const MarqueeItem = () => (
   <div className="flex items-center space-x-12 px-6">
-    <span className="text-[#F5E6C8]">Single-Origin Harvests</span> <span className="text-[#D4AF37]">✦</span>
-    <span>Imperial Dry Fruits</span> <span className="text-[#D4AF37]">✦</span>
-    <span className="text-[#F5E6C8]">Cold-Ground Under Liquid N₂</span> <span className="text-[#D4AF37]">✦</span>
-    <span>Zero Preservatives</span> <span className="text-[#D4AF37]">✦</span>
-    <span className="text-[#F5E6C8]">7.8% High Curcumin Lakadong</span> <span className="text-[#D4AF37]">✦</span>
-    <span>Royal Alleppey 8mm Cardamom</span> <span className="text-[#D4AF37]">✦</span>
-    <span className="text-[#F5E6C8]">Colossal W180 King Cashews</span> <span className="text-[#D4AF37]">✦</span>
+    <span className="text-[#F5E6C8]">Single-Origin Harvests</span> <span className="text-[#D4AF37]">•</span>
+    <span>Imperial Dry Fruits</span> <span className="text-[#D4AF37]">•</span>
+    <span className="text-[#F5E6C8]">Cold-Ground Under Liquid N₂</span> <span className="text-[#D4AF37]">•</span>
+    <span>Zero Preservatives</span> <span className="text-[#D4AF37]">•</span>
+    <span className="text-[#F5E6C8]">7.8% High Curcumin Lakadong</span> <span className="text-[#D4AF37]">•</span>
+    <span>Royal Alleppey 8mm Cardamom</span> <span className="text-[#D4AF37]">•</span>
+    <span className="text-[#F5E6C8]">Colossal W180 King Cashews</span> <span className="text-[#D4AF37]">•</span>
   </div>
 );
 
@@ -314,9 +314,9 @@ export function CinematicFooter() {
 
             <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-[11px] text-slate-400 uppercase tracking-widest font-medium mt-1">
               <span>100% Single-Origin GI</span>
-              <span className="text-[#D4AF37]">✦</span>
+              <span className="text-[#D4AF37]">•</span>
               <span>Cryogenic Cold-Ground</span>
-              <span className="text-[#D4AF37]">✦</span>
+              <span className="text-[#D4AF37]">•</span>
               <span>Inert Nitrogen Sealed</span>
             </div>
 
@@ -347,7 +347,7 @@ export function CinematicFooter() {
             {/* Quality Standard Badge */}
             <div className="footer-glass-pill px-5 py-2 rounded-full flex items-center gap-2 order-1 md:order-2 cursor-default border-[#D4AF37]/30">
               <span className="text-slate-300 text-[10px] md:text-xs font-bold uppercase tracking-widest">Single-Origin Guarantee</span>
-              <span className="animate-footer-heartbeat text-sm md:text-base text-[#D4AF37]">✦</span>
+              <span className="text-sm md:text-base text-[#D4AF37]">•</span>
               <span className="text-[#D4AF37] font-semibold text-xs tracking-normal ml-1">100% Traceable</span>
             </div>
 

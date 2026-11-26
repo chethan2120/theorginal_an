@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, ShieldCheck, Award, Leaf, ArrowRight, Check } from 'lucide-react';
+import { Mail, Phone, MapPin, ShieldCheck, Award, Leaf, Truck, ArrowRight, Check } from 'lucide-react';
 import BrandLogo from './BrandLogo';
 import { useNotification } from '../context/NotificationContext';
 
@@ -61,7 +61,7 @@ export default function Footer() {
 
             <div className="flex items-center gap-4 justify-center md:justify-start">
               <div className="w-12 h-12 rounded-xl bg-[#152238] border border-[#C5A059]/30 flex items-center justify-center flex-shrink-0">
-                <span className="text-xl">👑</span>
+                <Truck className="w-6 h-6 text-[#DFBF77]" />
               </div>
               <div>
                 <h4 className="font-serif text-sm font-semibold text-[#FDFBF7]">Complimentary Express</h4>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { CheckCircle2, Package, Truck, Clock, Printer, ArrowRight, ShieldCheck, Sparkles, MapPin } from 'lucide-react';
+import { CheckCircle2, Package, Truck, Clock, Printer, ArrowRight, ShieldCheck, MapPin, Check } from 'lucide-react';
 import BrandLogo from '../components/BrandLogo';
 
 export default function OrderConfirmationPage() {
@@ -119,7 +119,7 @@ export default function OrderConfirmationPage() {
               {/* Step 1 */}
               <div className="flex sm:flex-col items-center sm:text-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-[#0B1325] text-[#DFBF77] border-2 border-[#C5A059] flex items-center justify-center font-bold text-xs shadow-md">
-                  ✓
+                  <Check className="w-4 h-4 text-[#DFBF77]" />
                 </div>
                 <div>
                   <h4 className="font-serif text-xs font-bold text-[#0B1325]">Order Confirmed</h4>

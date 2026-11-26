@@ -87,6 +87,11 @@ export default function Navbar() {
               {/* 1. Home */}
               <NavLink
                 to="/"
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  const hero = document.getElementById('hero-section');
+                  if (hero) hero.scrollIntoView({ behavior: 'smooth' });
+                }}
                 className={({ isActive }) =>
                   `text-xs uppercase tracking-[0.2em] font-semibold transition-all py-2 relative hover:text-[#9A7736] ${
                     isActive
@@ -349,7 +354,10 @@ export default function Navbar() {
               <nav className="mt-6 flex flex-col space-y-1">
                 <NavLink
                   to="/"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
                   className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-serif font-semibold text-[#0B1325] hover:bg-[#F3EFE6]"
                 >
                   <span>Home</span>

@@ -1,12 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 export default function BrandLogo({ size = 'md', variant = 'horizontal', showTagline = true, theme = 'light' }) {
   const isDark = theme === 'dark';
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const hero = document.getElementById('hero-section');
+      if (hero) {
+        hero.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate('/');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 50);
+    }
+  };
 
   if (variant === 'mark-only') {
     return (
-      <Link to="/" className="inline-flex items-center group">
+      <a href="/" onClick={handleLogoClick} className="inline-flex items-center group cursor-pointer">
         <div className="relative overflow-hidden rounded-lg border border-[#C5A059]/60 shadow-sm transition-transform duration-300 group-hover:scale-105 bg-[#070D1E]">
           <img
             src="/images/logo.jpg"
@@ -14,12 +33,12 @@ export default function BrandLogo({ size = 'md', variant = 'horizontal', showTag
             className={`${size === 'sm' ? 'w-9 h-9' : size === 'lg' ? 'w-16 h-16' : 'w-11 h-11'} object-cover`}
           />
         </div>
-      </Link>
+      </a>
     );
   }
 
   return (
-    <Link to="/" className="inline-flex items-center gap-3 group focus:outline-none">
+    <a href="/" onClick={handleLogoClick} className="inline-flex items-center gap-3 group focus:outline-none cursor-pointer">
       {/* Brand Emblem Logo Image */}
       <div className="relative overflow-hidden rounded-lg border border-[#C5A059]/60 shadow-sm transition-transform duration-300 group-hover:scale-105 flex-shrink-0 bg-[#070D1E]">
         <img
@@ -50,6 +69,6 @@ export default function BrandLogo({ size = 'md', variant = 'horizontal', showTag
           </span>
         )}
       </div>
-    </Link>
+    </a>
   );
 }
